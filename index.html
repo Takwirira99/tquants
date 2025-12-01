@@ -283,12 +283,14 @@
                                 <div>
                                     <label class="text-xs font-bold text-slate-500 uppercase">Date</label>
                                     <input type="date" id="booking-date" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-600">
+                                    <p class="text-[10px] text-slate-400 mt-1">Mon-Fri Only</p>
                                 </div>
                             </div>
                             
                             <div>
                                 <label class="text-xs font-bold text-slate-500 uppercase">Preferred Time</label>
-                                <input type="time" id="booking-time" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-600" required>
+                                <input type="time" id="booking-time" min="08:00" max="18:00" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-600" required>
+                                <p class="text-[10px] text-slate-400 mt-1">08:00 AM to 06:00 PM</p>
                             </div>
 
                             <div>
@@ -605,7 +607,19 @@
         }
 
         // --- 2. BOOKING LOGIC ---
-        document.getElementById('booking-date').min = new Date().toISOString().split('T')[0];
+        
+        // Date Constraint: Today onwards & Weekdays only
+        const dateInput = document.getElementById('booking-date');
+        dateInput.min = new Date().toISOString().split('T')[0];
+        
+        dateInput.addEventListener('input', function(e) {
+            const day = new Date(this.value).getUTCDay();
+            if([6, 0].includes(day)) {
+                e.preventDefault();
+                this.value = '';
+                alert('We are closed on weekends. Please select a weekday (Mon-Fri).');
+            }
+        });
 
         function prefillService(serviceName) {
             document.getElementById('booking-service').value = serviceName;
