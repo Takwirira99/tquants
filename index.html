@@ -621,6 +621,22 @@
             }
         });
 
+        // Time Constraint: 08:00 to 18:00
+        const timeInput = document.getElementById('booking-time');
+        
+        timeInput.addEventListener('input', function(e) {
+            const timeValue = this.value;
+            if (!timeValue) return; 
+
+            const [hours, minutes] = timeValue.split(':').map(Number);
+
+            if (hours < 8 || hours > 18 || (hours === 18 && minutes > 0)) {
+                e.preventDefault();
+                this.value = ''; 
+                alert('Our operating hours are from 08:00 AM to 06:00 PM.');
+            }
+        });
+
         function prefillService(serviceName) {
             document.getElementById('booking-service').value = serviceName;
             const form = document.getElementById('booking-form');
