@@ -338,39 +338,76 @@
         </div>
 
         <div id="view-job-apply" class="view-section">
-            <div class="max-w-xl mx-auto animate-slide-up">
+            <div class="max-w-4xl mx-auto animate-slide-up">
                 <button onclick="switchTab('opportunities')" class="mb-6 flex items-center text-slate-500 hover:text-brand-600 transition">
                     <i class="fa-solid fa-arrow-left mr-2"></i> Back to Jobs
                 </button>
                 
-                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-100">
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-bold text-slate-900">Application Form</h2>
-                        <p class="text-slate-500 mt-2">Please provide your details below.</p>
+                <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100">
+                    <div class="mb-10 pb-6 border-b border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-900">Online Application</h2>
+                        <p class="text-slate-500 mt-2">Complete this form to apply via email. WhatsApp is reserved for queries only.</p>
                     </div>
 
-                    <form id="job-app-form" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Position Applying For</label>
-                            <input type="text" id="app-position" class="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed font-semibold" readonly>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Full Name</label>
-                            <input type="text" id="app-name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="Your Name" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Phone Number</label>
-                            <input type="tel" id="app-phone" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="+263..." required>
-                        </div>
+                    <form id="job-app-form" class="space-y-8">
                         
-                        <div class="pt-4 grid gap-3">
-                            <button type="button" onclick="submitJobToWhatsApp()" class="w-full py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                                <i class="fa-brands fa-whatsapp text-xl"></i> Submit via WhatsApp
-                            </button>
-                            <button type="button" onclick="submitJobToEmail()" class="w-full py-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                                <i class="fa-regular fa-envelope text-xl"></i> Submit via Email (Attach CV)
-                            </button>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-600 uppercase mb-2 tracking-wide">Position Applying For</label>
+                            <input type="text" id="app-position" class="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-bold" readonly>
                         </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Full Name</label>
+                                <input type="text" id="app-name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="Your Name" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
+                                <input type="tel" id="app-phone" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="+263..." required>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-briefcase text-brand-500"></i> Employment History (Last 3 Jobs)
+                            </h3>
+                            
+                            <div class="mb-4">
+                                <label class="text-xs font-bold text-slate-400 uppercase mb-1 block">Most Recent Job</label>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <input type="text" id="job1-pos" placeholder="Position" class="px-3 py-2 border rounded-lg">
+                                    <input type="text" id="job1-emp" placeholder="Employer Name" class="px-3 py-2 border rounded-lg">
+                                    <input type="number" id="job1-dur" placeholder="Months Worked" class="px-3 py-2 border rounded-lg">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-xs font-bold text-slate-400 uppercase mb-1 block">Previous Job 2</label>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <input type="text" id="job2-pos" placeholder="Position" class="px-3 py-2 border rounded-lg">
+                                    <input type="text" id="job2-emp" placeholder="Employer Name" class="px-3 py-2 border rounded-lg">
+                                    <input type="number" id="job2-dur" placeholder="Months Worked" class="px-3 py-2 border rounded-lg">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase mb-1 block">Previous Job 3</label>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <input type="text" id="job3-pos" placeholder="Position" class="px-3 py-2 border rounded-lg">
+                                    <input type="text" id="job3-emp" placeholder="Employer Name" class="px-3 py-2 border rounded-lg">
+                                    <input type="number" id="job3-dur" placeholder="Months Worked" class="px-3 py-2 border rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Assessment Question</label>
+                            <p class="text-xs text-slate-500 mb-3 font-semibold">"Why are you the best fit for this role?" (Max 500 words)</p>
+                            <textarea id="app-question" rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="Type your answer here..." required></textarea>
+                        </div>
+
+                        <button type="button" onclick="submitJobApplication()" class="w-full py-4 bg-slate-900 hover:bg-black text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-paper-plane text-xl"></i> Submit Application via Email
+                        </button>
+                        <p class="text-center text-xs text-slate-400">Clicking submit will open your email app. Please attach your CV before sending.</p>
                     </form>
                 </div>
             </div>
@@ -548,37 +585,47 @@
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- 3. JOB APPLICATION LOGIC (NEW FORM) ---
+        // --- 3. JOB APPLICATION LOGIC (DETAILED FORM) ---
         
-        // Open the Job Application Form
         function openJobApplication(positionName) {
             document.getElementById('app-position').value = positionName;
             switchTab('job-apply');
         }
 
-        // Submit Job to WhatsApp
-        function submitJobToWhatsApp() {
+        function submitJobApplication() {
+            // Get data
             const pos = document.getElementById('app-position').value;
             const name = document.getElementById('app-name').value.trim();
             const phone = document.getElementById('app-phone').value.trim();
+            const question = document.getElementById('app-question').value.trim();
+            
+            // Job History
+            const j1 = { p: document.getElementById('job1-pos').value, e: document.getElementById('job1-emp').value, d: document.getElementById('job1-dur').value };
+            const j2 = { p: document.getElementById('job2-pos').value, e: document.getElementById('job2-emp').value, d: document.getElementById('job2-dur').value };
+            const j3 = { p: document.getElementById('job3-pos').value, e: document.getElementById('job3-emp').value, d: document.getElementById('job3-dur').value };
 
-            if(!name || !phone) { alert("Please enter your Name and Phone."); return; }
-
-            const message = `*Job Application* 💼\n\n*Position:* ${pos}\n*Applicant:* ${name}\n*Phone:* ${phone}\n\nHello Takwirira Dental, I am interested in this position and have submitted my details.`;
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // Submit Job to Email
-        function submitJobToEmail() {
-            const pos = document.getElementById('app-position').value;
-            const name = document.getElementById('app-name').value.trim();
-            const phone = document.getElementById('app-phone').value.trim();
-
-            if(!name || !phone) { alert("Please enter your Name and Phone."); return; }
+            // Validate essential fields
+            if(!name || !phone || !question) { 
+                alert("Please fill in your Name, Phone, and the Assessment Question."); 
+                return; 
+            }
 
             const subject = `Job Application: ${pos} - ${name}`;
-            const body = `Hello Takwirira Dental,\n\nI am applying for the ${pos} position.\n\nMy Details:\nName: ${name}\nPhone: ${phone}\n\nPlease find my CV attached.\n\nSincerely,\n${name}`;
             
+            // Build Body
+            let body = `APPLICATION FOR: ${pos}\n\n`;
+            body += `APPLICANT DETAILS:\nName: ${name}\nPhone: ${phone}\n\n`;
+            
+            body += `--- EMPLOYMENT HISTORY (Last 3 Jobs) ---\n`;
+            if(j1.p) body += `1. ${j1.p} at ${j1.e} (${j1.d} months)\n`;
+            if(j2.p) body += `2. ${j2.p} at ${j2.e} (${j2.d} months)\n`;
+            if(j3.p) body += `3. ${j3.p} at ${j3.e} (${j3.d} months)\n`;
+            if(!j1.p && !j2.p && !j3.p) body += `(No history provided)\n`;
+
+            body += `\n--- ASSESSMENT QUESTION ---\n"Why are you the best fit?"\n\n${question}\n\n`;
+            body += `--------------------------------------------------\nSent from Takwirira Dental Website`;
+
+            // Open Email
             window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
 
