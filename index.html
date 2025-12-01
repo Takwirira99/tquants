@@ -276,7 +276,33 @@
                 <h2 class="text-3xl font-bold text-slate-900 mt-4">Join the Takwirira Family</h2>
             </div>
 
-            <div class="bg-gradient-to-br from-brand-900 to-brand-700 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-12 animate-fade-in">
+            <div class="grid md:grid-cols-2 gap-8 mb-12 animate-slide-up" style="animation-delay: 0.1s;">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-tooth"></i></div>
+                        <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Dental Hygienist</h3>
+                    <p class="text-slate-500 mb-6 text-sm">Professional needed for scaling, polishing, and patient education. Must be registered.</p>
+                    <button onclick="applyForJob('Oral Hygienist')" class="w-full py-3 border border-brand-200 text-brand-600 font-bold rounded-xl hover:bg-brand-50 transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Apply via WhatsApp
+                    </button>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-broom"></i></div>
+                        <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">General Cleaning Assistant</h3>
+                    <p class="text-slate-500 mb-6 text-sm">Morning to evening shift. Responsible for sterilization of workspace and general facility cleanliness.</p>
+                    <button onclick="applyForJob('General Cleaning Assistant')" class="w-full py-3 border border-brand-200 text-brand-600 font-bold rounded-xl hover:bg-brand-50 transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Apply via WhatsApp
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-brand-900 to-brand-700 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-12 animate-slide-up" style="animation-delay: 0.2s;">
                 <i class="fa-solid fa-graduation-cap absolute -right-10 -bottom-10 text-[12rem] text-white opacity-5"></i>
                 <div class="relative z-10 md:flex items-center justify-between gap-10">
                     <div class="md:w-2/3">
@@ -295,30 +321,8 @@
                         </div>
                     </div>
                     <div class="md:w-1/3 mt-8 md:mt-0">
-                        <button onclick="prefillService('Internship Application'); switchTab('services')" class="w-full py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-blue-50 transition shadow-lg">Apply Now</button>
+                        <button onclick="applyForJob('Patient Wellness Intern')" class="w-full py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-blue-50 transition shadow-lg">Apply Now</button>
                     </div>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8 animate-slide-up" style="animation-delay: 0.2s;">
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600"><i class="fa-solid fa-tooth"></i></div>
-                        <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Dental Hygienist</h3>
-                    <p class="text-slate-500 mb-6 text-sm">Professional needed for scaling, polishing, and patient education. Must be registered.</p>
-                    <a href="mailto:jobs@takwirira.co.zw" class="text-brand-600 font-bold text-sm hover:underline">Send CV via Email &rarr;</a>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600"><i class="fa-solid fa-broom"></i></div>
-                        <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">General Cleaning Assistant</h3>
-                    <p class="text-slate-500 mb-6 text-sm">Morning to evening shift. Responsible for sterilization of workspace and general facility cleanliness.</p>
-                    <a href="mailto:jobs@takwirira.co.zw" class="text-brand-600 font-bold text-sm hover:underline">Send CV via Email &rarr;</a>
                 </div>
             </div>
         </div>
@@ -432,7 +436,7 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 3. BOOKING LOGIC (UPDATED FOR ORGANIZED WHATSAPP) ---
+        // --- 3. BOOKING LOGIC (ORGANIZED WHATSAPP) ---
         
         // Set Min Date to Today
         document.getElementById('booking-date').min = new Date().toISOString().split('T')[0];
@@ -462,7 +466,6 @@
             }
 
             // 3. Construct Organized Message with Emojis and Bold Text
-            // Note: \n creates a new line. *Text* makes it bold in WhatsApp.
             const message = 
 `*New Appointment Request* 🦷
 
@@ -477,11 +480,16 @@
 Hello Takwirira Dental, I would like to confirm if this slot is available.`;
 
             // 4. Send to WhatsApp
-            // encodeURIComponent ensures the new lines and special chars work in the URL
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- 4. REVIEW SYSTEM ---
+        // --- 4. JOB APPLICATION LOGIC (NEW) ---
+        function applyForJob(position) {
+            const message = `Hello Takwirira Dental, I am interested in the ${position} position.`;
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // --- 5. REVIEW SYSTEM ---
         const reviews = [
             {name: "Blessing M.", text: "Best dental experience in Chipinge! So clean.", stars: 5},
             {name: "Tinashe K.", text: "The staff is incredibly polite.", stars: 5}
