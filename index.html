@@ -260,9 +260,14 @@
 
                 <div class="lg:col-span-5 relative">
                     <div class="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200 border border-slate-100 sticky top-28 animate-slide-up" style="animation-delay: 0.2s;">
-                        <div class="mb-6">
+                        <div class="mb-4">
                             <h3 class="text-xl font-bold text-slate-900">Book Appointment</h3>
-                            <p class="text-sm text-slate-500">We'll confirm via WhatsApp/Email.</p>
+                            <p class="text-sm text-slate-500">We'll confirm availability via WhatsApp.</p>
+                        </div>
+
+                        <div class="bg-green-50 border border-green-100 rounded-xl p-3 mb-6 flex items-start gap-2">
+                            <i class="fa-regular fa-clock text-green-600 mt-1"></i>
+                            <p class="text-xs text-green-800 font-medium">We will respond within <strong>15 minutes</strong> if booked on a business day.</p>
                         </div>
 
                         <form id="booking-form" class="space-y-4">
@@ -280,6 +285,12 @@
                                     <input type="date" id="booking-date" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-600">
                                 </div>
                             </div>
+                            
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase">Preferred Time</label>
+                                <input type="time" id="booking-time" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-600" required>
+                            </div>
+
                             <div>
                                 <label class="text-xs font-bold text-slate-500 uppercase">Service</label>
                                 <select id="booking-service" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition">
@@ -608,13 +619,14 @@
             const phone = document.getElementById('booking-phone').value.trim();
             const service = document.getElementById('booking-service').value;
             const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('booking-time').value;
 
-            if(!name || !phone || !service || !date) {
-                alert("Please fill in all fields: Name, Phone, Service, and Date.");
+            if(!name || !phone || !service || !date || !time) {
+                alert("Please fill in all fields: Name, Phone, Service, Date, and Time.");
                 return;
             }
 
-            const message = `*New Appointment Request* 🦷\n\n*Patient Details:*\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n\n*Booking Information:*\n✨ *Service:* ${service}\n📅 *Date:* ${date}\n\nHello Takwirira Dental, I would like to confirm if this slot is available.`;
+            const message = `*New Appointment Request* 🦷\n\n*Patient Details:*\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n\n*Booking Information:*\n✨ *Service:* ${service}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n\nHello Takwirira Dental, I would like to confirm if this slot is available.`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
