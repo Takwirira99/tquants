@@ -161,7 +161,8 @@
                 </div>
                 <div class="lg:w-1/2 relative animate-fade-in" style="animation-delay: 0.2s;">
                     <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white">
-                        <img src="https://images.unsplash.com/photo-1609840112855-9c6f6e5945f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Dental cleaning utensils working on a Black child's teeth" class="w-full object-cover h-[500px]">
+                        <img src="./HomeImage.png" alt="Takwirira Dental Home" class="w-full object-cover h-[500px]">
+                        
                         <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur p-4 rounded-2xl shadow-lg flex items-center gap-4">
                             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xl">
                                 <i class="fa-solid fa-shield-heart"></i>
@@ -179,59 +180,82 @@
         <div id="view-services" class="view-section">
             <div class="text-center mb-10 animate-slide-up">
                 <h2 class="text-3xl font-bold text-slate-900">Select Service & Book</h2>
-                <p class="text-slate-500">Everything in one place for your convenience.</p>
+                <p class="text-slate-500">Choose from our hygiene stages below.</p>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-8 items-start">
                 
                 <div class="lg:col-span-7 space-y-6 animate-slide-up" style="animation-delay: 0.1s;">
                     
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Scale & Polish (Adult)')">
-                        <div class="flex items-start gap-4">
-                            <div class="w-16 h-16 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-center mb-2">
-                                    <h3 class="text-xl font-bold text-slate-900">Scale & Polish</h3>
-                                    <span class="text-xs font-bold bg-slate-100 px-2 py-1 rounded text-slate-600">Most Popular</span>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">Stage 1: Protection (Kids & Teens)</span>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Fluoride & Sealants')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-500 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-child-reaching"></i>
                                 </div>
-                                <p class="text-slate-500 text-sm mb-3">Complete removal of plaque and tartar buildup followed by a professional polish.</p>
-                                <button class="text-brand-600 text-sm font-semibold group-hover:underline">Click to Select</button>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-slate-900">Fluoride & Sealants</h3>
+                                        <span class="text-lg font-bold text-brand-600">$25.00</span>
+                                    </div>
+                                    <p class="text-slate-500 text-sm">High-concentration varnish application to protect young teeth.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Fluoride/Sealant (Child)')">
-                        <div class="flex items-start gap-4">
-                            <div class="w-16 h-16 rounded-xl bg-purple-50 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-child-reaching"></i>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">Stage 2: Routine Maintenance</span>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Scale & Polish')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-slate-900">Scale & Polish</h3>
+                                        <span class="text-lg font-bold text-brand-600">$50.00</span>
+                                    </div>
+                                    <p class="text-slate-500 text-sm">Full plaque removal and polish. Standard hygiene session.</p>
+                                </div>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-slate-900 mb-2">Fluoride & Sealants (Kids)</h3>
-                                <p class="text-slate-500 text-sm mb-3">High-concentration fluoride varnish to protect children's teeth from decay.</p>
-                                <button class="text-brand-600 text-sm font-semibold group-hover:underline">Click to Select</button>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Stain Removal')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-slate-900">Stain Removal</h3>
+                                        <span class="text-lg font-bold text-brand-600">$60.00</span>
+                                    </div>
+                                    <p class="text-slate-500 text-sm">Cosmetic air-polishing for coffee/tea/tobacco stains.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Stain Removal')">
-                        <div class="flex items-start gap-4">
-                            <div class="w-16 h-16 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-mug-hot"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-slate-900 mb-2">Cosmetic Stain Removal</h3>
-                                <p class="text-slate-500 text-sm mb-3">Specialized air-polishing to remove coffee, tea, and tobacco stains.</p>
-                                <button class="text-brand-600 text-sm font-semibold group-hover:underline">Click to Select</button>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">Stage 3: Intensive Care</span>
+                        <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md hover:shadow-lg transition-all group cursor-pointer text-white" onclick="prefillService('Deep Cleaning')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-tooth"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold">Deep Cleaning</h3>
+                                        <span class="text-lg font-bold text-brand-300">$120.00</span>
+                                    </div>
+                                    <p class="text-slate-300 text-sm">Periodontal scaling and root planing for gum health.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-blue-50/50 border border-blue-100 p-4 rounded-xl flex gap-3 text-sm text-slate-600">
-                        <i class="fa-solid fa-circle-info text-brand-500 mt-1"></i>
-                        <p>Need extractions or fillings? We focus on hygiene but will refer you to our network of surgeons for invasive procedures.</p>
-                    </div>
                 </div>
 
                 <div class="lg:col-span-5 relative">
@@ -259,10 +283,11 @@
                             <div>
                                 <label class="text-xs font-bold text-slate-500 uppercase">Service</label>
                                 <select id="booking-service" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition">
-                                    <option value="" disabled selected>Select a service on the left...</option>
-                                    <option value="Scale & Polish (Adult)">Scale & Polish (Adult)</option>
-                                    <option value="Fluoride/Sealant (Child)">Fluoride/Sealant (Child)</option>
-                                    <option value="Stain Removal">Cosmetic Stain Removal</option>
+                                    <option value="" disabled selected>Select a service...</option>
+                                    <option value="Fluoride & Sealants">Fluoride & Sealants ($25)</option>
+                                    <option value="Scale & Polish">Scale & Polish ($50)</option>
+                                    <option value="Stain Removal">Stain Removal ($60)</option>
+                                    <option value="Deep Cleaning">Deep Cleaning ($120)</option>
                                     <option value="Consultation">General Consultation</option>
                                 </select>
                             </div>
