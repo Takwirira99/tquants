@@ -400,31 +400,30 @@
     <script>
         // --- 1. TAB SYSTEM LOGIC ---
         function switchTab(tabId) {
-            // 1. Hide all views
+            // Hide all views
             document.querySelectorAll('.view-section').forEach(el => {
                 el.classList.remove('active');
             });
 
-            // 2. Deactivate all nav buttons
+            // Deactivate all nav buttons
             document.querySelectorAll('.nav-item').forEach(el => {
                 el.classList.remove('active');
             });
 
-            // 3. Show target view
+            // Show target view
             const targetView = document.getElementById('view-' + tabId);
             if(targetView) targetView.classList.add('active');
 
-            // 4. Activate button styling (Simple logic to match text content or logic)
-            // Finding button by onclick attribute value for simplicity in this vanilla setup
+            // Activate button styling
             const buttons = document.querySelectorAll(`button[onclick="switchTab('${tabId}')"]`);
             buttons.forEach(btn => {
                 if(btn.classList.contains('nav-item')) btn.classList.add('active');
             });
 
-            // 5. Scroll to top smoothly
+            // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // 6. Close mobile menu if open
+            // Close mobile menu if open
             document.getElementById('mobile-menu').classList.add('hidden');
         }
 
@@ -433,32 +432,53 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 3. BOOKING LOGIC ---
-        // Set Min Date
+        // --- 3. BOOKING LOGIC (UPDATED FOR ORGANIZED WHATSAPP) ---
+        
+        // Set Min Date to Today
         document.getElementById('booking-date').min = new Date().toISOString().split('T')[0];
 
         // Helper to fill service from clicking a card
         function prefillService(serviceName) {
             const select = document.getElementById('booking-service');
             select.value = serviceName;
-            // Highlight the form briefly
+            
+            // Highlight the form briefly to show user where to look
             const form = document.getElementById('booking-form');
             form.parentElement.classList.add('ring-2', 'ring-brand-400');
             setTimeout(() => form.parentElement.classList.remove('ring-2', 'ring-brand-400'), 1000);
         }
 
         function submitBooking() {
-            const name = document.getElementById('booking-name').value;
+            // 1. Capture all form values
+            const name = document.getElementById('booking-name').value.trim();
+            const phone = document.getElementById('booking-phone').value.trim();
             const service = document.getElementById('booking-service').value;
             const date = document.getElementById('booking-date').value;
 
-            if(!name || !service || !date) {
-                alert("Please fill in Name, Service, and Date.");
+            // 2. Validation
+            if(!name || !phone || !service || !date) {
+                alert("Please fill in all fields: Name, Phone, Service, and Date.");
                 return;
             }
 
-            const msg = `Hello, I'd like to book: ${service} for ${name} on ${date}.`;
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(msg)}`, '_blank');
+            // 3. Construct Organized Message with Emojis and Bold Text
+            // Note: \n creates a new line. *Text* makes it bold in WhatsApp.
+            const message = 
+`*New Appointment Request* 🦷
+
+*Patient Details:*
+👤 *Name:* ${name}
+📱 *Phone:* ${phone}
+
+*Booking Information:*
+✨ *Service:* ${service}
+📅 *Date:* ${date}
+
+Hello Takwirira Dental, I would like to confirm if this slot is available.`;
+
+            // 4. Send to WhatsApp
+            // encodeURIComponent ensures the new lines and special chars work in the URL
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         // --- 4. REVIEW SYSTEM ---
