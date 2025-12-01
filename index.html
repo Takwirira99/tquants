@@ -148,7 +148,7 @@
                         The Future of <br> <span class="text-brand-500">Oral Hygiene.</span>
                     </h1>
                     <p class="text-lg text-slate-500 max-w-lg leading-relaxed">
-                        Takwirira Dental offers a premium, non-surgical approach to dental care. No drills, just pure clean comfort.
+                        Takwirira Dental offers a premium, non-surgical approach to dental care. No drills, just pure clean comfort right here in the CBD.
                     </p>
                     <div class="flex gap-4 pt-4">
                         <button onclick="switchTab('services')" class="px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-semibold shadow-xl shadow-brand-200 transition-all hover:-translate-y-1 flex items-center gap-2">
@@ -161,7 +161,7 @@
                 </div>
                 <div class="lg:w-1/2 relative animate-fade-in" style="animation-delay: 0.2s;">
                     <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white">
-                        <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Smile" class="w-full object-cover h-[500px]">
+                        <img src="https://images.unsplash.com/photo-1571772996211-2a02c97b76a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Professional Dental Hygiene" class="w-full object-cover h-[500px]">
                         <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur p-4 rounded-2xl shadow-lg flex items-center gap-4">
                             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xl">
                                 <i class="fa-solid fa-shield-heart"></i>
@@ -411,7 +411,7 @@
                             <p class="text-center text-xs text-slate-400 mt-2">Clicking submit will open your email app. Please attach your CV before sending.</p>
                             
                             <div class="mt-4 text-center">
-                                <button type="button" onclick="notifyReception()" class="text-sm text-brand-600 font-semibold hover:underline">
+                                <button type="button" onclick="notifyReception()" class="text-sm text-brand-600 font-semibold hover:underline flex items-center justify-center gap-2 mx-auto">
                                     <i class="fa-brands fa-whatsapp"></i> Notify Reception via WhatsApp (After Emailing)
                                 </button>
                             </div>
@@ -637,10 +637,12 @@
             window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
 
+        // --- 3b. NOTIFY RECEPTION (Behind Scenes WhatsApp) ---
         function notifyReception() {
             const pos = document.getElementById('app-position').value;
             const name = document.getElementById('app-name').value.trim();
-            if(!name) { alert("Please enter your name first."); return; }
+            
+            if(!name) { alert("Please enter your name in the form above first."); return; }
             
             const message = `Hello Takwirira Dental, I have just sent my CV and application via email for the ${pos} position.\nName: ${name}`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
@@ -665,7 +667,7 @@
             window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
 
-        // --- 5. REVIEW SYSTEM ---
+        // --- 5. REVIEW SYSTEM (LIVE + WHATSAPP) ---
         const reviews = [
             {name: "Blessing M.", text: "Best dental experience in Chipinge! So clean.", stars: 5},
             {name: "Tinashe K.", text: "The staff is incredibly polite.", stars: 5}
@@ -686,12 +688,23 @@
 
         document.getElementById('review-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            // 1. Get Data
             const name = document.getElementById('review-name').value;
             const text = document.getElementById('review-text').value;
             const stars = parseInt(document.getElementById('review-rating').value);
+
+            // 2. Add to Live View
             reviews.unshift({name, text, stars});
             renderReviews();
+
+            // 3. Send to WhatsApp (Feedback Loop)
+            const msg = `*New Patient Review* ⭐\n\n*Name:* ${name}\n*Rating:* ${stars}/5\n*Feedback:* ${text}`;
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(msg)}`, '_blank');
+
+            // 4. Reset
             e.target.reset();
+            alert("Thank you! Your review has been posted and sent to our team.");
         });
 
         renderReviews();
