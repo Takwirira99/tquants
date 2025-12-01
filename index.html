@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Takwirira Dental | Chipinge Oral Hygiene Centre</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -81,6 +85,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        /* Checkbox Custom Style */
+        .custom-checkbox:checked {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -89,14 +99,17 @@
 </head>
 <body class="text-slate-700 antialiased selection:bg-brand-100 selection:text-brand-900">
 
+    <!-- BACKGROUND GRAPHIC -->
     <div class="fixed inset-0 z-0 pointer-events-none opacity-40">
         <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
         <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
     </div>
 
+    <!-- NAVIGATION (Fixed Top) -->
     <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 lg:px-8">
             <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
                 <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('home')">
                     <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-200">
                         <i class="fa-solid fa-tooth text-xl"></i>
@@ -104,20 +117,24 @@
                     <span class="font-bold text-xl tracking-tight text-slate-900">Takwirira<span class="text-brand-500 font-light">Dental</span></span>
                 </div>
 
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex bg-slate-100/50 p-1 rounded-full border border-slate-200 backdrop-blur-md">
                     <button onclick="switchTab('home')" class="nav-item active px-6 py-2 rounded-full text-sm transition-all duration-300 text-slate-500 hover:text-brand-600">Home</button>
+                    <!-- MERGED TAB -->
                     <button onclick="switchTab('services')" class="nav-item px-6 py-2 rounded-full text-sm transition-all duration-300 text-slate-500 hover:text-brand-600">Services & Booking</button>
                     <button onclick="switchTab('opportunities')" class="nav-item px-6 py-2 rounded-full text-sm transition-all duration-300 text-slate-500 hover:text-brand-600">Opportunities</button>
                     <button onclick="switchTab('reviews')" class="nav-item px-6 py-2 rounded-full text-sm transition-all duration-300 text-slate-500 hover:text-brand-600">Reviews</button>
                     <button onclick="switchTab('about')" class="nav-item px-6 py-2 rounded-full text-sm transition-all duration-300 text-slate-500 hover:text-brand-600">About</button>
                 </div>
 
+                <!-- Mobile Menu Toggle -->
                 <button class="md:hidden text-slate-600 text-2xl focus:outline-none" onclick="toggleMobileMenu()">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
+        <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-20 shadow-lg">
             <div class="p-4 flex flex-col space-y-2">
                 <button onclick="switchTab('home')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-medium">Home</button>
@@ -129,8 +146,10 @@
         </div>
     </nav>
 
+    <!-- MAIN CONTENT CONTAINER -->
     <main class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8">
 
+        <!-- VIEW 1: HOME -->
         <div id="view-home" class="view-section active">
             <div class="flex flex-col lg:flex-row items-center gap-12 h-[80vh] justify-center">
                 <div class="lg:w-1/2 space-y-6 animate-slide-up">
@@ -170,6 +189,7 @@
             </div>
         </div>
 
+        <!-- VIEW 2: SERVICES & BOOKING (MERGED) -->
         <div id="view-services" class="view-section">
             <div class="text-center mb-10 animate-slide-up">
                 <h2 class="text-3xl font-bold text-slate-900">Select Service & Book</h2>
@@ -178,8 +198,10 @@
 
             <div class="grid lg:grid-cols-12 gap-8 items-start">
                 
+                <!-- Left Column: Services List (7 Cols) -->
                 <div class="lg:col-span-7 space-y-6 animate-slide-up" style="animation-delay: 0.1s;">
                     
+                    <!-- Service Card 1 -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Scale & Polish (Adult)')">
                         <div class="flex items-start gap-4">
                             <div class="w-16 h-16 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -196,6 +218,7 @@
                         </div>
                     </div>
 
+                    <!-- Service Card 2 -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Fluoride/Sealant (Child)')">
                         <div class="flex items-start gap-4">
                             <div class="w-16 h-16 rounded-xl bg-purple-50 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -209,6 +232,7 @@
                         </div>
                     </div>
 
+                    <!-- Service Card 3 -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Stain Removal')">
                         <div class="flex items-start gap-4">
                             <div class="w-16 h-16 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -222,12 +246,14 @@
                         </div>
                     </div>
 
+                    <!-- Info Box -->
                     <div class="bg-blue-50/50 border border-blue-100 p-4 rounded-xl flex gap-3 text-sm text-slate-600">
                         <i class="fa-solid fa-circle-info text-brand-500 mt-1"></i>
                         <p>Need extractions or fillings? We focus on hygiene but will refer you to our network of surgeons for invasive procedures.</p>
                     </div>
                 </div>
 
+                <!-- Right Column: Booking Form (5 Cols - Sticky) -->
                 <div class="lg:col-span-5 relative">
                     <div class="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200 border border-slate-100 sticky top-28 animate-slide-up" style="animation-delay: 0.2s;">
                         <div class="mb-6">
@@ -270,38 +296,57 @@
             </div>
         </div>
 
+        <!-- VIEW 3: OPPORTUNITIES (JOBS FIRST) -->
         <div id="view-opportunities" class="view-section">
             <div class="text-center mb-12 animate-slide-up">
                 <span class="text-brand-600 font-bold tracking-widest text-xs uppercase bg-brand-50 px-3 py-1 rounded-full">Careers</span>
                 <h2 class="text-3xl font-bold text-slate-900 mt-4">Join the Takwirira Family</h2>
             </div>
 
+            <!-- JOB LISTINGS (Top) -->
             <div class="grid md:grid-cols-2 gap-8 mb-12 animate-slide-up" style="animation-delay: 0.1s;">
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-tooth"></i></div>
-                        <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                <!-- Job 1 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-tooth"></i></div>
+                            <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Dental Hygienist</h3>
+                        <p class="text-slate-500 mb-6 text-sm">Professional needed for scaling, polishing, and patient education. Must be registered.</p>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Dental Hygienist</h3>
-                    <p class="text-slate-500 mb-6 text-sm">Professional needed for scaling, polishing, and patient education. Must be registered.</p>
-                    <button onclick="applyForJob('Oral Hygienist')" class="w-full py-3 border border-brand-200 text-brand-600 font-bold rounded-xl hover:bg-brand-50 transition flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp"></i> Apply via WhatsApp
-                    </button>
+                    <div class="space-y-2">
+                        <button onclick="emailJobApplication('Dental Hygienist')" class="w-full py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-envelope"></i> Send CV via Email
+                        </button>
+                        <button onclick="applyForJobWhatsApp('Oral Hygienist')" class="w-full py-3 border border-brand-200 text-brand-600 font-bold rounded-xl hover:bg-brand-50 transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Apply via WhatsApp
+                        </button>
+                    </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-broom"></i></div>
-                        <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                <!-- Job 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-broom"></i></div>
+                            <span class="bg-red-50 text-red-600 border border-red-100 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">General Cleaning Assistant</h3>
+                        <p class="text-slate-500 mb-6 text-sm">Morning to evening shift. Responsible for sterilization of workspace and general facility cleanliness.</p>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">General Cleaning Assistant</h3>
-                    <p class="text-slate-500 mb-6 text-sm">Morning to evening shift. Responsible for sterilization of workspace and general facility cleanliness.</p>
-                    <button onclick="applyForJob('General Cleaning Assistant')" class="w-full py-3 border border-brand-200 text-brand-600 font-bold rounded-xl hover:bg-brand-50 transition flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp"></i> Apply via WhatsApp
-                    </button>
+                    <div class="space-y-2">
+                        <button onclick="emailJobApplication('General Cleaning Assistant')" class="w-full py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-envelope"></i> Send CV via Email
+                        </button>
+                        <button onclick="applyForJobWhatsApp('General Cleaning Assistant')" class="w-full py-3 border border-brand-200 text-brand-600 font-bold rounded-xl hover:bg-brand-50 transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Apply via WhatsApp
+                        </button>
+                    </div>
                 </div>
             </div>
 
+            <!-- INTERNSHIP (Bottom) -->
             <div class="bg-gradient-to-br from-brand-900 to-brand-700 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-12 animate-slide-up" style="animation-delay: 0.2s;">
                 <i class="fa-solid fa-graduation-cap absolute -right-10 -bottom-10 text-[12rem] text-white opacity-5"></i>
                 <div class="relative z-10 md:flex items-center justify-between gap-10">
@@ -321,12 +366,66 @@
                         </div>
                     </div>
                     <div class="md:w-1/3 mt-8 md:mt-0">
-                        <button onclick="applyForJob('Patient Wellness Intern')" class="w-full py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-blue-50 transition shadow-lg">Apply Now</button>
+                        <button onclick="switchTab('intern-apply')" class="w-full py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-blue-50 transition shadow-lg">Apply Now</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- VIEW 6: INTERNSHIP APPLICATION (NEW FORM) -->
+        <div id="view-intern-apply" class="view-section">
+            <div class="max-w-2xl mx-auto animate-slide-up">
+                <button onclick="switchTab('opportunities')" class="mb-6 flex items-center text-slate-500 hover:text-brand-600 transition">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Opportunities
+                </button>
+                
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-100">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-900">Internship Application</h2>
+                        <p class="text-slate-500 mt-2">Submit your personal statement to our team.</p>
+                    </div>
+
+                    <form id="intern-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">First Name (as on ID)</label>
+                                <input type="text" id="intern-fname" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="First Name" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Last Name (as on ID)</label>
+                                <input type="text" id="intern-lname" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="Last Name" required>
+                            </div>
+                        </div>
+
+                        <!-- No ID Option -->
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
+                            <div class="flex h-6 items-center">
+                                <input id="no-id-check" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-brand-600 focus:ring-brand-600 custom-checkbox cursor-pointer">
+                            </div>
+                            <div class="text-sm">
+                                <label for="no-id-check" class="font-medium text-slate-900 cursor-pointer">I have no ID or birth certificate.</label>
+                                <p class="text-slate-500 mt-1">We do not discriminate against children or undocumented youths. You are still welcome to apply.</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Personal Statement</label>
+                            <p class="text-xs text-slate-500 mb-3">Why do you think an internship at Takwirira will be helpful to you? Share your career goals with us, and any struggles you faced in your life.</p>
+                            <textarea id="intern-statement" rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" placeholder="Type your story here..." required></textarea>
+                        </div>
+
+                        <button type="button" onclick="submitInternApplication()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95">
+                            <i class="fa-regular fa-paper-plane mr-2"></i> Send Application via Email
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: REVIEWS -->
         <div id="view-reviews" class="view-section">
             <div class="text-center mb-12 animate-slide-up">
                 <h2 class="text-3xl font-bold text-slate-900">Patient Stories</h2>
@@ -337,7 +436,8 @@
 
             <div class="max-w-4xl mx-auto">
                 <div id="reviews-container" class="grid gap-6 mb-10">
-                    </div>
+                    <!-- Reviews injected via JS -->
+                </div>
 
                 <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 animate-slide-up" style="animation-delay: 0.2s;">
                     <h3 class="font-bold text-lg mb-4">Share your experience</h3>
@@ -354,8 +454,10 @@
             </div>
         </div>
 
+        <!-- VIEW 5: ABOUT -->
         <div id="view-about" class="view-section">
             <div class="bg-slate-900 rounded-[2.5rem] p-8 md:p-16 text-white overflow-hidden relative animate-fade-in">
+                <!-- Background decor -->
                 <div class="absolute top-0 right-0 w-64 h-64 bg-brand-500 rounded-full blur-[80px] opacity-20"></div>
 
                 <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center">
@@ -483,13 +585,64 @@ Hello Takwirira Dental, I would like to confirm if this slot is available.`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- 4. JOB APPLICATION LOGIC (NEW) ---
-        function applyForJob(position) {
+        // --- 4. JOB APPLICATION LOGIC (Email & WhatsApp) ---
+        
+        // Send CV via Email
+        function emailJobApplication(position) {
+            const subject = `Job Application: ${position}`;
+            const body = `Hello Takwirira Dental Team,
+
+I am writing to apply for the ${position} position.
+
+Please find my Resume/CV attached to this email.
+
+Sincerely,
+[Your Name]
+[Your Phone Number]`;
+
+            window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Apply via WhatsApp
+        function applyForJobWhatsApp(position) {
             const message = `Hello Takwirira Dental, I am interested in the ${position} position.`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- 5. REVIEW SYSTEM ---
+        // --- 5. INTERNSHIP APPLICATION LOGIC ---
+        function submitInternApplication() {
+            const fname = document.getElementById('intern-fname').value.trim();
+            const lname = document.getElementById('intern-lname').value.trim();
+            const statement = document.getElementById('intern-statement').value.trim();
+            const noId = document.getElementById('no-id-check').checked;
+
+            if(!fname || !lname || !statement) {
+                alert("Please enter your Name and Personal Statement.");
+                return;
+            }
+
+            const subject = `Internship Application - ${fname} ${lname}`;
+            
+            const idStatus = noId ? "NOTE: Applicant does not have an ID/Birth Certificate." : "ID/Birth Certificate: Available";
+
+            const body = `INTERNSHIP APPLICATION
+
+APPLICANT DETAILS:
+Name: ${fname} ${lname}
+${idStatus}
+
+PERSONAL STATEMENT:
+${statement}
+
+--------------------------------------------------
+Sent from Takwirira Dental Website
+`;
+
+            // Open Email Client
+            window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // --- 6. REVIEW SYSTEM ---
         const reviews = [
             {name: "Blessing M.", text: "Best dental experience in Chipinge! So clean.", stars: 5},
             {name: "Tinashe K.", text: "The staff is incredibly polite.", stars: 5}
