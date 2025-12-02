@@ -53,9 +53,15 @@
     </script>
 
     <style>
+        html, body {
+            overflow-x: hidden; /* Critical Mobile Fix: Stops side-scrolling */
+            max-width: 100vw;
+            width: 100%;
+            position: relative;
+        }
+
         body {
             background-color: #f8fafc;
-            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         
         /* View Management */
@@ -163,6 +169,7 @@
             font-size: 14px;
             line-height: 1.4;
             animation: fadeIn 0.3s ease;
+            word-wrap: break-word; /* Prevents long words breaking layout */
         }
 
         .message.bot {
@@ -237,13 +244,15 @@
                 width: calc(100vw - 32px); 
                 height: 60vh;
                 right: 16px;
+                left: 16px; /* Centered on small screens */
+                margin: 0 auto;
             }
         }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900">
 
-    <div class="fixed inset-0 z-0 pointer-events-none opacity-40">
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-40 overflow-hidden">
         <div class="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
         <div class="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
     </div>
@@ -256,16 +265,18 @@
                     <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-200 flex-shrink-0">
                         <i class="fa-solid fa-tooth text-xl"></i>
                     </div>
-                    <span class="font-bold text-lg md:text-xl tracking-tight text-brand-900">Takwirira<span class="text-brand-600 font-light">Dental</span></span>
+                    <span class="font-bold text-lg md:text-xl tracking-tight text-brand-900 leading-none">Takwirira<span class="text-brand-600 font-light block md:inline md:ml-1">Dental</span></span>
                 </div>
 
                 <div class="hidden md:flex bg-slate-100/50 p-1 rounded-full border border-slate-200 backdrop-blur-md">
                     <button onclick="switchTab('home')" class="nav-item active px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Home</button>
-                    <button onclick="switchTab('services')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Services & Booking</button>
+                    <button onclick="switchTab('services')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Bookings</button>
                     <button onclick="switchTab('rewards')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Rewards</button>
                     <button onclick="switchTab('jobs')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Jobs</button>
-                    <button onclick="switchTab('reviews')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Reviews</button>
                     <button onclick="switchTab('about')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">About</button>
+                    <button onclick="switchTab('portal')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700 flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-xs"></i> Portal
+                    </button>
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -285,10 +296,10 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-20 shadow-lg z-50">
             <div class="p-4 flex flex-col space-y-2">
                 <button onclick="switchTab('home')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Home</button>
-                <button onclick="switchTab('services')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Services & Booking</button>
+                <button onclick="switchTab('services')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Bookings</button>
                 <button onclick="switchTab('rewards')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Rewards</button>
                 <button onclick="switchTab('jobs')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Jobs</button>
-                <button onclick="switchTab('reviews')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Reviews</button>
+                <button onclick="switchTab('portal')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-brand-700 bg-blue-50"> <i class="fa-solid fa-lock mr-2"></i> Patient Portal</button>
                 <button onclick="switchTab('about')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">About</button>
             </div>
         </div>
@@ -327,7 +338,8 @@
                         <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
                         Opening Soon in Chipinge
                     </div>
-                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold text-brand-900 leading-[1.1]">
+                    <!-- Fixed text scaling and breaking for mobile -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold text-brand-900 leading-[1.1] break-words">
                         The Future of <br> <span class="text-brand-600">Oral Hygiene.</span>
                     </h1>
                     <p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed w-full">
@@ -352,8 +364,8 @@
                 <div class="lg:w-1/2 w-full relative animate-slide-up order-1 lg:order-2" style="animation-delay: 0.1s;">
                     <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white aspect-[4/3] lg:aspect-auto lg:h-[500px]">
                         <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
-                             <img src="./HomeImage.png" onerror="this.style.display='none'" alt="Takwirira Dental Home" class="w-full h-full object-cover">
-                             <i class="fa-solid fa-tooth text-6xl opacity-20 absolute"></i>
+                             <img src="./HomeImage.png" onerror="this.style.display='none'; this.nextElementSibling.style.opacity='0.2'" alt="Takwirira Dental Home" class="w-full h-full object-cover">
+                             <i class="fa-solid fa-tooth text-6xl opacity-0 absolute"></i>
                         </div>
                         
                         <div class="absolute bottom-2 left-2 right-2 lg:bottom-6 lg:left-6 lg:right-auto bg-white/95 backdrop-blur p-3 lg:p-4 rounded-2xl shadow-lg flex items-center gap-3 lg:gap-4">
@@ -580,13 +592,16 @@
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold text-brand-900 uppercase">Date</label>
-                                        <input type="date" id="single-date" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                        <input type="date" id="single-date" onchange="handleDateChange(this.value)" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
                                     </div>
                                 </div>
                                 
                                 <div>
                                     <label class="text-xs font-bold text-brand-900 uppercase">Preferred Time</label>
-                                    <input type="time" id="single-time" min="08:00" max="18:00" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                    <select id="single-time" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                        <option value="" disabled selected>Select a date first...</option>
+                                        <!-- Options populated by JS -->
+                                    </select>
                                     <p class="text-[10px] text-brand-700 font-semibold mt-1">Mon-Fri: 08:00 AM to 06:00 PM</p>
                                 </div>
 
@@ -608,7 +623,7 @@
                                     </select>
                                 </div>
 
-                                <button type="button" onclick="submitSingleBooking()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-brand-900">
+                                <button type="button" onclick="submitSingleBooking()" id="btn-submit-booking" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-brand-900">
                                     <i class="fa-brands fa-whatsapp"></i> Request Appointment
                                 </button>
                             </form>
@@ -944,6 +959,133 @@
             </div>
         </div>
 
+        <div id="view-portal" class="view-section">
+            <div class="max-w-4xl mx-auto animate-slide-up">
+                
+                <!-- State 1: Unauthenticated -->
+                <div id="portal-auth" class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 grid md:grid-cols-2">
+                    <div class="p-8 md:p-12 flex flex-col justify-center">
+                        <div class="mb-8">
+                            <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-2 block">Secure Access</span>
+                            <h2 class="text-3xl font-bold text-brand-900 mb-2">Patient Portal</h2>
+                            <p class="text-slate-600">Access your private medical records and appointment history securely.</p>
+                        </div>
+
+                        <form id="auth-form" class="space-y-4" onsubmit="handleAuth(event)">
+                            <div class="bg-red-50 text-red-700 text-sm p-3 rounded-lg hidden" id="auth-error"></div>
+                            
+                            <div>
+                                <label class="text-xs font-bold text-brand-900 uppercase">Email</label>
+                                <input type="email" id="auth-email" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" required>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-brand-900 uppercase">Password</label>
+                                <input type="password" id="auth-password" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" required>
+                            </div>
+
+                            <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-brand-900 hover:bg-brand-800 text-white font-bold rounded-xl shadow-lg transition">
+                                <i class="fa-solid fa-lock mr-2"></i> Login Securely
+                            </button>
+                        </form>
+
+                        <div class="mt-6 text-center text-sm">
+                            <p class="text-slate-500" id="auth-toggle-text">New patient?</p>
+                            <button onclick="toggleAuthMode()" class="text-brand-600 font-bold hover:underline" id="auth-toggle-btn">Create Secure Account</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-brand-900 p-12 text-white flex flex-col justify-center items-center text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                        <i class="fa-solid fa-shield-halved text-6xl mb-6 text-brand-400"></i>
+                        <h3 class="text-2xl font-bold mb-4">Your Data is Safe</h3>
+                        <p class="text-blue-100 text-sm leading-relaxed mb-6">
+                            We use bank-level encryption to store your medical records. Your data is stored in a secure cloud vault and is never exposed publicly.
+                        </p>
+                        <div class="flex gap-2 justify-center">
+                            <span class="bg-white/10 px-3 py-1 rounded-full text-xs border border-white/20">Encrypted</span>
+                            <span class="bg-white/10 px-3 py-1 rounded-full text-xs border border-white/20">Private</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- State 2: Authenticated Dashboard -->
+                <div id="portal-dashboard" class="hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-2xl font-bold text-brand-900">My Dashboard</h2>
+                            <p class="text-slate-600 text-sm">Welcome back, <span id="user-display-email" class="font-bold"></span></p>
+                        </div>
+                        <button onclick="logout()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 font-bold text-sm transition">
+                            Logout
+                        </button>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Private Medical Form -->
+                        <div class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                            <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                                <div class="w-10 h-10 bg-red-50 text-red-600 rounded-full flex items-center justify-center"><i class="fa-solid fa-heart-pulse"></i></div>
+                                <div>
+                                    <h3 class="font-bold text-brand-900">Medical Profile</h3>
+                                    <p class="text-xs text-slate-500">Only visible to your doctor.</p>
+                                </div>
+                            </div>
+
+                            <form id="medical-form" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Full Name</label>
+                                        <input type="text" id="med-fullname" class="w-full mt-1 p-2 border rounded-lg bg-slate-50">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Date of Birth</label>
+                                        <input type="date" id="med-dob" class="w-full mt-1 p-2 border rounded-lg bg-slate-50">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-slate-500 uppercase">Allergies (if any)</label>
+                                    <input type="text" id="med-allergies" class="w-full mt-1 p-2 border rounded-lg bg-slate-50" placeholder="e.g. Penicillin, Latex">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-slate-500 uppercase">Current Medications</label>
+                                    <textarea id="med-medications" rows="2" class="w-full mt-1 p-2 border rounded-lg bg-slate-50" placeholder="List any meds you are taking..."></textarea>
+                                </div>
+                                
+                                <div class="flex justify-end pt-2">
+                                    <button type="button" onclick="saveMedicalData()" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2 rounded-lg font-bold text-sm transition flex items-center gap-2">
+                                        <i class="fa-solid fa-save"></i> Save Securely
+                                    </button>
+                                </div>
+                                <p id="save-status" class="text-xs text-center text-green-600 font-bold hidden">Data Saved to Secure Vault</p>
+                            </form>
+                        </div>
+
+                        <!-- Appointments / Status -->
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                                <h3 class="font-bold text-brand-900 mb-4">Next Appointment</h3>
+                                <div class="bg-brand-50 rounded-xl p-4 text-center border border-brand-100">
+                                    <p class="text-brand-900 font-bold text-lg">No upcoming visits</p>
+                                    <button onclick="switchTab('services')" class="text-xs text-brand-600 font-bold mt-2 hover:underline">Book Now</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-sm p-6 text-white">
+                                <h3 class="font-bold mb-2"><i class="fa-brands fa-google-drive mr-2"></i>Export Data</h3>
+                                <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+                                    Need a spreadsheet? We can securely export your data to Google Sheets via our backend.
+                                </p>
+                                <button class="w-full py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-xs font-bold transition">
+                                    Request Data Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <div id="view-reviews" class="view-section">
             <div class="text-center mb-12 animate-slide-up">
                 <h2 class="text-3xl font-bold text-brand-900">Patient Stories</h2>
@@ -1028,8 +1170,235 @@
 
     </main>
 
+    <!-- FIREBASE & APP LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 1. Firebase Init
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // 2. Auth Logic
+        let isLoginMode = true;
+        let currentUser = null;
+
+        // Initialize Anonymous Auth to allow app to function generally (Required by environment)
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user && !user.isAnonymous) {
+                // Real User Logged In -> Show Dashboard
+                document.getElementById('portal-auth').classList.add('hidden');
+                document.getElementById('portal-dashboard').classList.remove('hidden');
+                document.getElementById('user-display-email').textContent = user.email;
+                loadMedicalData(user.uid);
+            } else {
+                // No User or Anon -> Show Login Form
+                document.getElementById('portal-auth').classList.remove('hidden');
+                document.getElementById('portal-dashboard').classList.add('hidden');
+            }
+        });
+
+        // 3. Portal Functions (Exposed to Global Scope)
+        window.toggleAuthMode = function() {
+            isLoginMode = !isLoginMode;
+            const title = isLoginMode ? "Login Securely" : "Create Secure Account";
+            const btnText = isLoginMode ? '<i class="fa-solid fa-lock mr-2"></i> Login Securely' : '<i class="fa-solid fa-user-plus mr-2"></i> Create Account';
+            const toggleText = isLoginMode ? "New patient?" : "Already have an account?";
+            const toggleBtn = isLoginMode ? "Create Secure Account" : "Login Securely";
+
+            document.getElementById('auth-submit-btn').innerHTML = btnText;
+            document.getElementById('auth-toggle-text').textContent = toggleText;
+            document.getElementById('auth-toggle-btn').textContent = toggleBtn;
+        };
+
+        window.handleAuth = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-password').value;
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.classList.add('hidden');
+
+            try {
+                if (isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, pass);
+                } else {
+                    await createUserWithEmailAndPassword(auth, email, pass);
+                }
+            } catch (error) {
+                if (error.code === 'auth/operation-not-allowed') {
+                    errorDiv.innerHTML = "<strong>Setup Required:</strong> Please enable the <strong>Email/Password</strong> provider in your Firebase Console under Authentication > Sign-in method.";
+                } else {
+                    errorDiv.textContent = error.message;
+                }
+                errorDiv.classList.remove('hidden');
+            }
+        };
+
+        window.logout = function() {
+            signOut(auth);
+        };
+
+        // 4. Secure Firestore Data
+        window.saveMedicalData = async function() {
+            if (!currentUser) return;
+            
+            const data = {
+                fullname: document.getElementById('med-fullname').value,
+                dob: document.getElementById('med-dob').value,
+                allergies: document.getElementById('med-allergies').value,
+                medications: document.getElementById('med-medications').value,
+                lastUpdated: new Date().toISOString()
+            };
+
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'patientData', 'profile'), data);
+                const status = document.getElementById('save-status');
+                status.classList.remove('hidden');
+                setTimeout(() => status.classList.add('hidden'), 3000);
+            } catch (e) {
+                alert("Error saving data: " + e.message);
+            }
+        };
+
+        async function loadMedicalData(uid) {
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'users', uid, 'patientData', 'profile');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('med-fullname').value = data.fullname || '';
+                    document.getElementById('med-dob').value = data.dob || '';
+                    document.getElementById('med-allergies').value = data.allergies || '';
+                    document.getElementById('med-medications').value = data.medications || '';
+                }
+            } catch (e) {
+                console.log("No profile found or error loading.");
+            }
+        }
+
+        // --- NEW: Booking System Logic ---
+        
+        window.handleDateChange = async function(dateValue) {
+            const timeSelect = document.getElementById('single-time');
+            if(!dateValue) {
+                timeSelect.innerHTML = '<option value="" disabled selected>Select a date first...</option>';
+                return;
+            }
+
+            // Generate slots
+            const slots = ["08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"];
+            timeSelect.innerHTML = '<option value="" disabled selected>Loading availability...</option>';
+
+            try {
+                // Fetch existing bookings for this date
+                // Path: artifacts/{appId}/public/data/appointments
+                // We use public data so checking availability works for everyone
+                const q = query(
+                    collection(db, 'artifacts', appId, 'public', 'data', 'appointments'),
+                    where("date", "==", dateValue)
+                );
+                
+                const querySnapshot = await getDocs(q);
+                const bookedTimes = [];
+                querySnapshot.forEach((doc) => {
+                    bookedTimes.push(doc.data().time);
+                });
+
+                // Re-render select with booked slots disabled
+                timeSelect.innerHTML = '<option value="" disabled selected>Select a time slot...</option>';
+                slots.forEach(time => {
+                    const isBooked = bookedTimes.includes(time);
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = isBooked ? `${time} (Booked)` : time;
+                    if(isBooked) {
+                        option.disabled = true;
+                        option.classList.add('bg-slate-200', 'text-slate-400'); // Visual gray out
+                    }
+                    timeSelect.appendChild(option);
+                });
+
+            } catch (e) {
+                console.error("Error fetching bookings:", e);
+                timeSelect.innerHTML = '<option value="" disabled>Error loading times</option>';
+            }
+        };
+
+        window.submitSingleBookingWithFirebase = async function() {
+            const name = document.getElementById('single-name').value.trim();
+            const phone = document.getElementById('single-phone').value.trim();
+            const service = document.getElementById('single-service').value;
+            const date = document.getElementById('single-date').value;
+            const time = document.getElementById('single-time').value;
+            const btn = document.getElementById('btn-submit-booking');
+
+            if(!name || !phone || !service || !date || !time) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            try {
+                // 1. Save to Firestore (Lock the slot)
+                const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'appointments', `${date}_${time}`);
+                // Check if already taken (extra safety)
+                const snap = await getDoc(bookingRef);
+                if(snap.exists()) {
+                    alert("Sorry! That slot was just taken. Please choose another time.");
+                    handleDateChange(date); // Refresh
+                    btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Request Appointment';
+                    btn.disabled = false;
+                    return;
+                }
+
+                await setDoc(bookingRef, {
+                    date: date,
+                    time: time,
+                    service: service,
+                    status: 'booked',
+                    bookedAt: new Date().toISOString()
+                    // Note: We avoid saving PII (Name/Phone) in public collection for basic privacy
+                    // In a real app, this would go to a secure admin collection.
+                });
+
+                // 2. Open WhatsApp
+                const message = `*New Appointment Request* 🦷\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}\n*Date:* ${date}\n*Time:* ${time}`;
+                window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
+                
+                // 3. Reset
+                alert("Slot reserved! Opening WhatsApp to finalize...");
+                document.getElementById('form-single').reset();
+                handleDateChange(''); // Reset select
+
+            } catch (e) {
+                alert("Error saving booking: " + e.message);
+            } finally {
+                btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Request Appointment';
+                btn.disabled = false;
+            }
+        };
+
+    </script>
+
     <script>
-        // --- 1. NAVIGATION & GENERAL ---
+        // --- STANDARD UI LOGIC (Navigation, Local AI, Reviews) ---
+        
         function switchTab(tabId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1046,31 +1415,26 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 2. BOOKING WIDGET LOGIC ---
+        // BOOKING LOGIC (UI Toggles)
         function switchBookingType(type) {
-            const singleTab = document.getElementById('tab-btn-single');
-            const planTab = document.getElementById('tab-btn-plan');
+            const sBtn = document.getElementById('tab-btn-single');
+            const pBtn = document.getElementById('tab-btn-plan');
             const singleForm = document.getElementById('form-single');
             const planForm = document.getElementById('form-plan');
 
             if(type === 'single') {
-                singleTab.classList.add('active', 'bg-brand-900', 'text-white');
-                singleTab.classList.remove('text-slate-500', 'hover:bg-slate-50');
-                planTab.classList.remove('active', 'bg-brand-900', 'text-white');
-                planTab.classList.add('text-slate-500', 'hover:bg-slate-50');
+                sBtn.classList.add('active'); pBtn.classList.remove('active');
                 singleForm.classList.remove('hidden');
                 planForm.classList.add('hidden');
             } else {
-                planTab.classList.add('active', 'bg-brand-900', 'text-white');
-                planTab.classList.remove('text-slate-500', 'hover:bg-slate-50');
-                singleTab.classList.remove('active', 'bg-brand-900', 'text-white');
-                singleTab.classList.add('text-slate-500', 'hover:bg-slate-50');
+                pBtn.classList.add('active'); sBtn.classList.remove('active');
                 planForm.classList.remove('hidden');
                 singleForm.classList.add('hidden');
             }
         }
 
         function prefillService(serviceName) {
+            switchTab('services');
             switchBookingType('single');
             document.getElementById('single-service').value = serviceName;
             const widget = document.getElementById('booking-container');
@@ -1084,19 +1448,13 @@
         document.getElementById('single-date').min = today;
         document.getElementById('plan-date').min = today;
 
+        // Bridge function to call the Module-based function
         function submitSingleBooking() {
-            const name = document.getElementById('single-name').value.trim();
-            const phone = document.getElementById('single-phone').value.trim();
-            const service = document.getElementById('single-service').value;
-            const date = document.getElementById('single-date').value;
-            const time = document.getElementById('single-time').value;
-
-            if(!name || !phone || !service || !date || !time) {
-                alert("Please fill in all fields.");
-                return;
+            if(window.submitSingleBookingWithFirebase) {
+                window.submitSingleBookingWithFirebase();
+            } else {
+                alert("System initializing... please try again in a moment.");
             }
-            const message = `*New Appointment Request* 🦷\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}\n*Date:* ${date}\n*Time:* ${time}`;
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function selectPlanCard(element, name, price) {
@@ -1121,7 +1479,7 @@
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- 3. LOCAL REVIEW SYSTEM ---
+        // REVIEWS SYSTEM
         function getReviews() {
             const saved = localStorage.getItem('takwirira_reviews_v2');
             return saved ? JSON.parse(saved) : []; 
@@ -1198,34 +1556,37 @@
 
         renderReviews();
 
-        // --- 4. ADVANCED "LOCAL BRAIN" AI ---
-        // Expanded knowledge base with scoring for "LLM-like" accuracy
+        // LOCAL AI LOGIC (Expanded)
         const knowledgeBase = [
-            // PRIORITY 1: Specific Service Prices
-            { keys: ["scale", "polish", "cleaning price", "wash teeth"], score: 2, text: "A Scale & Polish is **$50**. This removes plaque and tartar. It's our most popular service!" },
-            { keys: ["whitening", "white", "yellow", "bright"], score: 2, text: "Professional Teeth Whitening is **$150**. It is done in-chair for instant results. We also offer Stain Removal for **$60** if you just have coffee/tobacco stains." },
-            { keys: ["fluoride"], score: 2, text: "Fluoride treatment is **$25**. It's great for strengthening enamel, especially for children." },
-            { keys: ["deep", "root", "gum disease"], score: 2, text: "Deep Cleaning (SRP) is **$120**. This is a medical treatment for gum disease." },
-            { keys: ["guard", "grinding", "sport"], score: 2, text: "We make custom Mouth Guards. Sports guards are **$90** and Night Guards for grinding are **$100**." },
+            // PRICE & SERVICES
+            { keys: ["scale", "polish", "cleaning price", "wash teeth", "plaque"], score: 2, text: "A Scale & Polish is **$50**. This removes plaque and tartar to keep your gums healthy. It's our most popular service!" },
+            { keys: ["whitening", "white", "yellow", "bright", "bleach"], score: 2, text: "Professional Teeth Whitening is **$150**. It is done in-chair for instant results! We also offer Stain Removal for **$60** if you just have surface coffee/tobacco stains." },
+            { keys: ["fluoride", "enamel"], score: 2, text: "Fluoride treatment is **$25**. It's great for strengthening enamel and preventing cavities, especially for children." },
+            { keys: ["deep", "root", "gum disease", "srp"], score: 2, text: "Deep Cleaning (SRP) is **$120**. This is a medical treatment specifically for gum disease (periodontitis)." },
+            { keys: ["guard", "grinding", "sport", "bruxism"], score: 2, text: "We make custom Mouth Guards. Sports guards are **$90** and Night Guards (for grinding) are **$100**." },
             { keys: ["breath", "smell", "stink", "halitosis"], score: 2, text: "Bad breath is often caused by bacteria on the tongue or gums. Book our specific **'Breath Consultation' ($30)** to find the root cause." },
-
-            // PRIORITY 2: General Categories
-            { keys: ["price", "cost", "how much", "money", "$", "rates"], score: 1, text: "Here is a quick price list:\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $30\n• Kids Fluoride: $25\n\nSee the 'Services' tab for more!" },
-            { keys: ["book", "appoint", "schedule", "slot", "visit", "reserve"], score: 1, text: "You can book easily! Just go to the **'Services & Booking'** tab on this page, or tell me your name and phone number here and I'll generate a WhatsApp link." },
-            { keys: ["location", "where", "address", "find", "map", "chipinge"], score: 1, text: "We are located in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. It's easy to find!" },
-            { keys: ["hour", "open", "time", "close", "day", "weekend"], score: 1, text: "We are open **Monday to Friday**, 8:00 AM to 6:00 PM. We are closed on weekends." },
-            { keys: ["pay", "cash", "usd", "swipe", "ecocash"], score: 1, text: "We accept USD Cash, EcoCash, and Swipe. Short on cash? Ask about our maintenance plans!" },
+            { keys: ["sensitive", "cold water", "pain cold"], score: 2, text: "For sensitive teeth, we offer a Sensitivity Treatment for **$40** which applies desensitizing agents to give you relief." },
             
-            // PRIORITY 3: Medical/Jobs/Etc
-            { keys: ["job", "work", "hiring", "vacancy", "cv"], score: 1, text: "Yes, we are hiring! Please check the **'Jobs'** tab to see open positions for Hygienists and Cleaners." },
-            { keys: ["intern", "student", "learn", "attachment"], score: 1, text: "We have a Student Wellness Internship! It helps with school fees. Check the 'Jobs' tab to apply." },
-            { keys: ["pain", "hurt", "blood", "emergency", "ache"], score: 3, text: "🚨 If you are in pain, please book a slot immediately or visit us. Do not wait. If it is an emergency, message us on WhatsApp directly." },
-            { keys: ["child", "kid", "baby"], score: 1, text: "We love kids! We recommend bringing them in early (from age 1) to get used to the environment. We are very gentle." },
-            { keys: ["safe", "clean", "sterile"], score: 1, text: "Your safety is #1. We use hospital-grade sterilization for every single tool and surface. It is the cleanest spot in Chipinge!" },
+            // GENERAL QUERIES
+            { keys: ["price", "cost", "how much", "money", "$", "rates", "fees"], score: 1, text: "Here is a quick price list:\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $30\n• Kids Fluoride: $25\n\nSee the 'Services' tab for more!" },
+            { keys: ["book", "appoint", "schedule", "slot", "visit", "reserve"], score: 1.5, text: "You can book easily! Just go to the **'Services & Booking'** tab on this page, or tell me your name and phone number here and I'll generate a WhatsApp link." },
+            { keys: ["location", "where", "address", "find", "map", "chipinge"], score: 1.5, text: "We are located in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. It's very central and easy to find!" },
+            { keys: ["hour", "open", "time", "close", "day", "weekend", "saturday", "sunday"], score: 1.5, text: "We are open **Monday to Friday**, 8:00 AM to 6:00 PM. We are closed on weekends to rest our tools! 🛠️" },
+            { keys: ["pay", "cash", "usd", "swipe", "ecocash"], score: 1.5, text: "We accept **USD Cash**, **EcoCash**, and **Swipe**. Short on cash? Ask about our maintenance plans!" },
             
-            // PRIORITY 4: Greetings
-            { keys: ["hello", "hi", "hey", "morning", "afternoon"], score: 0.5, text: "Hello there! 👋 How can I help your smile today? You can ask me about prices, booking, or services." },
-            { keys: ["thank", "thx", "goodbye", "bye"], score: 0.5, text: "You're welcome! Keep smiling. 😁" }
+            // JOB & INTERNSHIP
+            { keys: ["job", "work", "hiring", "vacancy", "cv", "employ"], score: 1.5, text: "Yes, we are hiring! Please check the **'Jobs'** tab to see open positions for Hygienists and Cleaners." },
+            { keys: ["intern", "student", "learn", "attachment", "train"], score: 1.5, text: "We have a Student Wellness Internship! It helps with school fees. Check the 'Jobs' tab to apply. We also offer Hygiene Training." },
+            
+            // EMERGENCIES & MEDICAL ADVICE
+            { keys: ["pain", "hurt", "blood", "emergency", "ache", "swollen"], score: 3, text: "🚨 **If you are in pain, please book a slot immediately or visit us.** Do not wait. If it is an emergency, message us on WhatsApp directly using the button in the booking tab." },
+            { keys: ["child", "kid", "baby", "toddler"], score: 1, text: "We love kids! We recommend bringing them in early (from age 1) to get used to the environment. We are very gentle." },
+            { keys: ["safe", "clean", "sterile", "hiv", "virus"], score: 1, text: "Your safety is #1. We use hospital-grade sterilization for every single tool and surface. It is the cleanest spot in Chipinge!" },
+            
+            // GREETINGS & SMALL TALK
+            { keys: ["hello", "hi", "hey", "morning", "afternoon"], score: 0.8, text: "Hello there! 👋 How can I help your smile today? You can ask me about prices, booking, or services." },
+            { keys: ["thank", "thx", "goodbye", "bye"], score: 0.8, text: "You're very welcome! Keep smiling. 😁" },
+            { keys: ["who are you", "what are you", "bot"], score: 0.8, text: "I am the Takwirira Virtual Assistant. I run locally on this page to help you!" }
         ];
 
         function toggleChat() {
@@ -1249,34 +1610,55 @@
             dots.style.display = 'block';
             msgs.scrollTop = msgs.scrollHeight;
 
-            // "LLM" Logic: Find the best match based on Score
+            // ENHANCED Logic: Find the best match based on Score & Word Matching
             setTimeout(() => {
                 let bestMatch = null;
                 let highestScore = 0;
 
+                // Split input into words for partial matching
+                const inputWords = text.split(/[\s,?.!]+/);
+
                 knowledgeBase.forEach(item => {
-                    // Count how many keywords match
-                    const matchCount = item.keys.filter(k => text.includes(k)).length;
-                    if (matchCount > 0) {
-                        const currentScore = matchCount * item.score; // Multiply by weight
-                        if (currentScore > highestScore) {
-                            highestScore = currentScore;
-                            bestMatch = item;
+                    let currentScore = 0;
+                    let matchesFound = 0;
+
+                    // Check triggers
+                    item.keys.forEach(key => {
+                        if (text.includes(key)) {
+                            // Full phrase match gets full score
+                            currentScore += item.score;
+                            matchesFound++;
+                        } else {
+                            // Partial word match logic (smarter fallback)
+                            inputWords.forEach(word => {
+                                if (word.length > 3 && key.includes(word)) {
+                                    currentScore += (item.score * 0.5); // Partial credit
+                                    matchesFound++;
+                                }
+                            });
                         }
+                    });
+
+                    // Bonus for multiple keyword hits
+                    if (matchesFound > 1) currentScore += 1;
+
+                    if (currentScore > highestScore) {
+                        highestScore = currentScore;
+                        bestMatch = item;
                     }
                 });
 
                 let reply = "";
-                if (bestMatch) {
+                // Threshold ensures we don't just guess randomly
+                if (bestMatch && highestScore >= 0.5) {
                     reply = bestMatch.text;
                 } else {
-                    // Fallback "Hallucination" handler
-                    reply = "I'm mostly trained on prices and booking, so I didn't quite catch that. 🤔\n\nWould you like to **Book an Appointment** or chat with a human on **WhatsApp**?";
+                    reply = "I'm not totally sure about that. 🤔\n\nI mostly know about **prices**, **booking**, and **services**. Would you like to see our Price List or book an appointment?";
                 }
 
                 dots.style.display = 'none';
                 addMessage(reply, 'bot');
-            }, 700); // Slight delay for realism
+            }, 600); // 600ms delay for natural feel
         }
 
         function addMessage(html, type) {
