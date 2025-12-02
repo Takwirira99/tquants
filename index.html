@@ -6,79 +6,259 @@
     <title>Takwirira Dental | Chipinge Oral Hygiene Centre</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
                     colors: {
                         brand: {
-                            50: '#f0f9ff', 100: '#e0f2fe', 400: '#38bdf8', 500: '#0ea5e9',
-                            600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e',
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
                         },
-                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 900: '#78350f' }
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            900: '#78350f',
+                        }
                     },
-                    animation: { 'slide-up': 'slideUp 0.4s ease-out forwards' },
-                    keyframes: { slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                    animation: {
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
                 }
             }
         }
     </script>
 
     <style>
-        body { background-color: #f8fafc; overflow-x: hidden; }
-        .view-section { display: none; min-height: calc(100vh - 80px); padding-top: 100px; padding-bottom: 80px; }
-        @media (min-width: 1024px) { .view-section { padding-top: 100px; padding-bottom: 40px; } }
-        .view-section.active { display: block; }
-        .nav-item.active { color: #0284c7; background-color: #f0f9ff; font-weight: 700; }
-        .booking-tab.active { background-color: #0c4a6e; color: white; border-color: #0c4a6e; }
-        .booking-tab { transition: all 0.3s ease; }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        
-        /* Chat Window */
-        .chat-window {
-            position: fixed; top: 85px; right: 16px; z-index: 1000; width: 350px; height: 500px;
-            background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            display: flex; flex-direction: column; overflow: hidden; transform-origin: top right;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: scale(0.9) translateY(-10px);
-            pointer-events: none; border: 1px solid #e2e8f0;
+        body {
+            background-color: #f8fafc;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-        .chat-window.open { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; }
-        .chat-messages { flex: 1; padding: 16px; overflow-y: auto; background-color: #f8fafc; display: flex; flex-direction: column; gap: 12px; }
-        .message { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s ease; }
-        .message.bot { background: #e0f2fe; color: #0c4a6e; align-self: flex-start; border-bottom-left-radius: 2px; }
-        .message.user { background: #0c4a6e; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
         
-        /* Loading Dots */
-        .typing-dots { display: none; padding: 0 16px 8px; }
-        .dot { height: 6px; width: 6px; background-color: #cbd5e1; border-radius: 50%; display: inline-block; animation: dot-pulse 1.5s infinite ease-in-out both; }
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes dot-pulse { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        /* View Management */
+        .view-section {
+            display: none; /* Hidden by default */
+            min-height: calc(100vh - 80px);
+            padding-top: 100px; /* Reduced for mobile default */
+            padding-bottom: 80px; /* Extra padding for bottom chat widget */
+        }
+
+        /* Adjust padding for larger screens */
+        @media (min-width: 1024px) {
+            .view-section {
+                padding-top: 100px;
+                padding-bottom: 40px;
+            }
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* Nav Item Active State */
+        .nav-item.active {
+            color: #0284c7;
+            background-color: #f0f9ff;
+            font-weight: 700;
+        }
+
+        /* Booking Tab Active State */
+        .booking-tab.active {
+            background-color: #0c4a6e; /* brand-900 */
+            color: white;
+            border-color: #0c4a6e;
+        }
         
-        @media (max-width: 640px) { .chat-window { width: calc(100vw - 32px); height: 60vh; right: 16px; } }
+        .booking-tab {
+            transition: all 0.3s ease;
+        }
+
+        /* Glass effect */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Checkbox Custom Style */
+        .custom-checkbox:checked {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+
+        /* Chat Window Styles - Re-positioned to Top Right */
+        .chat-window {
+            position: fixed;
+            top: 85px; /* Just below the navbar */
+            right: 16px;
+            z-index: 1000;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform-origin: top right; /* Animates from the button */
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: scale(0.9) translateY(-10px);
+            pointer-events: none;
+            border: 1px solid #e2e8f0;
+        }
+
+        .chat-window.open {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: all;
+        }
+
+        .chat-header {
+            background: #0c4a6e;
+            padding: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.bot {
+            background: #e0f2fe;
+            color: #0c4a6e;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .message.user {
+            background: #0c4a6e;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            gap: 8px;
+        }
+
+        .typing-indicator {
+            display: none;
+            font-size: 12px;
+            color: #64748b;
+            margin-left: 16px;
+            margin-bottom: 8px;
+            margin-top: 4px;
+        }
+
+        /* Sparkle Button Style */
+        .btn-sparkle {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-sparkle::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* Mobile Optimizations for Chat */
+        @media (max-width: 640px) {
+            .chat-window {
+                /* Fits screen width perfectly on mobile with small margins */
+                width: calc(100vw - 32px); 
+                height: 60vh;
+                right: 16px;
+            }
+        }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900">
 
     <div class="fixed inset-0 z-0 pointer-events-none opacity-40">
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
+        <div class="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 lg:px-8">
             <div class="flex justify-between items-center h-20">
+                
                 <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('home')">
                     <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-200 flex-shrink-0">
                         <i class="fa-solid fa-tooth text-xl"></i>
                     </div>
                     <span class="font-bold text-lg md:text-xl tracking-tight text-brand-900">Takwirira<span class="text-brand-600 font-light">Dental</span></span>
                 </div>
+
                 <div class="hidden md:flex bg-slate-100/50 p-1 rounded-full border border-slate-200 backdrop-blur-md">
                     <button onclick="switchTab('home')" class="nav-item active px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Home</button>
                     <button onclick="switchTab('services')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Services & Booking</button>
@@ -87,157 +267,687 @@
                     <button onclick="switchTab('reviews')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Reviews</button>
                     <button onclick="switchTab('about')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">About</button>
                 </div>
+
                 <div class="flex items-center gap-3">
                     <button onclick="toggleChat()" class="bg-brand-900 hover:bg-brand-800 text-white px-4 py-2.5 rounded-full font-bold text-sm shadow-md transition-all flex items-center gap-2 border-2 border-brand-800/50 active:scale-95">
-                        <i class="fa-solid fa-robot"></i> <span class="hidden sm:inline">Ask AI</span>
+                        <i class="fa-solid fa-robot"></i> 
+                        <span class="hidden sm:inline">Ask AI</span>
+                        <span class="sm:hidden">AI</span>
                     </button>
-                    <button class="md:hidden text-brand-900 text-2xl p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+
+                    <button class="md:hidden text-brand-900 text-2xl focus:outline-none p-2 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 transition" onclick="toggleMobileMenu()">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-20 shadow-lg z-50 p-4 space-y-2">
-            <button onclick="switchTab('home')" class="block w-full text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Home</button>
-            <button onclick="switchTab('services')" class="block w-full text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Services</button>
-            <button onclick="switchTab('reviews')" class="block w-full text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Reviews</button>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-20 shadow-lg z-50">
+            <div class="p-4 flex flex-col space-y-2">
+                <button onclick="switchTab('home')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Home</button>
+                <button onclick="switchTab('services')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Services & Booking</button>
+                <button onclick="switchTab('rewards')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Rewards</button>
+                <button onclick="switchTab('jobs')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Jobs</button>
+                <button onclick="switchTab('reviews')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Reviews</button>
+                <button onclick="switchTab('about')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">About</button>
+            </div>
         </div>
     </nav>
 
     <div class="chat-window" id="chat-window">
-        <div class="bg-brand-900 p-4 text-white flex justify-between items-center">
+        <div class="chat-header">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"><i class="fa-solid fa-robot"></i></div>
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
                 <div>
-                    <p class="font-bold text-sm">Takwirira AI</p>
-                    <p class="text-[10px] text-brand-100 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Intelligent Assistant</p>
+                    <p class="font-bold text-sm">Takwirira Assistant</p>
+                    <p class="text-[10px] text-brand-100 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Online (Takwirira AI)</p>
                 </div>
             </div>
             <button onclick="toggleChat()" class="hover:bg-white/10 p-1 rounded"><i class="fa-solid fa-times"></i></button>
         </div>
         <div class="chat-messages" id="chat-messages">
-            <div class="message bot">
-                Hello! 👋 I am the Takwirira Intelligent Assistant.<br><br>
-                I can help you with:<br>
-                • Detailed Prices 💰<br>
-                • Booking Appointments 📅<br>
-                • Medical Advice (General) 🩺<br>
-                • Job Applications 💼
-            </div>
+            <div class="message bot">Hello! 👋 I'm the Takwirira AI Assistant. Ask me anything about our services, booking, or prices!</div>
         </div>
-        <div class="typing-dots" id="typing-indicator">
-            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-        </div>
-        <div class="p-3 bg-white border-t border-slate-100 flex gap-2">
-            <input type="text" id="chat-input" placeholder="Ask me anything..." class="flex-1 px-4 py-2 bg-slate-100 rounded-full text-sm outline-none focus:ring-2 focus:ring-brand-500 text-slate-800" onkeypress="handleChatKey(event)">
-            <button onclick="sendMessage()" class="p-2 w-10 h-10 bg-brand-600 text-white rounded-full hover:bg-brand-700 flex items-center justify-center transition shadow-md"><i class="fa-solid fa-paper-plane"></i></button>
+        <div class="typing-indicator" id="typing-indicator">Takwirira Assistant is thinking...</div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Type your question..." class="flex-1 px-3 py-2 bg-slate-100 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500 text-slate-800" onkeypress="handleChatKey(event)">
+            <button onclick="sendMessage()" class="p-2 text-brand-600 hover:bg-brand-50 rounded-lg transition"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
 
     <main class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8">
-        
+
         <div id="view-home" class="view-section active">
-            <div class="flex flex-col lg:flex-row items-center gap-12 min-h-[calc(100vh-140px)] justify-center py-4">
-                <div class="lg:w-1/2 space-y-6 animate-slide-up">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold uppercase tracking-wider">
-                        <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span> Opening Soon in Chipinge
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 min-h-[calc(100vh-140px)] justify-center py-4 lg:py-0">
+                
+                <div class="lg:w-1/2 space-y-6 animate-slide-up order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold uppercase tracking-wider shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
+                        Opening Soon in Chipinge
                     </div>
-                    <h1 class="text-5xl lg:text-7xl font-bold text-brand-900 leading-tight">The Future of <span class="text-brand-600">Oral Hygiene.</span></h1>
-                    <p class="text-lg text-slate-700 font-medium">Takwirira Dental offers a premium, non-surgical approach to dental care. No drills, just pure clean comfort right here in the CBD.</p>
-                    <div class="flex gap-4 pt-4">
-                        <button onclick="switchTab('services')" class="px-8 py-4 bg-brand-700 hover:bg-brand-800 text-white rounded-xl font-bold shadow-xl">Book Appointment</button>
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold text-brand-900 leading-[1.1]">
+                        The Future of <br> <span class="text-brand-600">Oral Hygiene.</span>
+                    </h1>
+                    <p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed w-full">
+                        Takwirira Dental offers a premium, non-surgical approach to dental care. No drills, just pure clean comfort right here in the CBD.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-8 text-sm text-brand-900 font-bold border-l-4 border-brand-500 pl-4 py-2 bg-brand-50/50 rounded-r-lg">
+                        <span class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600 text-lg"></i> Mon - Fri: 8am - 6pm</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-ban text-red-500 text-lg"></i> Weekends: Closed</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <button onclick="switchTab('services')" class="px-8 py-4 bg-brand-700 hover:bg-brand-800 text-white rounded-xl font-bold shadow-xl shadow-brand-200 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            Book Appointment <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('jobs')" class="px-8 py-4 bg-white hover:bg-slate-50 border-2 border-slate-200 text-brand-900 rounded-xl font-bold transition-all hover:-translate-y-1 text-center">
+                            We are Hiring
+                        </button>
                     </div>
                 </div>
-                <div class="lg:w-1/2 animate-slide-up"><img src="./HomeImage.png" onerror="this.src='https://placehold.co/600x500/e2e8f0/94a3b8?text=Takwirira+Dental'" class="rounded-[2rem] shadow-2xl border-8 border-white w-full"></div>
+
+                <div class="lg:w-1/2 w-full relative animate-slide-up order-1 lg:order-2" style="animation-delay: 0.1s;">
+                    <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white aspect-[4/3] lg:aspect-auto lg:h-[500px]">
+                        <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
+                             <img src="./HomeImage.png" onerror="this.style.display='none'" alt="Takwirira Dental Home" class="w-full h-full object-cover">
+                             <i class="fa-solid fa-tooth text-6xl opacity-20 absolute"></i>
+                        </div>
+                        
+                        <div class="absolute bottom-2 left-2 right-2 lg:bottom-6 lg:left-6 lg:right-auto bg-white/95 backdrop-blur p-3 lg:p-4 rounded-2xl shadow-lg flex items-center gap-3 lg:gap-4">
+                            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-full flex flex-shrink-0 items-center justify-center text-green-700 text-lg lg:text-xl">
+                                <i class="fa-solid fa-shield-heart"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-brand-900 leading-tight text-sm lg:text-base">Child-Friendly</p>
+                                <p class="text-[10px] lg:text-xs text-slate-600 font-semibold">Professional Care</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div id="view-services" class="view-section">
-            <div class="text-center mb-10"><h2 class="text-3xl font-bold text-brand-900">Services & Booking</h2></div>
-            <div class="grid lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-7 space-y-4">
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-brand-500" onclick="prefillService('Scale & Polish')">
-                        <div class="flex justify-between font-bold text-brand-900"><h3>Scale & Polish</h3><span>$50.00</span></div>
-                        <p class="text-sm text-slate-600">Full plaque removal and polish.</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-brand-500" onclick="prefillService('Teeth Whitening')">
-                        <div class="flex justify-between font-bold text-brand-900"><h3>Teeth Whitening</h3><span>$150.00</span></div>
-                        <p class="text-sm text-slate-600">Professional in-chair whitening.</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-brand-500" onclick="prefillService('Fluoride')">
-                        <div class="flex justify-between font-bold text-brand-900"><h3>Fluoride Treatment</h3><span>$25.00</span></div>
-                        <p class="text-sm text-slate-600">High concentration varnish.</p>
-                    </div>
-                </div>
+            <div class="text-center mb-10 animate-slide-up">
+                <h2 class="text-3xl font-bold text-brand-900">Select Service & Book</h2>
+                <p class="text-slate-600 font-medium">Choose from our list of 10 specialized services.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start mb-16">
                 
-                <div class="lg:col-span-5">
-                     <div id="booking-container" class="bg-white rounded-3xl shadow-xl p-6 border border-slate-100 sticky top-28">
-                        <h3 class="font-bold text-xl mb-4">Book Your Slot</h3>
-                        <form class="space-y-4">
-                            <input type="text" id="single-name" placeholder="Name" class="w-full px-4 py-3 bg-slate-50 border rounded-xl">
-                            <input type="tel" id="single-phone" placeholder="Phone" class="w-full px-4 py-3 bg-slate-50 border rounded-xl">
-                            <input type="date" id="single-date" class="w-full px-4 py-3 bg-slate-50 border rounded-xl">
-                            <select id="single-service" class="w-full px-4 py-3 bg-slate-50 border rounded-xl">
-                                <option>Scale & Polish</option><option>Whitening</option><option>Fluoride</option>
-                            </select>
-                            <button type="button" onclick="submitSingleBooking()" class="w-full py-4 bg-brand-900 text-white font-bold rounded-xl hover:bg-slate-900">Request via WhatsApp</button>
-                        </form>
-                     </div>
+                <div class="lg:col-span-7 space-y-8 animate-slide-up" style="animation-delay: 0.1s;">
+                    
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Routine & Preventative</span>
+                        
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Fluoride & Sealants')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-child-reaching"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">1. Fluoride & Sealants</h3>
+                                        <span class="text-lg font-bold text-brand-700">$25.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">High-concentration varnish application to protect young teeth.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Scale & Polish')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">2. Scale & Polish</h3>
+                                        <span class="text-lg font-bold text-brand-700">$50.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Full plaque removal and polish. Standard hygiene session.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Breath Consultation')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-wind"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">3. Breath Consultation</h3>
+                                        <span class="text-lg font-bold text-brand-700">$30.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Diagnosis and treatment plan for halitosis (bad breath).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Cosmetic</span>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Stain Removal')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">4. Stain Removal</h3>
+                                        <span class="text-lg font-bold text-brand-700">$60.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Cosmetic air-polishing for heavy coffee/tobacco stains.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Teeth Whitening')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-regular fa-gem"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">5. Teeth Whitening</h3>
+                                        <span class="text-lg font-bold text-brand-700">$150.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Professional in-chair whitening for a brighter smile.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Therapeutic & Medical</span>
+
+                        <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md hover:shadow-lg transition-all group cursor-pointer text-white mb-4" onclick="prefillService('Deep Cleaning')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-tooth"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-white">6. Deep Cleaning (SRP)</h3>
+                                        <span class="text-lg font-bold text-brand-200">$120.00</span>
+                                    </div>
+                                    <p class="text-slate-200 text-sm font-medium">Periodontal scaling and root planing for gum disease.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Periodontal Maintenance')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">7. Periodontal Maintenance</h3>
+                                        <span class="text-lg font-bold text-brand-700">$80.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Specialized 3-month follow-up cleaning for gum health.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Sensitivity Treatment')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">8. Sensitivity Treatment</h3>
+                                        <span class="text-lg font-bold text-brand-700">$40.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Application of desensitizing agents for sensitive teeth.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Custom Appliances</span>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Sports Mouth Guard')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">9. Sports Mouth Guard</h3>
+                                        <span class="text-lg font-bold text-brand-700">$90.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Custom-fitted guard for rugby, hockey, and contact sports.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Night Guard')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-indigo-900 text-indigo-100 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-moon"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">10. Night Guard</h3>
+                                        <span class="text-lg font-bold text-brand-700">$100.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Protective guard for teeth grinding (bruxism) while sleeping.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="lg:col-span-5 relative space-y-6">
+                    
+                    <div id="booking-container" class="bg-white rounded-3xl shadow-xl shadow-slate-200 border border-slate-100 animate-slide-up lg:sticky lg:top-28" style="animation-delay: 0.2s;">
+                        
+                        <div class="flex border-b border-slate-200">
+                            <button onclick="switchBookingType('single')" id="tab-btn-single" class="booking-tab active w-1/2 py-4 text-sm font-bold rounded-tl-3xl text-center">
+                                <i class="fa-regular fa-calendar-check mr-2"></i> Single Visit
+                            </button>
+                            <button onclick="switchBookingType('plan')" id="tab-btn-plan" class="booking-tab w-1/2 py-4 text-sm font-bold text-slate-500 rounded-tr-3xl text-center hover:bg-slate-50">
+                                <i class="fa-solid fa-rotate mr-2"></i> Maintenance Plan
+                            </button>
+                        </div>
+
+                        <div class="p-8">
+                            
+                            <div class="bg-green-50 border border-green-200 rounded-xl p-3 mb-6 flex items-start gap-2">
+                                <i class="fa-regular fa-clock text-green-700 mt-1 flex-shrink-0"></i>
+                                <p class="text-xs text-green-900 font-bold">We will respond within 15 minutes if booked on a business day.</p>
+                            </div>
+
+                            <form id="form-single" class="space-y-4">
+                                <div>
+                                    <label class="text-xs font-bold text-brand-900 uppercase">Your Name</label>
+                                    <input type="text" id="single-name" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="e.g. Tawanda Moyo">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs font-bold text-brand-900 uppercase">Phone</label>
+                                        <input type="tel" id="single-phone" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="+263...">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-brand-900 uppercase">Date</label>
+                                        <input type="date" id="single-date" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="text-xs font-bold text-brand-900 uppercase">Preferred Time</label>
+                                    <input type="time" id="single-time" min="08:00" max="18:00" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                    <p class="text-[10px] text-brand-700 font-semibold mt-1">Mon-Fri: 08:00 AM to 06:00 PM</p>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-brand-900 uppercase">Service</label>
+                                    <select id="single-service" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                        <option value="" disabled selected>Select a service...</option>
+                                        <option value="Fluoride & Sealants">1. Fluoride & Sealants ($25)</option>
+                                        <option value="Scale & Polish">2. Scale & Polish ($50)</option>
+                                        <option value="Breath Consultation">3. Breath Consultation ($30)</option>
+                                        <option value="Stain Removal">4. Stain Removal ($60)</option>
+                                        <option value="Teeth Whitening">5. Teeth Whitening ($150)</option>
+                                        <option value="Deep Cleaning">6. Deep Cleaning ($120)</option>
+                                        <option value="Periodontal Maintenance">7. Periodontal Maintenance ($80)</option>
+                                        <option value="Sensitivity Treatment">8. Sensitivity Treatment ($40)</option>
+                                        <option value="Sports Mouth Guard">9. Sports Mouth Guard ($90)</option>
+                                        <option value="Night Guard">10. Night Guard ($100)</option>
+                                        <option value="Consultation">General Consultation</option>
+                                    </select>
+                                </div>
+
+                                <button type="button" onclick="submitSingleBooking()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-brand-900">
+                                    <i class="fa-brands fa-whatsapp"></i> Request Appointment
+                                </button>
+                            </form>
+
+                            <form id="form-plan" class="space-y-4 hidden">
+                                <div>
+                                    <label class="text-xs font-bold text-brand-900 uppercase">Your Name</label>
+                                    <input type="text" id="plan-name" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="e.g. Tawanda Moyo">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs font-bold text-brand-900 uppercase">Phone</label>
+                                        <input type="tel" id="plan-phone" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="+263...">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-brand-900 uppercase">First Date</label>
+                                        <input type="date" id="plan-date" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="text-xs font-bold text-brand-900 uppercase mb-2 block">Select Frequency Plan</label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Quarterly (Every 3 Months)', '35')">
+                                            <div class="absolute top-0 right-0 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-bl-lg rounded-tr-lg shadow-sm">BEST VALUE</div>
+                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Quarterly</div>
+                                            <div class="text-xl font-bold text-brand-700">$35<span class="text-xs text-slate-400 font-medium">/visit</span></div>
+                                            <div class="text-[10px] text-slate-400">4 visits per year</div>
+                                        </div>
+                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Tri-Annual (Every 4 Months)', '40')">
+                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Tri-Annual</div>
+                                            <div class="text-xl font-bold text-brand-700">$40<span class="text-xs text-slate-400 font-medium">/visit</span></div>
+                                            <div class="text-[10px] text-slate-400">3 visits per year</div>
+                                        </div>
+                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Bi-Annual (Every 6 Months)', '45')">
+                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Bi-Annual</div>
+                                            <div class="text-xl font-bold text-brand-700">$45<span class="text-xs text-slate-400 font-medium">/visit</span></div>
+                                            <div class="text-[10px] text-slate-400">2 visits per year</div>
+                                        </div>
+                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Annual (Every 12 Months)', '50')">
+                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Annual</div>
+                                            <div class="text-xl font-bold text-brand-700">$50<span class="text-xs text-slate-400 font-medium">/visit</span></div>
+                                            <div class="text-[10px] text-slate-400">1 visit per year</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="selected-plan-name">
+                                    <input type="hidden" id="selected-plan-price">
+                                </div>
+
+                                <button type="button" onclick="submitPlanBooking()" class="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-green-700">
+                                    <i class="fa-brands fa-whatsapp"></i> Subscribe to Plan
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="view-rewards" class="view-section">
-            <div class="text-center"><h2 class="text-3xl font-bold text-brand-900">Rewards Program</h2><p>Coming Soon.</p></div>
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden animate-slide-up mb-12 h-full min-h-[500px] flex flex-col justify-center">
+                <div class="absolute -top-10 -right-10 w-96 h-96 bg-gold-400 rounded-full blur-[120px] opacity-10"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-500 rounded-full blur-[100px] opacity-10"></div>
+
+                <div class="relative z-10 text-center mb-10">
+                    <span class="inline-block px-4 py-1 rounded-full border border-gold-600/30 bg-gold-900/20 text-gold-400 text-xs font-bold uppercase tracking-widest mb-4">Loyalty Program</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Takwirira Rewards</h2>
+                    <p class="text-slate-400 max-w-xl mx-auto text-lg">Share the love of a healthy smile. Our referral program is designed to give back to our community champions.</p>
+                </div>
+
+                <div class="relative z-10 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition duration-300">
+                        <div class="flex items-start gap-5">
+                            <div class="w-14 h-14 bg-brand-500/20 rounded-xl flex items-center justify-center text-brand-400 text-2xl flex-shrink-0 border border-brand-500/30">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-xl mb-2">Refer 5 People</h4>
+                                <p class="text-slate-300 mb-4 leading-relaxed">When 5 friends you refer book and complete a visit, you instantly qualify for a reward.</p>
+                                <div class="inline-block bg-brand-900/50 border border-brand-700/50 rounded-lg px-4 py-2">
+                                    <span class="text-brand-300 text-sm font-bold">Reward:</span> <span class="text-white font-bold">$30 Cash OR Free Cleaning</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-gold-900/40 to-slate-900 border border-gold-500/30 rounded-2xl p-6 backdrop-blur-sm hover:border-gold-500/50 transition duration-300 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 bg-gold-500 text-slate-900 text-[10px] font-bold px-3 py-1 rounded-bl-xl">VIP STATUS</div>
+                        <div class="flex items-start gap-5">
+                            <div class="w-14 h-14 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center text-white text-2xl flex-shrink-0 shadow-lg shadow-gold-900/50">
+                                <i class="fa-regular fa-credit-card"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-xl mb-2">The TakwiriraCard</h4>
+                                <p class="text-slate-300 mb-4 leading-relaxed">For the super-connectors. Refer 20 people to unlock our exclusive pre-loaded debit card.</p>
+                                <div class="inline-block bg-gold-900/40 border border-gold-700/40 rounded-lg px-4 py-2">
+                                    <span class="text-gold-300 text-sm font-bold">Value:</span> <span class="text-white font-bold">$100 for Local Shopping</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-2 italic">*Valid at participating Chipinge stores & restaurants.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
         <div id="view-jobs" class="view-section">
-             <div class="text-center mb-10"><h2 class="text-3xl font-bold text-brand-900">We Are Hiring</h2></div>
-             <div class="grid md:grid-cols-2 gap-6">
-                 <div class="bg-white p-6 rounded-2xl border shadow-sm">
-                     <h3 class="font-bold text-xl text-brand-900">Dental Hygienist</h3>
-                     <p class="text-sm text-slate-600 mb-4">Registered professional needed.</p>
-                     <button onclick="switchTab('job-apply')" class="w-full py-2 bg-brand-100 text-brand-700 font-bold rounded-lg">Apply Now</button>
-                 </div>
-                 <div class="bg-white p-6 rounded-2xl border shadow-sm">
-                     <h3 class="font-bold text-xl text-brand-900">Internship</h3>
-                     <p class="text-sm text-slate-600 mb-4">Student program with school fees support.</p>
-                     <button onclick="switchTab('intern-apply')" class="w-full py-2 bg-brand-100 text-brand-700 font-bold rounded-lg">Apply Now</button>
-                 </div>
-             </div>
+            <div class="text-center mb-12 animate-slide-up">
+                <span class="text-brand-600 font-bold tracking-widest text-xs uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Careers & Training</span>
+                <h2 class="text-3xl font-bold text-brand-900 mt-4">Join the Takwirira Family</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 animate-slide-up" style="animation-delay: 0.1s;">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-tooth"></i></div>
+                            <span class="bg-red-50 text-red-700 border border-red-200 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-900 mb-2">Dental Hygienist</h3>
+                        <p class="text-slate-700 mb-6 text-sm font-medium">Professional needed for scaling, polishing, and patient education. Must be registered.</p>
+                    </div>
+                    <button onclick="openJobApplication('Dental Hygienist')" class="w-full py-3 bg-brand-700 text-white font-bold rounded-xl hover:bg-brand-800 transition flex items-center justify-center gap-2 shadow-lg shadow-brand-200">
+                        Apply Now
+                    </button>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-broom"></i></div>
+                            <span class="bg-red-50 text-red-700 border border-red-200 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-900 mb-2">General Cleaning Assistant</h3>
+                        <p class="text-slate-700 mb-6 text-sm font-medium">Morning to evening shift. Responsible for sterilization of workspace and general facility cleanliness.</p>
+                    </div>
+                    <button onclick="openJobApplication('General Cleaning Assistant')" class="w-full py-3 bg-brand-700 text-white font-bold rounded-xl hover:bg-brand-800 transition flex items-center justify-center gap-2 shadow-lg shadow-brand-200">
+                        Apply Now
+                    </button>
+                </div>
+
+                <div class="bg-blue-50 p-8 rounded-2xl border border-blue-200 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <span class="bg-blue-200 text-blue-800 border border-blue-300 text-xs font-bold px-2 py-1 rounded">Training</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-900 mb-2">Dental Hygiene Trainee</h3>
+                        <p class="text-slate-700 mb-4 text-sm font-medium">Learn the theory of Dental Hygiene with us. Pass the exam to get a Certificate and a job offer.</p>
+                        
+                        <div class="bg-white/60 p-3 rounded-xl border border-blue-100 mb-6">
+                            <p class="text-xs font-bold text-slate-500 uppercase mb-1">Requirements</p>
+                            <p class="text-xs text-brand-900 font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-check text-green-600"></i> 3 'O' Levels (Inc. Science)
+                            </p>
+                        </div>
+                    </div>
+                    <button onclick="openJobApplication('Dental Hygiene Training')" class="w-full py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition flex items-center justify-center gap-2 shadow-sm border border-blue-200">
+                        Apply for Training
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-12 animate-slide-up" style="animation-delay: 0.2s;">
+                <i class="fa-solid fa-graduation-cap absolute -right-10 -bottom-10 text-[12rem] text-white opacity-5"></i>
+                <div class="relative z-10 md:flex items-center justify-between gap-10">
+                    <div class="md:w-2/3">
+                        <div class="inline-block bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full mb-4">STUDENT PROGRAM</div>
+                        <h3 class="text-3xl font-bold mb-4 text-white">Patient Wellness Intern</h3>
+                        <p class="text-blue-100 mb-6 text-lg font-medium">Help us manage patient care while we help you build your future. This is a mentorship program designed for youth.</p>
+                        
+                        <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+                            <h4 class="font-bold text-yellow-300 mb-4 text-sm uppercase">Benefits Package:</h4>
+                            <div class="grid sm:grid-cols-2 gap-4 text-sm font-medium text-blue-50">
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-school"></i></div> Free school fees for 1 term</div>
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-shirt"></i></div> Free school uniforms for 1 term</div>
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-pen-ruler"></i></div> Term Stationery</div>
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center"><i class="fa-solid fa-money-bill"></i></div> $100 Cash Stipend</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/3 mt-8 md:mt-0">
+                        <button onclick="switchTab('intern-apply')" class="w-full py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-blue-50 transition shadow-lg border-2 border-white/20">Apply Now</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
         <div id="view-job-apply" class="view-section">
-            <div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
-                <button onclick="switchTab('jobs')" class="mb-4 text-sm font-bold text-slate-500">< Back</button>
-                <h2 class="text-2xl font-bold mb-6">Quick Application</h2>
-                <input type="text" id="app-name" placeholder="Full Name" class="w-full mb-4 px-4 py-3 border rounded-xl">
-                <textarea id="app-question" rows="4" placeholder="Why are you a good fit?" class="w-full mb-4 px-4 py-3 border rounded-xl"></textarea>
-                <button onclick="submitJobApplication()" class="w-full py-3 bg-brand-900 text-white font-bold rounded-xl">Send Application</button>
+            <div class="max-w-4xl mx-auto animate-slide-up">
+                <button onclick="switchTab('jobs')" class="mb-6 flex items-center text-slate-600 hover:text-brand-700 transition font-bold">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Jobs
+                </button>
+                
+                <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-200">
+                    <div class="mb-10 pb-6 border-b border-slate-200">
+                        <h2 class="text-2xl font-bold text-brand-900">Online Application</h2>
+                        <p class="text-slate-600 mt-2 font-medium">Complete this form to apply via email. WhatsApp is reserved for queries only.</p>
+                    </div>
+
+                    <form id="job-app-form" class="space-y-8">
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-brand-900 uppercase mb-2 tracking-wide">Position Applying For</label>
+                            <input type="text" id="app-position" class="w-full px-4 py-3 bg-slate-100 border border-slate-300 rounded-xl text-brand-800 font-bold" readonly>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-brand-900 mb-2">Full Name</label>
+                                <input type="text" id="app-name" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Your Name" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-brand-900 mb-2">Phone Number</label>
+                                <input type="tel" id="app-phone" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="+263..." required>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                            <h3 class="text-lg font-bold text-brand-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-briefcase text-brand-600"></i> Employment History (Last 3 Jobs)
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-4 italic">If applying for training and you have no history, leave this section blank.</p>
+                            
+                            <div class="mb-4">
+                                <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Most Recent Job</label>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <input type="text" id="job1-pos" placeholder="Position" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                    <input type="text" id="job1-emp" placeholder="Employer Name" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                    <input type="number" id="job1-dur" placeholder="Months Worked" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Previous Job 2</label>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <input type="text" id="job2-pos" placeholder="Position" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                    <input type="text" id="job2-emp" placeholder="Employer Name" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                    <input type="number" id="job2-dur" placeholder="Months Worked" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Previous Job 3</label>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <input type="text" id="job3-pos" placeholder="Position" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                    <input type="text" id="job3-emp" placeholder="Employer Name" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                    <input type="number" id="job3-dur" placeholder="Months Worked" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-sm font-bold text-brand-900" id="question-label">Assessment Question</label>
+                                <button type="button" onclick="generateApplicationDraft('app-question')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 opacity-50 cursor-not-allowed">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Offline
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-3 font-semibold" id="question-hint">"Why are you the best fit for this role?" (Max 500 words)</p>
+                            <textarea id="app-question" rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Type your answer here..." required></textarea>
+                        </div>
+
+                        <div>
+                            <button type="button" onclick="submitJobApplication()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                                <i class="fa-regular fa-paper-plane text-xl"></i> Submit Application via Email
+                            </button>
+                            <p class="text-center text-xs text-slate-500 mt-2 font-medium">Clicking submit will open your email app. Please attach your CV before sending.</p>
+                            
+                            <div class="mt-4 text-center">
+                                <button type="button" onclick="notifyReception()" class="text-sm text-brand-700 font-bold hover:underline flex items-center justify-center gap-2 mx-auto">
+                                    <i class="fa-brands fa-whatsapp"></i> Notify Reception via WhatsApp (After Emailing)
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        
+
         <div id="view-intern-apply" class="view-section">
-            <div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
-                <button onclick="switchTab('jobs')" class="mb-4 text-sm font-bold text-slate-500">< Back</button>
-                <h2 class="text-2xl font-bold mb-6">Internship Application</h2>
-                <input type="text" id="intern-fname" placeholder="Full Name" class="w-full mb-4 px-4 py-3 border rounded-xl">
-                <textarea id="intern-statement" rows="4" placeholder="Your story..." class="w-full mb-4 px-4 py-3 border rounded-xl"></textarea>
-                <button onclick="submitInternApplication()" class="w-full py-3 bg-brand-900 text-white font-bold rounded-xl">Send Application</button>
-            </div>
-        </div>
-        
-        <div id="view-about" class="view-section">
-            <div class="text-center max-w-2xl mx-auto">
-                <h2 class="text-3xl font-bold text-brand-900 mb-4">Licensed & Safe</h2>
-                <p>Takwirira Dental is a fully licensed oral hygiene centre. We prioritize sterility, education, and gentle care.</p>
+            <div class="max-w-2xl mx-auto animate-slide-up">
+                <button onclick="switchTab('jobs')" class="mb-6 flex items-center text-slate-600 hover:text-brand-700 transition font-bold">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Jobs
+                </button>
+                
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-200">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-brand-900">Internship Application</h2>
+                        <p class="text-slate-600 mt-2 font-medium">Submit your personal statement to our team.</p>
+                    </div>
+
+                    <form id="intern-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-brand-900 mb-2">First Name (as on ID)</label>
+                                <input type="text" id="intern-fname" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="First Name" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-brand-900 mb-2">Last Name (as on ID)</label>
+                                <input type="text" id="intern-lname" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Last Name" required>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
+                            <div class="flex h-6 items-center">
+                                <input id="no-id-check" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-brand-600 focus:ring-brand-600 custom-checkbox cursor-pointer">
+                            </div>
+                            <div class="text-sm">
+                                <label for="no-id-check" class="font-bold text-brand-900 cursor-pointer">I have no ID or birth certificate.</label>
+                                <p class="text-slate-600 mt-1 font-medium">We do not discriminate against children or undocumented youths. You are still welcome to apply.</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-sm font-bold text-brand-900">Personal Statement</label>
+                                <button type="button" onclick="generateApplicationDraft('intern-statement')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 opacity-50 cursor-not-allowed">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Offline
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-3 font-medium">Why do you think an internship at Takwirira will be helpful to you? Share your career goals with us, and any struggles you faced in your life.</p>
+                            <textarea id="intern-statement" rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Type your story here..." required></textarea>
+                        </div>
+
+                        <button type="button" onclick="submitInternApplication()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95">
+                            <i class="fa-regular fa-paper-plane mr-2"></i> Send Application via Email
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 
         <div id="view-reviews" class="view-section">
             <div class="text-center mb-12 animate-slide-up">
                 <h2 class="text-3xl font-bold text-brand-900">Patient Stories</h2>
-                <p class="text-slate-600 font-medium">Authentic feedback from our community.</p>
+                <p class="text-slate-600 font-medium">Real experiences from our community.</p>
             </div>
 
             <div class="max-w-4xl mx-auto">
@@ -264,6 +974,58 @@
             </div>
         </div>
 
+        <div id="view-about" class="view-section">
+            <div class="max-w-4xl mx-auto animate-slide-up">
+                <div class="text-center mb-12">
+                    <span class="text-brand-600 font-bold tracking-widest text-xs uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Who We Are</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-900 mt-4 mb-4">Licensed. Safe. Sterile.</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                        We are a fully licensed oral hygiene centre dedicated to serving the people of Chipinge.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 bg-blue-50 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                        <i class="fa-solid fa-pump-medical text-4xl text-brand-600 mb-6 relative z-10"></i>
+                        <h3 class="text-xl font-bold text-brand-900 mb-3 relative z-10">Uncompromised Safety</h3>
+                        <p class="text-slate-600 relative z-10">
+                            Our spaces are spotless. We adhere to strict sterilization protocols because we care about your safety above all else. A clean clinic is a safe clinic.
+                        </p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative overflow-hidden group">
+                         <div class="absolute top-0 right-0 bg-green-50 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                        <i class="fa-solid fa-user-nurse text-4xl text-green-600 mb-6 relative z-10"></i>
+                        <h3 class="text-xl font-bold text-brand-900 mb-3 relative z-10">Expert Hands</h3>
+                        <p class="text-slate-600 relative z-10">
+                            Our helpers are highly trained and good at what they do. We treat every patient with gentleness, dignity, and professional expertise.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-brand-900 to-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
+                    <i class="fa-solid fa-heart-crack absolute -right-10 -bottom-10 text-[10rem] text-white opacity-5"></i>
+                    <div class="relative z-10 text-center">
+                        <h3 class="text-2xl md:text-3xl font-bold mb-6">Our Core Mission</h3>
+                        <p class="text-blue-100 text-lg md:text-xl leading-relaxed font-medium mb-8">
+                            "We are here to serve and to educate. We need everyone to understand that bad oral hygiene affects your lifespan. We are here to ensure people do not suffer simply because of a lack of knowledge."
+                        </p>
+                        <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+                            <i class="fa-solid fa-book-medical text-yellow-400"></i>
+                            <span class="text-sm font-bold">Education Saves Lives</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 flex justify-center">
+                      <div class="flex items-center gap-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                        <i class="fa-solid fa-certificate text-4xl text-brand-600"></i>
+                        <div class="text-left">
+                            <p class="text-xs font-bold uppercase text-slate-400">Officially Registered</p>
+                            <p class="text-sm font-bold text-slate-600">Licensed Oral Hygiene Centre</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
@@ -280,16 +1042,88 @@
             document.getElementById('mobile-menu').classList.add('hidden');
         }
 
-        function prefillService(name) {
-            switchTab('services');
-            document.getElementById('single-service').value = name;
-            document.getElementById('booking-container').scrollIntoView({ behavior: 'smooth' });
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 2. REVIEW SYSTEM (LOCALSTORAGE) ---
-        // Empty array by default - no fake reviews.
+        // --- 2. BOOKING WIDGET LOGIC ---
+        function switchBookingType(type) {
+            const singleTab = document.getElementById('tab-btn-single');
+            const planTab = document.getElementById('tab-btn-plan');
+            const singleForm = document.getElementById('form-single');
+            const planForm = document.getElementById('form-plan');
+
+            if(type === 'single') {
+                singleTab.classList.add('active', 'bg-brand-900', 'text-white');
+                singleTab.classList.remove('text-slate-500', 'hover:bg-slate-50');
+                planTab.classList.remove('active', 'bg-brand-900', 'text-white');
+                planTab.classList.add('text-slate-500', 'hover:bg-slate-50');
+                singleForm.classList.remove('hidden');
+                planForm.classList.add('hidden');
+            } else {
+                planTab.classList.add('active', 'bg-brand-900', 'text-white');
+                planTab.classList.remove('text-slate-500', 'hover:bg-slate-50');
+                singleTab.classList.remove('active', 'bg-brand-900', 'text-white');
+                singleTab.classList.add('text-slate-500', 'hover:bg-slate-50');
+                planForm.classList.remove('hidden');
+                singleForm.classList.add('hidden');
+            }
+        }
+
+        function prefillService(serviceName) {
+            switchBookingType('single');
+            document.getElementById('single-service').value = serviceName;
+            const widget = document.getElementById('booking-container');
+            const offsetTop = widget.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            widget.classList.add('ring-4', 'ring-brand-400');
+            setTimeout(() => widget.classList.remove('ring-4', 'ring-brand-400'), 1000);
+        }
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('single-date').min = today;
+        document.getElementById('plan-date').min = today;
+
+        function submitSingleBooking() {
+            const name = document.getElementById('single-name').value.trim();
+            const phone = document.getElementById('single-phone').value.trim();
+            const service = document.getElementById('single-service').value;
+            const date = document.getElementById('single-date').value;
+            const time = document.getElementById('single-time').value;
+
+            if(!name || !phone || !service || !date || !time) {
+                alert("Please fill in all fields.");
+                return;
+            }
+            const message = `*New Appointment Request* 🦷\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}\n*Date:* ${date}\n*Time:* ${time}`;
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function selectPlanCard(element, name, price) {
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('border-brand-600', 'ring-2', 'ring-brand-200', 'bg-brand-50');
+            });
+            element.classList.add('border-brand-600', 'ring-2', 'ring-brand-200', 'bg-brand-50');
+            document.getElementById('selected-plan-name').value = name;
+            document.getElementById('selected-plan-price').value = price;
+        }
+
+        function submitPlanBooking() {
+            const name = document.getElementById('plan-name').value.trim();
+            const phone = document.getElementById('plan-phone').value.trim();
+            const date = document.getElementById('plan-date').value;
+            const planName = document.getElementById('selected-plan-name').value;
+            if(!name || !phone || !date || !planName) {
+                alert("Please complete the form.");
+                return;
+            }
+            const message = `*Maintenance Plan Subscription*\n*Name:* ${name}\n*Plan:* ${planName}\n*Start Date:* ${date}`;
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // --- 3. LOCAL REVIEW SYSTEM ---
         function getReviews() {
-            const saved = localStorage.getItem('takwirira_reviews_v1');
+            const saved = localStorage.getItem('takwirira_reviews_v2');
             return saved ? JSON.parse(saved) : []; 
         }
 
@@ -308,11 +1142,9 @@
                 return;
             }
 
-            // Calculate Stats
             const total = reviews.reduce((acc, r) => acc + r.stars, 0);
             const avg = (total / reviews.length).toFixed(1);
             
-            // Build Stars HTML
             const starsHTML = (score) => {
                 return '<i class="fa-solid fa-star text-yellow-400"></i>'.repeat(score) + 
                        '<i class="fa-regular fa-star text-slate-200"></i>'.repeat(5 - score);
@@ -356,20 +1188,18 @@
             };
 
             const reviews = getReviews();
-            reviews.unshift(newReview); // Add to top
-            localStorage.setItem('takwirira_reviews_v1', JSON.stringify(reviews));
+            reviews.unshift(newReview);
+            localStorage.setItem('takwirira_reviews_v2', JSON.stringify(reviews));
             
             renderReviews();
             e.target.reset();
             alert("Thank you! Your review has been saved locally.");
         });
 
-        // Initialize Reviews
         renderReviews();
 
-        // --- 3. ADVANCED "LOCAL BRAIN" AI ---
-        // This is the "LLM-Like" Keyword Scorer
-        
+        // --- 4. ADVANCED "LOCAL BRAIN" AI ---
+        // Expanded knowledge base with scoring for "LLM-like" accuracy
         const knowledgeBase = [
             // PRIORITY 1: Specific Service Prices
             { keys: ["scale", "polish", "cleaning price", "wash teeth"], score: 2, text: "A Scale & Polish is **$50**. This removes plaque and tartar. It's our most popular service!" },
@@ -377,17 +1207,21 @@
             { keys: ["fluoride"], score: 2, text: "Fluoride treatment is **$25**. It's great for strengthening enamel, especially for children." },
             { keys: ["deep", "root", "gum disease"], score: 2, text: "Deep Cleaning (SRP) is **$120**. This is a medical treatment for gum disease." },
             { keys: ["guard", "grinding", "sport"], score: 2, text: "We make custom Mouth Guards. Sports guards are **$90** and Night Guards for grinding are **$100**." },
+            { keys: ["breath", "smell", "stink", "halitosis"], score: 2, text: "Bad breath is often caused by bacteria on the tongue or gums. Book our specific **'Breath Consultation' ($30)** to find the root cause." },
 
             // PRIORITY 2: General Categories
-            { keys: ["price", "cost", "how much", "money", "$", "rates"], score: 1, text: "Here is a quick price list:\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $20-$30\n• Kids Fluoride: $25\n\nSee the 'Services' tab for more!" },
+            { keys: ["price", "cost", "how much", "money", "$", "rates"], score: 1, text: "Here is a quick price list:\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $30\n• Kids Fluoride: $25\n\nSee the 'Services' tab for more!" },
             { keys: ["book", "appoint", "schedule", "slot", "visit", "reserve"], score: 1, text: "You can book easily! Just go to the **'Services & Booking'** tab on this page, or tell me your name and phone number here and I'll generate a WhatsApp link." },
-            { keys: ["location", "where", "address", "find", "map"], score: 1, text: "We are located in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. It's easy to find!" },
+            { keys: ["location", "where", "address", "find", "map", "chipinge"], score: 1, text: "We are located in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. It's easy to find!" },
             { keys: ["hour", "open", "time", "close", "day", "weekend"], score: 1, text: "We are open **Monday to Friday**, 8:00 AM to 6:00 PM. We are closed on weekends." },
+            { keys: ["pay", "cash", "usd", "swipe", "ecocash"], score: 1, text: "We accept USD Cash, EcoCash, and Swipe. Short on cash? Ask about our maintenance plans!" },
             
             // PRIORITY 3: Medical/Jobs/Etc
             { keys: ["job", "work", "hiring", "vacancy", "cv"], score: 1, text: "Yes, we are hiring! Please check the **'Jobs'** tab to see open positions for Hygienists and Cleaners." },
             { keys: ["intern", "student", "learn", "attachment"], score: 1, text: "We have a Student Wellness Internship! It helps with school fees. Check the 'Jobs' tab to apply." },
             { keys: ["pain", "hurt", "blood", "emergency", "ache"], score: 3, text: "🚨 If you are in pain, please book a slot immediately or visit us. Do not wait. If it is an emergency, message us on WhatsApp directly." },
+            { keys: ["child", "kid", "baby"], score: 1, text: "We love kids! We recommend bringing them in early (from age 1) to get used to the environment. We are very gentle." },
+            { keys: ["safe", "clean", "sterile"], score: 1, text: "Your safety is #1. We use hospital-grade sterilization for every single tool and surface. It is the cleanest spot in Chipinge!" },
             
             // PRIORITY 4: Greetings
             { keys: ["hello", "hi", "hey", "morning", "afternoon"], score: 0.5, text: "Hello there! 👋 How can I help your smile today? You can ask me about prices, booking, or services." },
@@ -453,26 +1287,67 @@
             document.getElementById('chat-messages').scrollTop = 9999;
         }
 
-        // --- 4. FORM HANDLERS ---
-        function submitSingleBooking() {
-            const n = document.getElementById('single-name').value;
-            const s = document.getElementById('single-service').value;
-            if(!n) return alert("Please enter your name.");
-            window.open(`https://wa.me/263788643858?text=Booking Request: ${n} for ${s}`, '_blank');
+        // --- 5. JOB & INTERN FORMS ---
+        function openJobApplication(pos) {
+            document.getElementById('app-position').value = pos;
+            switchTab('job-apply');
+            
+            const qHint = document.getElementById('question-hint');
+            const qArea = document.getElementById('app-question');
+            const qLabel = document.getElementById('question-label');
+            
+            if(pos.includes("Training")) {
+                qLabel.innerText = "Education & Results";
+                qHint.innerText = "Please list your 'O' Level subjects and grades here (Must include Science).";
+                qArea.placeholder = "Example:\nScience: B\nMaths: C\nEnglish: B...";
+            } else {
+                qLabel.innerText = "Assessment Question";
+                qHint.innerText = "\"Why are you the best fit for this role?\" (Max 500 words)";
+                qArea.placeholder = "Type your answer here...";
+            }
+        }
+
+        function generateApplicationDraft(targetId) {
+            alert("AI Drafting is currently offline. Please write your own amazing answer!");
         }
 
         function submitJobApplication() {
-            const n = document.getElementById('app-name').value;
-            const q = document.getElementById('app-question').value;
-            if(!n) return alert("Please enter your name.");
-            window.location.href = `mailto:info@takwiriradental.co.zw?subject=Job App: ${n}&body=${q}`;
+            const pos = document.getElementById('app-position').value;
+            const name = document.getElementById('app-name').value.trim();
+            const phone = document.getElementById('app-phone').value.trim();
+            const question = document.getElementById('app-question').value.trim();
+            
+            if(!name || !phone || !question) { alert("Please fill in all required fields."); return; }
+
+            const j1 = { p: document.getElementById('job1-pos').value, e: document.getElementById('job1-emp').value, d: document.getElementById('job1-dur').value };
+            const j2 = { p: document.getElementById('job2-pos').value, e: document.getElementById('job2-emp').value, d: document.getElementById('job2-dur').value };
+            const j3 = { p: document.getElementById('job3-pos').value, e: document.getElementById('job3-emp').value, d: document.getElementById('job3-dur').value };
+
+            let body = `APPLICATION FOR: ${pos}\n\nAPPLICANT DETAILS:\nName: ${name}\nPhone: ${phone}\n\n--- EMPLOYMENT HISTORY ---\n`;
+            if(j1.p) body += `1. ${j1.p} at ${j1.e} (${j1.d} months)\n`;
+            if(j2.p) body += `2. ${j2.p} at ${j2.e} (${j2.d} months)\n`;
+            if(j3.p) body += `3. ${j3.p} at ${j3.e} (${j3.d} months)\n`;
+            body += `\n--- ANSWER / EDUCATION ---\n\n${question}`;
+
+            window.location.href = `mailto:info@takwiriradental.co.zw?subject=Job App: ${name}&body=${encodeURIComponent(body)}`;
         }
         
         function submitInternApplication() {
-            const n = document.getElementById('intern-fname').value;
-            const q = document.getElementById('intern-statement').value;
-            if(!n) return alert("Please enter your name.");
-            window.location.href = `mailto:info@takwiriradental.co.zw?subject=Intern App: ${n}&body=${q}`;
+             const fname = document.getElementById('intern-fname').value.trim();
+             const lname = document.getElementById('intern-lname').value.trim();
+             const statement = document.getElementById('intern-statement').value.trim();
+             const noId = document.getElementById('no-id-check').checked;
+             
+             if(!fname || !lname || !statement) { alert("Please complete the form."); return; }
+
+             let body = `INTERNSHIP APP\nName: ${fname} ${lname}\nNo ID: ${noId ? 'Yes' : 'No'}\n\nStatement:\n${statement}`;
+             window.location.href = `mailto:info@takwiriradental.co.zw?subject=Intern App: ${fname} ${lname}&body=${encodeURIComponent(body)}`;
+        }
+
+        function notifyReception() {
+            const name = document.getElementById('app-name').value;
+            const message = `Hello, I sent my CV via email. Name: ${name}`;
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
     </script>
