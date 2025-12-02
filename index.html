@@ -55,18 +55,17 @@
     <style>
         body {
             background-color: #f8fafc;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
         
         /* View Management */
         .view-section {
-            display: none; /* Hidden by default */
+            display: none;
             min-height: calc(100vh - 80px);
-            padding-top: 100px; /* Reduced for mobile default */
-            padding-bottom: 80px; /* Extra padding for bottom chat widget */
+            padding-top: 100px;
+            padding-bottom: 80px;
         }
 
-        /* Adjust padding for larger screens */
         @media (min-width: 1024px) {
             .view-section {
                 padding-top: 100px;
@@ -87,7 +86,7 @@
 
         /* Booking Tab Active State */
         .booking-tab.active {
-            background-color: #0c4a6e; /* brand-900 */
+            background-color: #0c4a6e;
             color: white;
             border-color: #0c4a6e;
         }
@@ -109,10 +108,10 @@
             border-color: #0ea5e9;
         }
 
-        /* Chat Window Styles - Re-positioned to Top Right */
+        /* Chat Window Styles */
         .chat-window {
             position: fixed;
-            top: 85px; /* Just below the navbar */
+            top: 85px;
             right: 16px;
             z-index: 1000;
             width: 350px;
@@ -123,7 +122,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transform-origin: top right; /* Animates from the button */
+            transform-origin: top right;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
             transform: scale(0.9) translateY(-10px);
@@ -196,7 +195,7 @@
             margin-top: 4px;
         }
 
-        /* Sparkle Button Style */
+        /* Sparkle Button Style (Visual Only now) */
         .btn-sparkle {
             background: linear-gradient(45deg, #f59e0b, #d97706);
             color: white;
@@ -225,15 +224,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* Mobile Optimizations for Chat */
         @media (max-width: 640px) {
             .chat-window {
-                /* Fits screen width perfectly on mobile with small margins */
                 width: calc(100vw - 32px); 
                 height: 60vh;
                 right: 16px;
@@ -248,12 +244,10 @@
         <div class="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
     </div>
 
-    <!-- NAVBAR -->
     <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 
-                <!-- Left: Logo -->
                 <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('home')">
                     <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-200 flex-shrink-0">
                         <i class="fa-solid fa-tooth text-xl"></i>
@@ -261,7 +255,6 @@
                     <span class="font-bold text-lg md:text-xl tracking-tight text-brand-900">Takwirira<span class="text-brand-600 font-light">Dental</span></span>
                 </div>
 
-                <!-- Center: Desktop Links -->
                 <div class="hidden md:flex bg-slate-100/50 p-1 rounded-full border border-slate-200 backdrop-blur-md">
                     <button onclick="switchTab('home')" class="nav-item active px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Home</button>
                     <button onclick="switchTab('services')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Services & Booking</button>
@@ -271,7 +264,6 @@
                     <button onclick="switchTab('about')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">About</button>
                 </div>
 
-                <!-- Right: AI Button & Mobile Menu -->
                 <div class="flex items-center gap-3">
                     <button onclick="toggleChat()" class="bg-brand-900 hover:bg-brand-800 text-white px-4 py-2.5 rounded-full font-bold text-sm shadow-md transition-all flex items-center gap-2 border-2 border-brand-800/50 active:scale-95">
                         <i class="fa-solid fa-robot"></i> 
@@ -286,7 +278,6 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-20 shadow-lg z-50">
             <div class="p-4 flex flex-col space-y-2">
                 <button onclick="switchTab('home')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Home</button>
@@ -299,7 +290,6 @@
         </div>
     </nav>
 
-    <!-- AI Chat Bot Window (Moved out of widget container, positioned via CSS) -->
     <div class="chat-window" id="chat-window">
         <div class="chat-header">
             <div class="flex items-center gap-2">
@@ -308,15 +298,15 @@
                 </div>
                 <div>
                     <p class="font-bold text-sm">Takwirira Assistant</p>
-                    <p class="text-[10px] text-brand-100 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Online (Gemini AI)</p>
+                    <p class="text-[10px] text-brand-100 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Online (Auto-Bot)</p>
                 </div>
             </div>
             <button onclick="toggleChat()" class="hover:bg-white/10 p-1 rounded"><i class="fa-solid fa-times"></i></button>
         </div>
         <div class="chat-messages" id="chat-messages">
-            <div class="message bot">Hello! 👋 I'm the Takwirira AI Assistant. Ask me anything about our services, booking, or prices!</div>
+            <div class="message bot">Hello! 👋 I'm the Takwirira AI Assistant. I can check prices, services, and opening times instantly!</div>
         </div>
-        <div class="typing-indicator" id="typing-indicator">Takwirira Assistant is typing...</div>
+        <div class="typing-indicator" id="typing-indicator">Assistant is thinking...</div>
         <div class="chat-input-area">
             <input type="text" id="chat-input" placeholder="Type your question..." class="flex-1 px-3 py-2 bg-slate-100 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500 text-slate-800" onkeypress="handleChatKey(event)">
             <button onclick="sendMessage()" class="p-2 text-brand-600 hover:bg-brand-50 rounded-lg transition"><i class="fa-solid fa-paper-plane"></i></button>
@@ -357,11 +347,10 @@
 
                 <div class="lg:w-1/2 w-full relative animate-slide-up order-1 lg:order-2" style="animation-delay: 0.1s;">
                     <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white aspect-[4/3] lg:aspect-auto lg:h-[500px]">
-                        <!-- Using a placeholder/colored block if image fails, but kept src as requested -->
-                        <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
+                         <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
                              <img src="./HomeImage.png" onerror="this.style.display='none'" alt="Takwirira Dental Home" class="w-full h-full object-cover">
                              <i class="fa-solid fa-tooth text-6xl opacity-20 absolute"></i>
-                        </div>
+                         </div>
                         
                         <div class="absolute bottom-2 left-2 right-2 lg:bottom-6 lg:left-6 lg:right-auto bg-white/95 backdrop-blur p-3 lg:p-4 rounded-2xl shadow-lg flex items-center gap-3 lg:gap-4">
                             <div class="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-full flex flex-shrink-0 items-center justify-center text-green-700 text-lg lg:text-xl">
@@ -386,50 +375,31 @@
             <div class="grid lg:grid-cols-12 gap-8 items-start mb-16">
                 
                 <div class="lg:col-span-7 space-y-8 animate-slide-up" style="animation-delay: 0.1s;">
-                    
                     <div>
                         <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Routine & Preventative</span>
-                        
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Fluoride & Sealants')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-child-reaching"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-child-reaching"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">1. Fluoride & Sealants</h3>
-                                        <span class="text-lg font-bold text-brand-700">$25.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">1. Fluoride & Sealants</h3><span class="text-lg font-bold text-brand-700">$25.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">High-concentration varnish application to protect young teeth.</p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Scale & Polish')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">2. Scale & Polish</h3>
-                                        <span class="text-lg font-bold text-brand-700">$50.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">2. Scale & Polish</h3><span class="text-lg font-bold text-brand-700">$50.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Full plaque removal and polish. Standard hygiene session.</p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Breath Consultation')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-wind"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-wind"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">3. Breath Consultation</h3>
-                                        <span class="text-lg font-bold text-brand-700">$30.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">3. Breath Consultation</h3><span class="text-lg font-bold text-brand-700">$30.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Diagnosis and treatment plan for halitosis (bad breath).</p>
                                 </div>
                             </div>
@@ -438,32 +408,20 @@
 
                     <div>
                         <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Cosmetic</span>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Stain Removal')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-mug-hot"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-mug-hot"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">4. Stain Removal</h3>
-                                        <span class="text-lg font-bold text-brand-700">$60.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">4. Stain Removal</h3><span class="text-lg font-bold text-brand-700">$60.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Cosmetic air-polishing for heavy coffee/tobacco stains.</p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Teeth Whitening')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-regular fa-gem"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-regular fa-gem"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">5. Teeth Whitening</h3>
-                                        <span class="text-lg font-bold text-brand-700">$150.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">5. Teeth Whitening</h3><span class="text-lg font-bold text-brand-700">$150.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Professional in-chair whitening for a brighter smile.</p>
                                 </div>
                             </div>
@@ -472,47 +430,29 @@
 
                     <div>
                         <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Therapeutic & Medical</span>
-
                         <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md hover:shadow-lg transition-all group cursor-pointer text-white mb-4" onclick="prefillService('Deep Cleaning')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-tooth"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-tooth"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-white">6. Deep Cleaning (SRP)</h3>
-                                        <span class="text-lg font-bold text-brand-200">$120.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-white">6. Deep Cleaning (SRP)</h3><span class="text-lg font-bold text-brand-200">$120.00</span></div>
                                     <p class="text-slate-200 text-sm font-medium">Periodontal scaling and root planing for gum disease.</p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Periodontal Maintenance')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-heart-pulse"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-heart-pulse"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">7. Periodontal Maintenance</h3>
-                                        <span class="text-lg font-bold text-brand-700">$80.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">7. Periodontal Maintenance</h3><span class="text-lg font-bold text-brand-700">$80.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Specialized 3-month follow-up cleaning for gum health.</p>
                                 </div>
                             </div>
                         </div>
-
                          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Sensitivity Treatment')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-bolt"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-bolt"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">8. Sensitivity Treatment</h3>
-                                        <span class="text-lg font-bold text-brand-700">$40.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">8. Sensitivity Treatment</h3><span class="text-lg font-bold text-brand-700">$40.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Application of desensitizing agents for sensitive teeth.</p>
                                 </div>
                             </div>
@@ -521,42 +461,28 @@
 
                     <div>
                         <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Custom Appliances</span>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Sports Mouth Guard')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">9. Sports Mouth Guard</h3>
-                                        <span class="text-lg font-bold text-brand-700">$90.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">9. Sports Mouth Guard</h3><span class="text-lg font-bold text-brand-700">$90.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Custom-fitted guard for rugby, hockey, and contact sports.</p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Night Guard')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-indigo-900 text-indigo-100 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-moon"></i>
-                                </div>
+                                <div class="w-14 h-14 rounded-xl bg-indigo-900 text-indigo-100 flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-moon"></i></div>
                                 <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">10. Night Guard</h3>
-                                        <span class="text-lg font-bold text-brand-700">$100.00</span>
-                                    </div>
+                                    <div class="flex justify-between items-center mb-1"><h3 class="text-lg font-bold text-brand-900">10. Night Guard</h3><span class="text-lg font-bold text-brand-700">$100.00</span></div>
                                     <p class="text-slate-600 text-sm font-medium">Protective guard for teeth grinding (bruxism) while sleeping.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="lg:col-span-5 relative space-y-6">
-                    
                     <div id="booking-container" class="bg-white rounded-3xl shadow-xl shadow-slate-200 border border-slate-100 animate-slide-up lg:sticky lg:top-28" style="animation-delay: 0.2s;">
                         
                         <div class="flex border-b border-slate-200">
@@ -569,7 +495,6 @@
                         </div>
 
                         <div class="p-8">
-                            
                             <div class="bg-green-50 border border-green-200 rounded-xl p-3 mb-6 flex items-start gap-2">
                                 <i class="fa-regular fa-clock text-green-700 mt-1 flex-shrink-0"></i>
                                 <p class="text-xs text-green-900 font-bold">We will respond within 15 minutes if booked on a business day.</p>
@@ -669,7 +594,6 @@
                                     <i class="fa-brands fa-whatsapp"></i> Subscribe to Plan
                                 </button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -870,8 +794,8 @@
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <label class="block text-sm font-bold text-brand-900" id="question-label">Assessment Question</label>
-                                <button type="button" onclick="generateApplicationDraft('app-question')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Draft Answer
+                                <button type="button" onclick="generateApplicationDraft('app-question')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 opacity-50 cursor-not-allowed">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Offline
                                 </button>
                             </div>
                             <p class="text-xs text-slate-600 mb-3 font-semibold" id="question-hint">"Why are you the best fit for this role?" (Max 500 words)</p>
@@ -935,8 +859,8 @@
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <label class="block text-sm font-bold text-brand-900">Personal Statement</label>
-                                <button type="button" onclick="generateApplicationDraft('intern-statement')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Draft Answer
+                                <button type="button" onclick="generateApplicationDraft('intern-statement')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 opacity-50 cursor-not-allowed">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Offline
                                 </button>
                             </div>
                             <p class="text-xs text-slate-600 mb-3 font-medium">Why do you think an internship at Takwirira will be helpful to you? Share your career goals with us, and any struggles you faced in your life.</p>
@@ -954,13 +878,11 @@
         <div id="view-reviews" class="view-section">
             <div class="text-center mb-12 animate-slide-up">
                 <h2 class="text-3xl font-bold text-brand-900">Patient Stories</h2>
-                <div class="flex justify-center gap-1 text-yellow-400 mt-2 text-xl">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
+                <p class="text-slate-600 font-medium">Real experiences from our community.</p>
             </div>
 
             <div class="max-w-4xl mx-auto">
-                <div id="reviews-container" class="grid gap-6 mb-10">
+                <div id="reviews-container" class="mb-10 animate-slide-up">
                     </div>
 
                 <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200 animate-slide-up" style="animation-delay: 0.2s;">
@@ -971,6 +893,9 @@
                         <select id="review-rating" class="px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl md:w-1/6 text-slate-900 font-bold">
                             <option value="5">5 ★</option>
                             <option value="4">4 ★</option>
+                            <option value="3">3 ★</option>
+                            <option value="2">2 ★</option>
+                            <option value="1">1 ★</option>
                         </select>
                         <button type="submit" class="bg-brand-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900 transition">Post</button>
                     </form>
@@ -989,9 +914,7 @@
                     </p>
                 </div>
 
-                <!-- Main Grid -->
                 <div class="grid md:grid-cols-2 gap-8 mb-12">
-                    <!-- Safety Card -->
                     <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative overflow-hidden group">
                         <div class="absolute top-0 right-0 bg-blue-50 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
                         <i class="fa-solid fa-pump-medical text-4xl text-brand-600 mb-6 relative z-10"></i>
@@ -1001,7 +924,6 @@
                         </p>
                     </div>
 
-                    <!-- Team Card -->
                     <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative overflow-hidden group">
                          <div class="absolute top-0 right-0 bg-green-50 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
                         <i class="fa-solid fa-user-nurse text-4xl text-green-600 mb-6 relative z-10"></i>
@@ -1012,7 +934,6 @@
                     </div>
                 </div>
 
-                <!-- The Big Message -->
                 <div class="bg-gradient-to-br from-brand-900 to-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
                     <i class="fa-solid fa-heart-crack absolute -right-10 -bottom-10 text-[10rem] text-white opacity-5"></i>
                     
@@ -1028,9 +949,8 @@
                     </div>
                 </div>
 
-                <!-- Licensing Badge -->
                 <div class="mt-12 flex justify-center">
-                     <div class="flex items-center gap-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                      <div class="flex items-center gap-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
                         <i class="fa-solid fa-certificate text-4xl text-brand-600"></i>
                         <div class="text-left">
                             <p class="text-xs font-bold uppercase text-slate-400">Officially Registered</p>
@@ -1045,9 +965,7 @@
     </main>
 
     <script>
-        const apiKey = ""; // API Key provided by environment
-
-        // --- 1. TAB SYSTEM LOGIC (MAIN NAV) ---
+        // --- 1. TAB SYSTEM LOGIC ---
         function switchTab(tabId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1068,10 +986,8 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 2. BOOKING WIDGET LOGIC (TABBED FORMS) ---
-
+        // --- 2. BOOKING WIDGET LOGIC ---
         function switchBookingType(type) {
-            // Update Tab Styles
             const singleTab = document.getElementById('tab-btn-single');
             const planTab = document.getElementById('tab-btn-plan');
             const singleForm = document.getElementById('form-single');
@@ -1080,45 +996,34 @@
             if(type === 'single') {
                 singleTab.classList.add('active', 'bg-brand-900', 'text-white');
                 singleTab.classList.remove('text-slate-500', 'hover:bg-slate-50');
-                
                 planTab.classList.remove('active', 'bg-brand-900', 'text-white');
                 planTab.classList.add('text-slate-500', 'hover:bg-slate-50');
-
                 singleForm.classList.remove('hidden');
                 planForm.classList.add('hidden');
             } else {
                 planTab.classList.add('active', 'bg-brand-900', 'text-white');
                 planTab.classList.remove('text-slate-500', 'hover:bg-slate-50');
-
                 singleTab.classList.remove('active', 'bg-brand-900', 'text-white');
                 singleTab.classList.add('text-slate-500', 'hover:bg-slate-50');
-
                 planForm.classList.remove('hidden');
                 singleForm.classList.add('hidden');
             }
         }
 
-        // --- PREFILL FOR SINGLE SERVICES (FROM LEFT LIST) ---
         function prefillService(serviceName) {
-            switchBookingType('single'); // Ensure single tab is open
+            switchBookingType('single');
             document.getElementById('single-service').value = serviceName;
-            
-            // Scroll to widget
             const widget = document.getElementById('booking-container');
             const offsetTop = widget.getBoundingClientRect().top + window.scrollY - 100;
             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-            
-            // Highlight
             widget.classList.add('ring-4', 'ring-brand-400');
             setTimeout(() => widget.classList.remove('ring-4', 'ring-brand-400'), 1000);
         }
 
-        // --- DATE CONSTRAINTS ---
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('single-date').min = today;
         document.getElementById('plan-date').min = today;
 
-        // --- SUBMIT: SINGLE BOOKING ---
         function submitSingleBooking() {
             const name = document.getElementById('single-name').value.trim();
             const phone = document.getElementById('single-phone').value.trim();
@@ -1127,133 +1032,81 @@
             const time = document.getElementById('single-time').value;
 
             if(!name || !phone || !service || !date || !time) {
-                alert("Please fill in all fields: Name, Phone, Service, Date, and Time.");
+                alert("Please fill in all fields.");
                 return;
             }
-
-            const message = `*New Appointment Request* 🦷\n\n*Patient Details:*\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n\n*Booking Information:*\n✨ *Service:* ${service}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n\nHello Takwirira Dental, is this slot available?`;
-            
+            const message = `*New Appointment Request* 🦷\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}\n*Date:* ${date}\n*Time:* ${time}`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- PLAN SELECTION LOGIC ---
         function selectPlanCard(element, name, price) {
-            // Remove active style from all cards
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.classList.remove('border-brand-600', 'ring-2', 'ring-brand-200', 'bg-brand-50');
             });
-            // Add to selected
             element.classList.add('border-brand-600', 'ring-2', 'ring-brand-200', 'bg-brand-50');
-
-            // Store Values
             document.getElementById('selected-plan-name').value = name;
             document.getElementById('selected-plan-price').value = price;
         }
 
-        // --- SUBMIT: PLAN BOOKING ---
         function submitPlanBooking() {
             const name = document.getElementById('plan-name').value.trim();
             const phone = document.getElementById('plan-phone').value.trim();
             const date = document.getElementById('plan-date').value;
             const planName = document.getElementById('selected-plan-name').value;
-            const planPrice = document.getElementById('selected-plan-price').value;
-
             if(!name || !phone || !date || !planName) {
-                alert("Please fill in your Name, Phone, Date, and select a Plan.");
+                alert("Please complete the form.");
                 return;
             }
-
-            const message = `*New Maintenance Plan Subscription* 💎\n\n*Patient Details:*\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n\n*Plan Selection:*\n🔄 *Frequency:* ${planName}\n💰 *Price:* $${planPrice}\n📅 *First Visit:* ${date}\n\nHello Takwirira Dental, I would like to subscribe to this maintenance plan.`;
-            
+            const message = `*Maintenance Plan Subscription*\n*Name:* ${name}\n*Plan:* ${planName}\n*Start Date:* ${date}`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // --- 3. JOB APPLICATION LOGIC ---
-        function openJobApplication(positionName) {
-            const posInput = document.getElementById('app-position');
-            const qHint = document.getElementById('question-hint');
-            const qArea = document.getElementById('app-question');
-            const qLabel = document.getElementById('question-label');
-
-            posInput.value = positionName;
-
-            if(positionName.includes("Training")) {
-                qLabel.innerText = "Education & Results";
-                qHint.innerText = "Please list your 'O' Level subjects and grades here (Must include Science).";
-                qArea.placeholder = "Example:\nScience: B\nMaths: C\nEnglish: B...";
-            } else {
-                qLabel.innerText = "Assessment Question";
-                qHint.innerText = "\"Why are you the best fit for this role?\" (Max 500 words)";
-                qArea.placeholder = "Type your answer here...";
-            }
-
-            switchTab('job-apply');
-        }
-
-        function submitJobApplication() {
-            const pos = document.getElementById('app-position').value;
-            const name = document.getElementById('app-name').value.trim();
-            const phone = document.getElementById('app-phone').value.trim();
-            const question = document.getElementById('app-question').value.trim();
-            
-            const j1 = { p: document.getElementById('job1-pos').value, e: document.getElementById('job1-emp').value, d: document.getElementById('job1-dur').value };
-            const j2 = { p: document.getElementById('job2-pos').value, e: document.getElementById('job2-emp').value, d: document.getElementById('job2-dur').value };
-            const j3 = { p: document.getElementById('job3-pos').value, e: document.getElementById('job3-emp').value, d: document.getElementById('job3-dur').value };
-
-            if(!name || !phone || !question) { alert("Please fill in your Name, Phone, and the Question/Education field."); return; }
-
-            const subject = `Job Application: ${pos} - ${name}`;
-            let body = `APPLICATION FOR: ${pos}\n\nAPPLICANT DETAILS:\nName: ${name}\nPhone: ${phone}\n\n--- EMPLOYMENT HISTORY (Last 3 Jobs) ---\n`;
-            if(j1.p) body += `1. ${j1.p} at ${j1.e} (${j1.d} months)\n`;
-            if(j2.p) body += `2. ${j2.p} at ${j2.e} (${j2.d} months)\n`;
-            if(j3.p) body += `3. ${j3.p} at ${j3.e} (${j3.d} months)\n`;
-            if(!j1.p && !j2.p && !j3.p) body += `(No history provided)\n`;
-            body += `\n--- ASSESSMENT / EDUCATION ---\n\n${question}\n\n--------------------------------------------------\nSent from Takwirira Dental Website`;
-
-            window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-
-        function notifyReception() {
-            const pos = document.getElementById('app-position').value;
-            const name = document.getElementById('app-name').value.trim();
-            if(!name) { alert("Please enter your name in the form above first."); return; }
-            const message = `Hello Takwirira Dental, I have just sent my CV and application via email for the ${pos} position.\nName: ${name}`;
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // --- 4. INTERNSHIP APPLICATION LOGIC ---
-        function submitInternApplication() {
-            const fname = document.getElementById('intern-fname').value.trim();
-            const lname = document.getElementById('intern-lname').value.trim();
-            const statement = document.getElementById('intern-statement').value.trim();
-            const noId = document.getElementById('no-id-check').checked;
-
-            if(!fname || !lname || !statement) { alert("Please enter your Name and Personal Statement."); return; }
-
-            const subject = `Internship Application - ${fname} ${lname}`;
-            const idStatus = noId ? "NOTE: Applicant does not have an ID/Birth Certificate." : "ID/Birth Certificate: Available";
-            const body = `INTERNSHIP APPLICATION\n\nAPPLICANT DETAILS:\nName: ${fname} ${lname}\n${idStatus}\n\nPERSONAL STATEMENT:\n${statement}\n\n--------------------------------------------------\nSent from Takwirira Dental Website`;
-
-            window.location.href = `mailto:info@takwiriradental.co.zw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-
-        // --- 5. REVIEW SYSTEM ---
-        const reviews = [
-            {name: "Blessing M.", text: "Best dental experience in Chipinge! So clean.", stars: 5},
-            {name: "Tinashe K.", text: "The staff is incredibly polite.", stars: 5}
+        // --- 3. LOCAL REVIEW SYSTEM ---
+        const defaultReviews = [
+            {name: "Blessing M.", text: "Best dental experience in Chipinge! So clean.", stars: 5, date: "2023-10-12"},
+            {name: "Tinashe K.", text: "The staff is incredibly polite.", stars: 5, date: "2023-11-05"},
+            {name: "Sarah L.", text: "Good service but a bit of a wait.", stars: 4, date: "2023-12-01"}
         ];
 
+        function getStoredReviews() {
+            const stored = localStorage.getItem('takwirira_reviews');
+            return stored ? JSON.parse(stored) : defaultReviews;
+        }
+
         function renderReviews() {
+            const reviews = getStoredReviews();
             const container = document.getElementById('reviews-container');
-            container.innerHTML = reviews.map(r => `
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            
+            const totalStars = reviews.reduce((acc, curr) => acc + curr.stars, 0);
+            const average = (totalStars / reviews.length).toFixed(1);
+            
+            const starHTML = '<i class="fa-solid fa-star"></i>'.repeat(Math.floor(average)) + 
+                             (average % 1 >= 0.5 ? '<i class="fa-solid fa-star-half-stroke"></i>' : '');
+            
+            const headerHTML = `
+                <div class="text-center mb-8">
+                    <div class="text-5xl font-bold text-brand-900 mb-2">${average}</div>
+                    <div class="flex justify-center gap-1 text-yellow-400 text-xl mb-2">
+                        ${starHTML}
+                    </div>
+                    <p class="text-slate-500 font-medium">Based on ${reviews.length} reviews</p>
+                </div>
+            `;
+
+            const listHTML = reviews.map(r => `
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
                     <div class="flex justify-between mb-2">
-                        <h4 class="font-bold text-slate-900">${r.name}</h4>
-                        <span class="text-yellow-400">${'★'.repeat(r.stars)}</span>
+                        <div>
+                            <h4 class="font-bold text-slate-900">${r.name}</h4>
+                            <span class="text-xs text-slate-400">${r.date || 'Recent'}</span>
+                        </div>
+                        <span class="text-yellow-400 text-sm tracking-widest">${'★'.repeat(r.stars)}</span>
                     </div>
                     <p class="text-slate-700 text-sm italic font-medium">"${r.text}"</p>
                 </div>
             `).join('');
+
+            container.innerHTML = headerHTML + '<div class="grid gap-6">' + listHTML + '</div>';
         }
 
         document.getElementById('review-form').addEventListener('submit', (e) => {
@@ -1261,40 +1114,118 @@
             const name = document.getElementById('review-name').value;
             const text = document.getElementById('review-text').value;
             const stars = parseInt(document.getElementById('review-rating').value);
-            reviews.unshift({name, text, stars});
+            
+            const newReview = {
+                name: name,
+                text: text,
+                stars: stars,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            const currentReviews = getStoredReviews();
+            currentReviews.unshift(newReview);
+            localStorage.setItem('takwirira_reviews', JSON.stringify(currentReviews));
+
             renderReviews();
-            const msg = `*New Patient Review* ⭐\n\n*Name:* ${name}\n*Rating:* ${stars}/5\n*Feedback:* ${text}`;
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(msg)}`, '_blank');
             e.target.reset();
-            alert("Thank you! Your review has been posted and sent to our team.");
+            alert("Thank you! Your review has been saved.");
         });
 
         renderReviews();
 
-        // --- 6. AI & GEMINI LOGIC ---
-        
-        async function callGemini(userPrompt, systemPrompt) {
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: userPrompt }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
+        // --- 4. "LOCAL BRAIN" AI CHATBOT (EXPANDED) ---
+        const knowledgeBase = [
+            // --- PRICES & SERVICES ---
+            {
+                keywords: ["price", "cost", "how much", "rate", "money", "$"],
+                answer: "Here are our popular prices: Scale & Polish $50, Whitening $150, Fluoride $25. Check the 'Services' tab for the full list!"
+            },
+            {
+                keywords: ["white", "yellow", "bright", "stain"],
+                answer: "We offer professional Teeth Whitening for $150. It's done in-chair and offers instant brightness. We also do Stain Removal for $60."
+            },
+            {
+                keywords: ["breath", "smell", "stink", "halitosis", "mouth odor"],
+                answer: "Bad breath is often caused by bacteria on the tongue or gums. Book our specific 'Breath Consultation' ($30) to find the root cause."
+            },
+            {
+                keywords: ["brace", "straight", "gap", "align", "ortho"],
+                answer: "We focus on hygiene and preventative care. For braces, we can perform a cleaning and then refer you to our trusted specialist partner."
+            },
+            {
+                keywords: ["pull", "extract", "remove", "hole", "rotten", "cavity", "fill"],
+                answer: "We prefer to save teeth whenever possible! Please book a General Consultation so we can see if the tooth needs extraction or if it can be fixed."
+            },
 
-                if (!response.ok) throw new Error('API Error');
-                const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm having trouble connecting right now.";
-            } catch (error) {
-                // Exponential backoff retry simplified
-                console.error("Gemini API Error:", error);
-                return "I apologize, but I'm having trouble connecting to the server. Please check your internet or try again later.";
+            // --- BOOKING & LOGISTICS ---
+            {
+                keywords: ["book", "appoint", "schedule", "reserve", "slot", "visit"],
+                answer: "You can book right here! Go to the 'Services & Booking' tab, select a time, and we will confirm via WhatsApp."
+            },
+            {
+                keywords: ["time", "hour", "open", "close", "weekend", "sunday", "saturday"],
+                answer: "We are open Mon-Fri, 08:00 to 18:00. We are closed on weekends to recharge! 🔋"
+            },
+            {
+                keywords: ["location", "where", "address", "place", "chipinge", "cbd", "find"],
+                answer: "We are located in Chipinge CBD. Just look for the Takwirira Dental signage. It's easy to find!"
+            },
+            {
+                keywords: ["phone", "call", "contact", "number", "whatsapp", "app"],
+                answer: "You can reach us on WhatsApp at +263 78 864 3858. We respond very quickly during business hours."
+            },
+
+            // --- PAYMENT & INSURANCE ---
+            {
+                keywords: ["pay", "cash", "usd", "swipe", "ecocash", "zig", "change"],
+                answer: "We accept USD Cash, EcoCash, and Swipe. Short on cash? Ask about our maintenance plans!"
+            },
+            {
+                keywords: ["insurance", "aid", "cimas", "psmas", "fml", "bonvie", "cover"],
+                answer: "We accept most major Medical Aid societies. Please bring your valid membership card and ID to your appointment."
+            },
+
+            // --- MEDICAL & SYMPTOMS ---
+            {
+                keywords: ["pain", "hurt", "ache", "sore", "emergenc", "blood", "bleed"],
+                answer: "I'm sorry you're in pain. Please do not wait! Book a slot immediately or come to our centre. For bleeding gums, try our Deep Cleaning service."
+            },
+            {
+                keywords: ["sensitive", "cold", "hot", "drink"],
+                answer: "Sensitivity can be treated! We have a specific 'Sensitivity Treatment' ($40) that applies a protective varnish to your teeth."
+            },
+            
+            // --- DEMOGRAPHICS ---
+            {
+                keywords: ["child", "kid", "baby", "son", "daughter", "young", "school"],
+                answer: "We love kids! We recommend bringing them in early (from age 1) to get used to the environment. We are very gentle with little ones."
+            },
+            
+            // --- JOBS & INTERNSHIPS ---
+            {
+                keywords: ["job", "work", "hiring", "vacancy", "employ", "cv", "resume"],
+                answer: "We are hiring! Check the 'Jobs' tab. We need Hygienists and Cleaning staff."
+            },
+            {
+                keywords: ["intern", "train", "student", "learn", "attachment"],
+                answer: "We offer a Student Wellness Internship that helps with school fees! Check the 'Jobs' tab for details on how to apply."
+            },
+
+            // --- GREETINGS & SAFETY ---
+            {
+                keywords: ["safe", "clean", "virus", "sterile", "hygiene"],
+                answer: "Your safety is #1. We use hospital-grade sterilization for every single tool and surface. It is the cleanest spot in Chipinge!"
+            },
+            {
+                keywords: ["hello", "hi", "hey", "morning", "afternoon", "evening", "greetings"],
+                answer: "Hello! 👋 Welcome to Takwirira Dental. How can I help your smile today?"
+            },
+            {
+                keywords: ["thank", "thx", "good", "bye"],
+                answer: "You're very welcome! We hope to see your smile soon. 😁"
             }
-        }
+        ];
 
-        // --- CHATBOT ---
         function toggleChat() {
             const chatWindow = document.getElementById('chat-window');
             chatWindow.classList.toggle('open');
@@ -1304,17 +1235,15 @@
         }
 
         function handleChatKey(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+            if (e.key === 'Enter') sendMessage();
         }
 
-        async function sendMessage() {
+        function sendMessage() {
             const inputField = document.getElementById('chat-input');
-            const messageText = inputField.value.trim();
-            if (!messageText) return;
+            const userText = inputField.value.trim().toLowerCase(); 
+            if (!userText) return;
 
-            addMessage(messageText, 'user');
+            addMessage(inputField.value, 'user');
             inputField.value = '';
 
             const typingIndicator = document.getElementById('typing-indicator');
@@ -1322,68 +1251,92 @@
             const messagesContainer = document.getElementById('chat-messages');
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            const systemPrompt = `You are the Takwirira AI Assistant for Takwirira Dental in Chipinge, Zimbabwe.
-            Context:
-            - Services & Prices: 
-              1. Fluoride & Sealants ($25)
-              2. Scale & Polish ($50)
-              3. Breath Consultation ($30)
-              4. Stain Removal ($60)
-              5. Teeth Whitening ($150)
-              6. Deep Cleaning/SRP ($120)
-              7. Periodontal Maintenance ($80)
-              8. Sensitivity Treatment ($40)
-              9. Sports Mouth Guard ($90)
-              10. Night Guard ($100)
-            - Hours: Mon-Fri 8:00 AM - 6:00 PM. Closed on Weekends.
-            - Location: Chipinge CBD.
-            - Booking: Use the 'Services & Booking' tab on this website or WhatsApp.
-            - Jobs: Hiring Dental Hygienists and Cleaners. Apply in the 'Jobs' tab.
-            - Internship: Available for youths (includes school fees).
-            - Rewards: Refer 5 friends for $30. Refer 20 for $100 TakwiriraCard.
-            - Mission: Licensed, safe, sterile. Educating people that oral hygiene affects lifespan.
-            
-            Guidelines:
-            - Be polite, professional, and concise.
-            - Answer questions about prices, services, hours, and booking directly.
-            - If a user asks for medical advice (e.g., "I have a toothache"), suggest general comfort measures but STRONGLY urge them to book an appointment immediately. You are an AI, not a doctor.
-            - If asked about booking, direct them to the Services tab.`;
+            setTimeout(() => {
+                let botReply = "I'm not sure about that. Please check our 'Services' tab or ask about prices, booking, or our location!";
+                
+                for (let item of knowledgeBase) {
+                    const match = item.keywords.some(keyword => userText.includes(keyword));
+                    if (match) {
+                        botReply = item.answer;
+                        break; 
+                    }
+                }
 
-            const reply = await callGemini(messageText, systemPrompt);
-            
-            typingIndicator.style.display = 'none';
-            addMessage(reply, 'bot');
+                typingIndicator.style.display = 'none';
+                addMessage(botReply, 'bot');
+            }, 600);
         }
 
         function addMessage(text, sender) {
             const messagesContainer = document.getElementById('chat-messages');
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('message', sender);
-            // Convert simple markdown to bold
-            msgDiv.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            msgDiv.innerHTML = text;
             messagesContainer.appendChild(msgDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // --- JOB APPLICATION DRAFTER ---
-        async function generateApplicationDraft(targetId) {
-            const target = document.getElementById(targetId);
-            const userPoints = prompt("✨ AI Drafter: Briefly list your key skills, experience, or traits (e.g., 'Hardworking, good grades in science, love helping people'). We will write the paragraph for you.");
+        // --- 5. JOB & INTERN FORMS ---
+        function openJobApplication(pos) {
+            document.getElementById('app-position').value = pos;
+            switchTab('job-apply');
             
-            if(!userPoints) return;
-
-            target.value = "Generating draft... please wait...";
-            target.disabled = true;
-
-            const systemPrompt = `You are a helpful career assistant. A user is applying for a job or internship at Takwirira Dental.
-            They will provide bullet points about themselves. 
-            You must rewrite these points into a professional, persuasive, and grammatically correct paragraph suitable for a job application "Personal Statement" or "Assessment Answer".
-            Keep it under 150 words. Sound enthusiastic but professional.`;
-
-            const draft = await callGemini(userPoints, systemPrompt);
+            const qHint = document.getElementById('question-hint');
+            const qArea = document.getElementById('app-question');
+            const qLabel = document.getElementById('question-label');
             
-            target.value = draft;
-            target.disabled = false;
+            if(pos.includes("Training")) {
+                qLabel.innerText = "Education & Results";
+                qHint.innerText = "Please list your 'O' Level subjects and grades here (Must include Science).";
+                qArea.placeholder = "Example:\nScience: B\nMaths: C\nEnglish: B...";
+            } else {
+                qLabel.innerText = "Assessment Question";
+                qHint.innerText = "\"Why are you the best fit for this role?\" (Max 500 words)";
+                qArea.placeholder = "Type your answer here...";
+            }
+        }
+
+        function generateApplicationDraft(targetId) {
+            alert("AI Drafting is currently offline. Please write your own amazing answer!");
+        }
+
+        function submitJobApplication() {
+            const pos = document.getElementById('app-position').value;
+            const name = document.getElementById('app-name').value.trim();
+            const phone = document.getElementById('app-phone').value.trim();
+            const question = document.getElementById('app-question').value.trim();
+            
+            if(!name || !phone || !question) { alert("Please fill in all required fields."); return; }
+
+            const j1 = { p: document.getElementById('job1-pos').value, e: document.getElementById('job1-emp').value, d: document.getElementById('job1-dur').value };
+            const j2 = { p: document.getElementById('job2-pos').value, e: document.getElementById('job2-emp').value, d: document.getElementById('job2-dur').value };
+            const j3 = { p: document.getElementById('job3-pos').value, e: document.getElementById('job3-emp').value, d: document.getElementById('job3-dur').value };
+
+            let body = `APPLICATION FOR: ${pos}\n\nAPPLICANT DETAILS:\nName: ${name}\nPhone: ${phone}\n\n--- EMPLOYMENT HISTORY ---\n`;
+            if(j1.p) body += `1. ${j1.p} at ${j1.e} (${j1.d} months)\n`;
+            if(j2.p) body += `2. ${j2.p} at ${j2.e} (${j2.d} months)\n`;
+            if(j3.p) body += `3. ${j3.p} at ${j3.e} (${j3.d} months)\n`;
+            body += `\n--- ANSWER / EDUCATION ---\n\n${question}`;
+
+            window.location.href = `mailto:info@takwiriradental.co.zw?subject=Job App: ${name}&body=${encodeURIComponent(body)}`;
+        }
+        
+        function submitInternApplication() {
+             const fname = document.getElementById('intern-fname').value.trim();
+             const lname = document.getElementById('intern-lname').value.trim();
+             const statement = document.getElementById('intern-statement').value.trim();
+             const noId = document.getElementById('no-id-check').checked;
+             
+             if(!fname || !lname || !statement) { alert("Please complete the form."); return; }
+
+             let body = `INTERNSHIP APP\nName: ${fname} ${lname}\nNo ID: ${noId ? 'Yes' : 'No'}\n\nStatement:\n${statement}`;
+             window.location.href = `mailto:info@takwiriradental.co.zw?subject=Intern App: ${fname} ${lname}&body=${encodeURIComponent(body)}`;
+        }
+
+        function notifyReception() {
+            const name = document.getElementById('app-name').value;
+            const message = `Hello, I sent my CV via email. Name: ${name}`;
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
     </script>
