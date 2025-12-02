@@ -197,33 +197,31 @@
         <div id="view-services" class="view-section">
             <div class="text-center mb-10 animate-slide-up">
                 <h2 class="text-3xl font-bold text-brand-900">Select Service & Book</h2>
-                <p class="text-slate-600 font-medium">Choose from our hygiene stages below.</p>
+                <p class="text-slate-600 font-medium">Choose from our list of 10 specialized services.</p>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-8 items-start">
                 
-                <div class="lg:col-span-7 space-y-6 animate-slide-up" style="animation-delay: 0.1s;">
+                <div class="lg:col-span-7 space-y-8 animate-slide-up" style="animation-delay: 0.1s;">
                     
                     <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-2 block">Stage 1: Protection (Kids & Teens)</span>
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Fluoride & Sealants')">
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Routine & Preventative</span>
+                        
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Fluoride & Sealants')">
                             <div class="flex items-start gap-4">
                                 <div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
                                     <i class="fa-solid fa-child-reaching"></i>
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">Fluoride & Sealants</h3>
+                                        <h3 class="text-lg font-bold text-brand-900">1. Fluoride & Sealants</h3>
                                         <span class="text-lg font-bold text-brand-700">$25.00</span>
                                     </div>
                                     <p class="text-slate-600 text-sm font-medium">High-concentration varnish application to protect young teeth.</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-2 block">Stage 2: Routine Maintenance</span>
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Scale & Polish')">
                             <div class="flex items-start gap-4">
                                 <div class="w-14 h-14 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl flex-shrink-0">
@@ -231,7 +229,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">Scale & Polish</h3>
+                                        <h3 class="text-lg font-bold text-brand-900">2. Scale & Polish</h3>
                                         <span class="text-lg font-bold text-brand-700">$50.00</span>
                                     </div>
                                     <p class="text-slate-600 text-sm font-medium">Full plaque removal and polish. Standard hygiene session.</p>
@@ -239,35 +237,134 @@
                             </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Stain Removal')">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Breath Consultation')">
                             <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-mug-hot"></i>
+                                <div class="w-14 h-14 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-wind"></i>
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">Stain Removal</h3>
-                                        <span class="text-lg font-bold text-brand-700">$60.00</span>
+                                        <h3 class="text-lg font-bold text-brand-900">3. Breath Consultation</h3>
+                                        <span class="text-lg font-bold text-brand-700">$30.00</span>
                                     </div>
-                                    <p class="text-slate-600 text-sm font-medium">Cosmetic air-polishing for coffee/tea/tobacco stains.</p>
+                                    <p class="text-slate-600 text-sm font-medium">Diagnosis and treatment plan for halitosis (bad breath).</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-2 block">Stage 3: Intensive Care</span>
-                        <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md hover:shadow-lg transition-all group cursor-pointer text-white" onclick="prefillService('Deep Cleaning')">
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Cosmetic</span>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Stain Removal')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">4. Stain Removal</h3>
+                                        <span class="text-lg font-bold text-brand-700">$60.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Cosmetic air-polishing for heavy coffee/tobacco stains.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Teeth Whitening')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-regular fa-gem"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">5. Teeth Whitening</h3>
+                                        <span class="text-lg font-bold text-brand-700">$150.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Professional in-chair whitening for a brighter smile.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Therapeutic & Medical</span>
+
+                        <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md hover:shadow-lg transition-all group cursor-pointer text-white mb-4" onclick="prefillService('Deep Cleaning')">
                             <div class="flex items-start gap-4">
                                 <div class="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl flex-shrink-0">
                                     <i class="fa-solid fa-tooth"></i>
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-white">Deep Cleaning</h3>
+                                        <h3 class="text-lg font-bold text-white">6. Deep Cleaning (SRP)</h3>
                                         <span class="text-lg font-bold text-brand-200">$120.00</span>
                                     </div>
-                                    <p class="text-slate-200 text-sm font-medium">Periodontal scaling and root planing for gum health.</p>
+                                    <p class="text-slate-200 text-sm font-medium">Periodontal scaling and root planing for gum disease.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Periodontal Maintenance')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">7. Periodontal Maintenance</h3>
+                                        <span class="text-lg font-bold text-brand-700">$80.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Specialized 3-month follow-up cleaning for gum health.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Sensitivity Treatment')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">8. Sensitivity Treatment</h3>
+                                        <span class="text-lg font-bold text-brand-700">$40.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Application of desensitizing agents for sensitive teeth.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Custom Appliances</span>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Sports Mouth Guard')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">9. Sports Mouth Guard</h3>
+                                        <span class="text-lg font-bold text-brand-700">$90.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Custom-fitted guard for rugby, hockey, and contact sports.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Night Guard')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-indigo-900 text-indigo-100 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fa-solid fa-moon"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-lg font-bold text-brand-900">10. Night Guard</h3>
+                                        <span class="text-lg font-bold text-brand-700">$100.00</span>
+                                    </div>
+                                    <p class="text-slate-600 text-sm font-medium">Protective guard for teeth grinding (bruxism) while sleeping.</p>
                                 </div>
                             </div>
                         </div>
@@ -314,10 +411,16 @@
                                 <label class="text-xs font-bold text-brand-900 uppercase">Service</label>
                                 <select id="booking-service" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
                                     <option value="" disabled selected>Select a service...</option>
-                                    <option value="Fluoride & Sealants">Fluoride & Sealants ($25)</option>
-                                    <option value="Scale & Polish">Scale & Polish ($50)</option>
-                                    <option value="Stain Removal">Stain Removal ($60)</option>
-                                    <option value="Deep Cleaning">Deep Cleaning ($120)</option>
+                                    <option value="Fluoride & Sealants">1. Fluoride & Sealants ($25)</option>
+                                    <option value="Scale & Polish">2. Scale & Polish ($50)</option>
+                                    <option value="Breath Consultation">3. Breath Consultation ($30)</option>
+                                    <option value="Stain Removal">4. Stain Removal ($60)</option>
+                                    <option value="Teeth Whitening">5. Teeth Whitening ($150)</option>
+                                    <option value="Deep Cleaning">6. Deep Cleaning ($120)</option>
+                                    <option value="Periodontal Maintenance">7. Periodontal Maintenance ($80)</option>
+                                    <option value="Sensitivity Treatment">8. Sensitivity Treatment ($40)</option>
+                                    <option value="Sports Mouth Guard">9. Sports Mouth Guard ($90)</option>
+                                    <option value="Night Guard">10. Night Guard ($100)</option>
                                     <option value="Consultation">General Consultation</option>
                                 </select>
                             </div>
