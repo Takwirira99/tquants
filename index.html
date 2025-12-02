@@ -37,14 +37,10 @@
                         }
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
                         'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'bounce-slow': 'bounce 3s infinite',
                     },
                     keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
                         slideUp: {
                             '0%': { opacity: '0', transform: 'translateY(20px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -61,7 +57,7 @@
             overflow-x: hidden; /* Prevent horizontal scroll */
         }
         
-        /* Smooth transition for views */
+        /* View Management */
         .view-section {
             display: none; /* Hidden by default */
             min-height: calc(100vh - 80px);
@@ -79,7 +75,6 @@
 
         .view-section.active {
             display: block;
-            animation: fadeIn 0.4s ease-in-out;
         }
 
         /* Nav Item Active State */
@@ -113,10 +108,135 @@
             border-color: #0ea5e9;
         }
 
+        /* Chat Bot Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #0c4a6e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            background-color: #0284c7;
+        }
+
+        .chat-window {
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform-origin: bottom right;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
+            border: 1px solid #e2e8f0;
+        }
+
+        .chat-window.open {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .chat-header {
+            background: #0c4a6e;
+            padding: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.bot {
+            background: #e0f2fe;
+            color: #0c4a6e;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .message.user {
+            background: #0c4a6e;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            gap: 8px;
+        }
+
+        .typing-indicator {
+            display: none;
+            font-size: 12px;
+            color: #64748b;
+            margin-left: 4px;
+            margin-bottom: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        @media (max-width: 640px) {
+            .chat-window {
+                width: calc(100vw - 40px);
+                height: 60vh;
+            }
+        }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900">
@@ -139,6 +259,7 @@
                 <div class="hidden md:flex bg-slate-100/50 p-1 rounded-full border border-slate-200 backdrop-blur-md">
                     <button onclick="switchTab('home')" class="nav-item active px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Home</button>
                     <button onclick="switchTab('services')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Services & Booking</button>
+                    <button onclick="switchTab('rewards')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Rewards</button>
                     <button onclick="switchTab('jobs')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Jobs</button>
                     <button onclick="switchTab('reviews')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Reviews</button>
                     <button onclick="switchTab('about')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">About</button>
@@ -154,6 +275,7 @@
             <div class="p-4 flex flex-col space-y-2">
                 <button onclick="switchTab('home')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Home</button>
                 <button onclick="switchTab('services')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Services & Booking</button>
+                <button onclick="switchTab('rewards')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Rewards</button>
                 <button onclick="switchTab('jobs')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Jobs</button>
                 <button onclick="switchTab('reviews')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Reviews</button>
                 <button onclick="switchTab('about')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">About</button>
@@ -193,9 +315,13 @@
                     </div>
                 </div>
 
-                <div class="lg:w-1/2 w-full relative animate-fade-in order-1 lg:order-2" style="animation-delay: 0.2s;">
+                <div class="lg:w-1/2 w-full relative animate-slide-up order-1 lg:order-2" style="animation-delay: 0.1s;">
                     <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white aspect-[4/3] lg:aspect-auto lg:h-[500px]">
-                        <img src="./HomeImage.png" alt="Takwirira Dental Home" class="w-full h-full object-cover">
+                        <!-- Using a placeholder/colored block if image fails, but kept src as requested -->
+                        <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
+                             <img src="./HomeImage.png" onerror="this.style.display='none'" alt="Takwirira Dental Home" class="w-full h-full object-cover">
+                             <i class="fa-solid fa-tooth text-6xl opacity-20 absolute"></i>
+                        </div>
                         
                         <div class="absolute bottom-2 left-2 right-2 lg:bottom-6 lg:left-6 lg:right-auto bg-white/95 backdrop-blur p-3 lg:p-4 rounded-2xl shadow-lg flex items-center gap-3 lg:gap-4">
                             <div class="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-full flex flex-shrink-0 items-center justify-center text-green-700 text-lg lg:text-xl">
@@ -508,8 +634,10 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden animate-slide-up mb-12">
+        <div id="view-rewards" class="view-section">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden animate-slide-up mb-12 h-full min-h-[500px] flex flex-col justify-center">
                 <div class="absolute -top-10 -right-10 w-96 h-96 bg-gold-400 rounded-full blur-[120px] opacity-10"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-500 rounded-full blur-[100px] opacity-10"></div>
 
@@ -553,7 +681,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div id="view-jobs" class="view-section">
@@ -802,6 +929,35 @@
         </div>
 
     </main>
+    
+    <!-- AI Chat Bot Widget -->
+    <div class="chat-widget">
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm">Takwirira Assistant</p>
+                        <p class="text-[10px] text-brand-100 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Online</p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="hover:bg-white/10 p-1 rounded"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot">Hello! 👋 I'm the Takwirira AI Assistant. Ask me about our prices, services, location, or jobs!</div>
+            </div>
+            <div class="typing-indicator" id="typing-indicator">Takwirira Assistant is typing...</div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Type your question..." class="flex-1 px-3 py-2 bg-slate-100 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500 text-slate-800" onkeypress="handleChatKey(event)">
+                <button onclick="sendMessage()" class="p-2 text-brand-600 hover:bg-brand-50 rounded-lg transition"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <button class="chat-button animate-bounce-slow" onclick="toggleChat()">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
 
     <script>
         // --- 1. TAB SYSTEM LOGIC (MAIN NAV) ---
@@ -1003,7 +1159,7 @@
         function renderReviews() {
             const container = document.getElementById('reviews-container');
             container.innerHTML = reviews.map(r => `
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-fade-in">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <div class="flex justify-between mb-2">
                         <h4 class="font-bold text-slate-900">${r.name}</h4>
                         <span class="text-yellow-400">${'★'.repeat(r.stars)}</span>
@@ -1027,6 +1183,86 @@
         });
 
         renderReviews();
+
+        // --- 6. AI CHAT BOT LOGIC ---
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.toggle('open');
+            if(chatWindow.classList.contains('open')) {
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        function handleChatKey(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        const knowledgeBase = {
+            "hello": "Hello! How can I help you today? I can answer questions about our services, prices, or location.",
+            "hi": "Hi there! Welcome to Takwirira Dental. What can I do for you?",
+            "price": "Our prices start from $25 for Fluoride. Scale & Polish is $50, and Deep Cleaning is $120. Whitening is $150.",
+            "cost": "Our prices start from $25 for Fluoride. Scale & Polish is $50, and Deep Cleaning is $120. Whitening is $150.",
+            "whitening": "Teeth Whitening is $150. It's a professional in-chair procedure for a brighter smile.",
+            "cleaning": "We offer Scale & Polish for $50 (Standard) and Deep Cleaning (SRP) for $120.",
+            "location": "We are located in the Chipinge CBD. We will be opening soon!",
+            "where": "We are located in the Chipinge CBD. We will be opening soon!",
+            "hours": "We are open Monday to Friday from 8am to 6pm. We are closed on weekends.",
+            "open": "We are open Monday to Friday from 8am to 6pm. We are closed on weekends.",
+            "hiring": "Yes! We are hiring Dental Hygienists and General Cleaners. Check the 'Jobs' tab to apply.",
+            "job": "Check the 'Jobs' tab to see our current vacancies. You can apply directly through the website.",
+            "intern": "We have a Patient Wellness Internship program for students. It includes school fees and uniform benefits!",
+            "contact": "You can book via the 'Services' tab or WhatsApp us directly.",
+            "whatsapp": "You can WhatsApp us on +263788643858.",
+            "refer": "Our Loyalty Program lets you earn rewards! Refer 5 friends for $30 cash or a free cleaning.",
+            "reward": "Refer 5 friends to get $30 or a free cleaning. Refer 20 for our exclusive TakwiriraCard!",
+            "default": "I'm not sure about that one. Would you like to switch to the Services tab to book an appointment, or ask about our prices?"
+        };
+
+        function sendMessage() {
+            const inputField = document.getElementById('chat-input');
+            const messageText = inputField.value.trim();
+            if (!messageText) return;
+
+            // Add User Message
+            addMessage(messageText, 'user');
+            inputField.value = '';
+
+            // Show Typing Indicator
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'block';
+            
+            // Scroll to bottom
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Simulate "Thinking" delay
+            setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                const response = generateResponse(messageText.toLowerCase());
+                addMessage(response, 'bot');
+            }, 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender);
+            msgDiv.innerText = text;
+            messagesContainer.appendChild(msgDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function generateResponse(input) {
+            // Simple keyword matching
+            for (const key in knowledgeBase) {
+                if (input.includes(key)) {
+                    return knowledgeBase[key];
+                }
+            }
+            return knowledgeBase['default'];
+        }
     </script>
 </body>
 </html>
