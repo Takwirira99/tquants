@@ -370,6 +370,45 @@
                         </div>
                     </div>
 
+                    <div class="mt-8 pt-8 border-t-2 border-slate-100">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="p-2 bg-green-100 rounded-lg text-green-700"><i class="fa-solid fa-rotate"></i></div>
+                            <h3 class="text-2xl font-bold text-brand-900">Routine Maintenance Plans</h3>
+                        </div>
+                        <p class="text-slate-600 mb-6 font-medium">Commit to your health and save. Regular customers get lower prices on Scale & Polish.</p>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-brand-50 border-2 border-brand-200 p-4 rounded-xl text-center hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group" onclick="selectPlan('Every 3 Months', 35)">
+                                <div class="text-[10px] font-bold text-white bg-brand-600 rounded-full px-2 py-0.5 inline-block mb-2">BEST VALUE</div>
+                                <div class="text-sm font-bold text-brand-900 uppercase">Quarterly</div>
+                                <div class="text-3xl font-bold text-brand-700 my-1">$35</div>
+                                <div class="text-xs text-slate-400 line-through font-semibold">$50.00</div>
+                                <p class="text-[10px] text-brand-600 mt-2 font-bold group-hover:underline">Select Plan <i class="fa-solid fa-arrow-right"></i></p>
+                            </div>
+
+                            <div class="bg-white border border-slate-200 p-4 rounded-xl text-center hover:border-brand-300 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group" onclick="selectPlan('Every 4 Months', 40)">
+                                <div class="text-sm font-bold text-brand-900 uppercase mt-4">Tri-Annual</div>
+                                <div class="text-3xl font-bold text-brand-700 my-1">$40</div>
+                                <div class="text-xs text-slate-400 line-through font-semibold">$50.00</div>
+                                <p class="text-[10px] text-slate-400 mt-2 font-bold group-hover:text-brand-600">Select Plan <i class="fa-solid fa-arrow-right"></i></p>
+                            </div>
+
+                            <div class="bg-white border border-slate-200 p-4 rounded-xl text-center hover:border-brand-300 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group" onclick="selectPlan('Every 6 Months', 45)">
+                                <div class="text-sm font-bold text-brand-900 uppercase mt-4">Bi-Annual</div>
+                                <div class="text-3xl font-bold text-brand-700 my-1">$45</div>
+                                <div class="text-xs text-slate-400 line-through font-semibold">$50.00</div>
+                                <p class="text-[10px] text-slate-400 mt-2 font-bold group-hover:text-brand-600">Select Plan <i class="fa-solid fa-arrow-right"></i></p>
+                            </div>
+
+                            <div class="bg-white border border-slate-200 p-4 rounded-xl text-center hover:border-brand-300 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group" onclick="selectPlan('Every 12 Months', 50)">
+                                <div class="text-sm font-bold text-brand-900 uppercase mt-4">Annual</div>
+                                <div class="text-3xl font-bold text-brand-700 my-1">$50</div>
+                                <div class="text-xs text-slate-400 font-semibold">Standard</div>
+                                <p class="text-[10px] text-slate-400 mt-2 font-bold group-hover:text-brand-600">Select Plan <i class="fa-solid fa-arrow-right"></i></p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="lg:col-span-5 relative">
@@ -423,6 +462,7 @@
                                     <option value="Night Guard">10. Night Guard ($100)</option>
                                     <option value="Consultation">General Consultation</option>
                                 </select>
+                                <input type="hidden" id="booking-plan" value="">
                             </div>
 
                             <button type="button" onclick="submitBooking()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-brand-900">
@@ -781,9 +821,27 @@
 
         function prefillService(serviceName) {
             document.getElementById('booking-service').value = serviceName;
+            document.getElementById('booking-plan').value = ""; // Clear any plan
             const form = document.getElementById('booking-form');
             form.parentElement.classList.add('ring-2', 'ring-brand-400');
             setTimeout(() => form.parentElement.classList.remove('ring-2', 'ring-brand-400'), 1000);
+        }
+
+        function selectPlan(planName, price) {
+            // Set service to Scale & Polish
+            const serviceSelect = document.getElementById('booking-service');
+            serviceSelect.value = "Scale & Polish"; 
+            
+            // Set Hidden Plan Value
+            document.getElementById('booking-plan').value = `${planName} Plan ($${price})`;
+
+            // Visual feedback
+            const form = document.getElementById('booking-form');
+            form.parentElement.classList.add('ring-2', 'ring-brand-400');
+            setTimeout(() => form.parentElement.classList.remove('ring-2', 'ring-brand-400'), 1000);
+
+            // Alert user briefly
+            // Optional: alert(`Selected ${planName} Plan. Please complete the form.`);
         }
 
         function submitBooking() {
@@ -792,13 +850,20 @@
             const service = document.getElementById('booking-service').value;
             const date = document.getElementById('booking-date').value;
             const time = document.getElementById('booking-time').value;
+            const plan = document.getElementById('booking-plan').value;
 
             if(!name || !phone || !service || !date || !time) {
                 alert("Please fill in all fields: Name, Phone, Service, Date, and Time.");
                 return;
             }
 
-            const message = `*New Appointment Request* 🦷\n\n*Patient Details:*\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n\n*Booking Information:*\n✨ *Service:* ${service}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n\nHello Takwirira Dental, I would like to confirm if this slot is available.`;
+            let message = `*New Appointment Request* 🦷\n\n*Patient Details:*\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n\n*Booking Information:*\n✨ *Service:* ${service}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}`;
+            
+            if(plan) {
+                message += `\n💎 *Loyalty Plan Selected:* ${plan}`;
+            }
+
+            message += `\n\nHello Takwirira Dental, I would like to confirm if this slot is available.`;
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
