@@ -624,7 +624,7 @@
                                 </div>
 
                                 <button type="button" onclick="submitSingleBooking()" id="btn-submit-booking" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-brand-900">
-                                    <i class="fa-brands fa-whatsapp"></i> Request Appointment
+                                    <i class="fa-regular fa-envelope"></i> Request Appointment
                                 </button>
                             </form>
 
@@ -673,7 +673,7 @@
                                     <input type="hidden" id="selected-plan-price">
                                 </div>
 
-                                <button type="button" onclick="submitPlanBooking()" class="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-green-700">
+                                <button type="button" onclick="window.submitPlanBookingEmail()" class="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-green-700">
                                     <i class="fa-brands fa-whatsapp"></i> Subscribe to Plan
                                 </button>
                             </form>
@@ -1170,8 +1170,7 @@
 
     </main>
 
-    <!-- FIREBASE & APP LOGIC -->
-   <script type="module">
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         import { 
@@ -1195,7 +1194,7 @@
             measurementId: "G-31R190PKEM"
         };
 
-        // 2. Initialize Firebase (ONCE ONLY)
+        // 2. Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
@@ -1213,27 +1212,18 @@
             const authContainer = document.getElementById('portal-auth');
             const dashContainer = document.getElementById('portal-dashboard');
             
-            if (user) {
-                if (user.emailVerified) {
-                    // SUCCESS: User is logged in AND verified
-                    authContainer.classList.add('hidden');
-                    dashContainer.classList.remove('hidden');
-                    // Remove any verification warnings if they exist
-                    const warning = document.getElementById('verification-warning');
-                    if(warning) warning.remove();
-                    
-                    document.getElementById('user-display-email').textContent = user.email;
-                    loadMedicalData(user.uid);
-                } else {
-                    // PENDING: User logged in but NOT verified
-                    authContainer.classList.remove('hidden'); // Keep them on login screen
-                    dashContainer.classList.add('hidden');    // Hide data
-                    
-                    // Show verification UI
-                    showVerificationUI(user.email);
-                }
+            if (user && user.emailVerified) {
+                authContainer.classList.add('hidden');
+                dashContainer.classList.remove('hidden');
+                const warning = document.getElementById('verification-warning');
+                if(warning) warning.remove();
+                document.getElementById('user-display-email').textContent = user.email;
+                loadMedicalData(user.uid);
+            } else if (user && !user.emailVerified) {
+                authContainer.classList.remove('hidden'); 
+                dashContainer.classList.add('hidden');    
+                showVerificationUI(user.email);
             } else {
-                // LOGGED OUT
                 authContainer.classList.remove('hidden');
                 dashContainer.classList.add('hidden');
                 const warning = document.getElementById('verification-warning');
@@ -1241,15 +1231,14 @@
             }
         });
 
+        // ... [Verification UI functions remain the same] ...
         function showVerificationUI(email) {
-            const container = document.getElementById('portal-auth').querySelector('div'); // Get the left column
-            // Clear existing form to show message
+            const container = document.getElementById('portal-auth').querySelector('div');
             const existingForm = document.getElementById('auth-form');
             if(existingForm) existingForm.style.display = 'none';
             const existingToggle = document.querySelector('.mt-6.text-center');
             if(existingToggle) existingToggle.style.display = 'none';
 
-            // Create or update warning message
             let warning = document.getElementById('verification-warning');
             if (!warning) {
                 warning = document.createElement('div');
@@ -1257,32 +1246,20 @@
                 warning.className = "bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4";
                 warning.innerHTML = `
                     <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fa-solid fa-envelope text-yellow-400"></i>
-                        </div>
+                        <div class="flex-shrink-0"><i class="fa-solid fa-envelope text-yellow-400"></i></div>
                         <div class="ml-3">
-                            <p class="text-sm text-yellow-700">
-                                Verification link sent to <strong>${email}</strong>.
-                            </p>
-                            <p class="text-xs text-yellow-600 mt-1">
-                                Please check your email (and spam folder) and click the link to verify your account.
-                            </p>
+                            <p class="text-sm text-yellow-700">Verification link sent to <strong>${email}</strong>.</p>
                             <div class="mt-4 flex gap-2">
-                                <button onclick="window.location.reload()" class="text-sm font-medium text-yellow-700 hover:text-yellow-600 underline">
-                                    I have verified, Refresh
-                                </button>
-                                <button onclick="logout()" class="text-sm font-medium text-slate-500 hover:text-slate-800">
-                                    Logout
-                                </button>
+                                <button onclick="window.location.reload()" class="text-sm font-medium text-yellow-700 underline">I have verified, Refresh</button>
+                                <button onclick="logout()" class="text-sm font-medium text-slate-500 hover:text-slate-800">Logout</button>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 container.prepend(warning);
             }
         }
 
-        // 4. Portal Functions
+        // 4. Portal Functions (Exposed to Window)
         window.toggleAuthMode = function() {
             isLoginMode = !isLoginMode;
             const btnText = isLoginMode ? '<i class="fa-solid fa-lock mr-2"></i> Login Securely' : '<i class="fa-solid fa-user-plus mr-2"></i> Create Account';
@@ -1303,45 +1280,25 @@
 
             try {
                 if (isLoginMode) {
-                    // LOGIN FLOW
                     await signInWithEmailAndPassword(auth, email, pass);
-                    // onAuthStateChanged handles the rest
                 } else {
-                    // REGISTRATION FLOW
                     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                    // Send Email Verification immediately
                     await sendEmailVerification(userCredential.user);
-                    alert("Account created! We have sent a verification link to your email.");
+                    alert("Account created! Please check your email for the verification link.");
                 }
             } catch (error) {
-                if (error.code === 'auth/operation-not-allowed') {
-                    errorDiv.innerHTML = "<strong>Setup Required:</strong> Please enable Email/Password in Firebase Console.";
-                } else if (error.code === 'auth/email-already-in-use') {
-                    errorDiv.textContent = "That email is already registered. Please login.";
-                } else if (error.code === 'auth/weak-password') {
-                    errorDiv.textContent = "Password should be at least 6 characters.";
-                } else {
-                    errorDiv.textContent = error.message;
-                }
+                errorDiv.textContent = error.message;
                 errorDiv.classList.remove('hidden');
             }
         };
 
         window.logout = function() {
-            signOut(auth).then(() => {
-                // Reset UI state
-                const form = document.getElementById('auth-form');
-                if(form) form.style.display = 'block';
-                const toggle = document.querySelector('.mt-6.text-center');
-                if(toggle) toggle.style.display = 'block';
-                window.location.reload();
-            });
+            signOut(auth).then(() => window.location.reload());
         };
 
         // 5. Secure Firestore Data Logic
         window.saveMedicalData = async function() {
             if (!currentUser) return;
-            
             const data = {
                 fullname: document.getElementById('med-fullname').value,
                 dob: document.getElementById('med-dob').value,
@@ -1349,7 +1306,6 @@
                 medications: document.getElementById('med-medications').value,
                 lastUpdated: new Date().toISOString()
             };
-
             try {
                 await setDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'patientData', 'profile'), data);
                 const status = document.getElementById('save-status');
@@ -1371,17 +1327,27 @@
                     document.getElementById('med-allergies').value = data.allergies || '';
                     document.getElementById('med-medications').value = data.medications || '';
                 }
-            } catch (e) {
-                console.log("No profile found or error loading.");
-            }
+            } catch (e) { console.log("No profile found."); }
         }
 
-        // --- PUBLIC BOOKING LOGIC (Does not require Auth) ---
+        // --- PUBLIC BOOKING LOGIC ---
         
+        // Handle Date Logic: Block Weekends & Fetch Time Slots
         window.handleDateChange = async function(dateValue) {
             const timeSelect = document.getElementById('single-time');
+            
+            // Reset logic
             if(!dateValue) {
                 timeSelect.innerHTML = '<option value="" disabled selected>Select a date first...</option>';
+                return;
+            }
+
+            // WEEKEND CHECK
+            const dateObj = new Date(dateValue);
+            const day = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
+            if(day === 0 || day === 6) {
+                alert("We are closed on weekends. Please select a weekday (Mon-Fri).");
+                document.getElementById('single-date').value = ""; // Clear input
                 return;
             }
 
@@ -1389,6 +1355,7 @@
             timeSelect.innerHTML = '<option value="" disabled selected>Loading availability...</option>';
 
             try {
+                // Check Firebase for bookings on this date
                 const q = query(
                     collection(db, 'artifacts', appId, 'public', 'data', 'appointments'),
                     where("date", "==", dateValue)
@@ -1419,6 +1386,7 @@
             }
         };
 
+        // --- UPDATED: SEND TO EMAIL INSTEAD OF WHATSAPP ---
         window.submitSingleBookingWithFirebase = async function() {
             const name = document.getElementById('single-name').value.trim();
             const phone = document.getElementById('single-phone').value.trim();
@@ -1432,10 +1400,11 @@
                 return;
             }
 
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
 
             try {
+                // 1. Check double booking
                 const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'appointments', `${date}_${time}`);
                 const snap = await getDoc(bookingRef);
                 if(snap.exists()) {
@@ -1444,27 +1413,55 @@
                     return;
                 }
 
+                // 2. Save to Database
                 await setDoc(bookingRef, {
                     date: date,
                     time: time,
                     service: service,
+                    clientName: name,
+                    clientPhone: phone,
                     status: 'booked',
                     bookedAt: new Date().toISOString()
                 });
 
-                const message = `*New Appointment Request* 🦷\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}\n*Date:* ${date}\n*Time:* ${time}`;
-                window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
+                // 3. Construct Email
+                const targetEmail = "samueltakwirira@gmail.com";
+                const subject = `Appointment Request: ${name} for ${date}`;
+                const body = `New Booking Request\n\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}\n\nPlease reply to confirm availability.`;
                 
-                alert("Slot reserved! Opening WhatsApp to finalize...");
+                // 4. Open Email Client
+                window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                alert("Slot reserved in system! Opening your email app to send the details...");
                 document.getElementById('form-single').reset();
                 window.handleDateChange(''); 
 
             } catch (e) {
                 alert("Error saving booking: " + e.message);
             } finally {
-                btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Request Appointment';
+                btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Request Appointment';
                 btn.disabled = false;
             }
+        };
+
+        // --- UPDATED: MAINTENANCE PLAN TO EMAIL ---
+        // We attach this to the window so the standard script below can call it
+        window.submitPlanBookingEmail = function() {
+            const name = document.getElementById('plan-name').value.trim();
+            const phone = document.getElementById('plan-phone').value.trim();
+            const date = document.getElementById('plan-date').value;
+            const planName = document.getElementById('selected-plan-name').value;
+            
+            if(!name || !phone || !date || !planName) {
+                alert("Please complete the form.");
+                return;
+            }
+
+            const targetEmail = "samueltakwirira@gmail.com";
+            const subject = `Plan Subscription: ${name}`;
+            const body = `I would like to subscribe to a Maintenance Plan.\n\nName: ${name}\nPhone: ${phone}\nSelected Plan: ${planName}\nPreferred Start Date: ${date}`;
+
+            window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         };
     </script>
     <script>
