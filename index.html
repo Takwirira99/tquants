@@ -1616,39 +1616,216 @@
 
         renderReviews();
 
-        // LOCAL AI LOGIC (Expanded)
-        const knowledgeBase = [
-            // PRICE & SERVICES
-            { keys: ["scale", "polish", "cleaning price", "wash teeth", "plaque"], score: 2, text: "A Scale & Polish is **$50**. This removes plaque and tartar to keep your gums healthy. It's our most popular service!" },
-            { keys: ["whitening", "white", "yellow", "bright", "bleach"], score: 2, text: "Professional Teeth Whitening is **$150**. It is done in-chair for instant results! We also offer Stain Removal for **$60** if you just have surface coffee/tobacco stains." },
-            { keys: ["fluoride", "enamel"], score: 2, text: "Fluoride treatment is **$25**. It's great for strengthening enamel and preventing cavities, especially for children." },
-            { keys: ["deep", "root", "gum disease", "srp"], score: 2, text: "Deep Cleaning (SRP) is **$120**. This is a medical treatment specifically for gum disease (periodontitis)." },
-            { keys: ["guard", "grinding", "sport", "bruxism"], score: 2, text: "We make custom Mouth Guards. Sports guards are **$90** and Night Guards (for grinding) are **$100**." },
-            { keys: ["breath", "smell", "stink", "halitosis"], score: 2, text: "Bad breath is often caused by bacteria on the tongue or gums. Book our specific **'Breath Consultation' ($30)** to find the root cause." },
-            { keys: ["sensitive", "cold water", "pain cold"], score: 2, text: "For sensitive teeth, we offer a Sensitivity Treatment for **$40** which applies desensitizing agents to give you relief." },
-            
-            // GENERAL QUERIES
-            { keys: ["price", "cost", "how much", "money", "$", "rates", "fees"], score: 1, text: "Here is a quick price list:\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $30\n• Kids Fluoride: $25\n\nSee the 'Services' tab for more!" },
-            { keys: ["book", "appoint", "schedule", "slot", "visit", "reserve"], score: 1.5, text: "You can book easily! Just go to the **'Services & Booking'** tab on this page, or tell me your name and phone number here and I'll generate a WhatsApp link." },
-            { keys: ["location", "where", "address", "find", "map", "chipinge"], score: 1.5, text: "We are located in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. It's very central and easy to find!" },
-            { keys: ["hour", "open", "time", "close", "day", "weekend", "saturday", "sunday"], score: 1.5, text: "We are open **Monday to Friday**, 8:00 AM to 6:00 PM. We are closed on weekends to rest our tools! 🛠️" },
-            { keys: ["pay", "cash", "usd", "swipe", "ecocash"], score: 1.5, text: "We accept **USD Cash**, **EcoCash**, and **Swipe**. Short on cash? Ask about our maintenance plans!" },
-            
-            // JOB & INTERNSHIP
-            { keys: ["job", "work", "hiring", "vacancy", "cv", "employ"], score: 1.5, text: "Yes, we are hiring! Please check the **'Jobs'** tab to see open positions for Hygienists and Cleaners." },
-            { keys: ["intern", "student", "learn", "attachment", "train"], score: 1.5, text: "We have a Student Wellness Internship! It helps with school fees. Check the 'Jobs' tab to apply. We also offer Hygiene Training." },
-            
-            // EMERGENCIES & MEDICAL ADVICE
-            { keys: ["pain", "hurt", "blood", "emergency", "ache", "swollen"], score: 3, text: "🚨 **If you are in pain, please book a slot immediately or visit us.** Do not wait. If it is an emergency, message us on WhatsApp directly using the button in the booking tab." },
-            { keys: ["child", "kid", "baby", "toddler"], score: 1, text: "We love kids! We recommend bringing them in early (from age 1) to get used to the environment. We are very gentle." },
-            { keys: ["safe", "clean", "sterile", "hiv", "virus"], score: 1, text: "Your safety is #1. We use hospital-grade sterilization for every single tool and surface. It is the cleanest spot in Chipinge!" },
-            
-            // GREETINGS & SMALL TALK
-            { keys: ["hello", "hi", "hey", "morning", "afternoon"], score: 0.8, text: "Hello there! 👋 How can I help your smile today? You can ask me about prices, booking, or services." },
-            { keys: ["thank", "thx", "goodbye", "bye"], score: 0.8, text: "You're very welcome! Keep smiling. 😁" },
-            { keys: ["who are you","ndiwe ani", "ndiwe ani?", "what are you", "bot"], score: 0.8, text: "I am the Takwirira Virtual Assistant. I run on this page to help you with questions about Takwiriria Dental!" }
-        ];
+       /* =========================================
+   TAKWIRIRA AI: LOGIC & KNOWLEDGE BASE
+   ========================================= */
 
+// 1. STATE MANAGEMENT (Tracks the conversation context)
+let botState = {
+    surveyActive: false,
+    surveyStep: 0,
+    badHabitCount: 0,
+    awaitingBooking: false
+};
+
+// 2. THE SURVEY QUESTIONS (Diagnostic Tools)
+const surveyQuestions = [
+    "Do your gums ever bleed when you brush or floss? (Yes/No)",
+    "Do you drink coffee, tea, or soda almost every day? (Yes/No)",
+    "Do you sometimes feel pain when drinking ice-cold water? (Yes/No)",
+    "Be honest: Do you sometimes skip brushing your teeth at night? (Yes/No)",
+    "Do you smoke or chew tobacco products? (Yes/No)"
+];
+
+// 3. THE KNOWLEDGE BASE
+const knowledgeBase = [
+    // --- URGENT / SYMPTOMS (Highest Priority) ---
+    { 
+        keys: ["pain", "hurt", "blood", "emergency", "ache", "swollen", "dying", "agony", "throbbing"], 
+        score: 20, // Super high score to override everything else
+        text: "🚨 **EMERGENCY ALERT:** If you are in pain or seeing blood, we need to stop chatting and start treating. Pain = Damage. \n\nPlease click the 'Book Now' button immediately or come straight to our clinic in Chipinge. Do not wait." 
+    },
+    { 
+        keys: ["broken", "chip", "crack", "fell", "knocked"], 
+        score: 15, 
+        text: "Ouch! 🦷 If a tooth is broken, try to find the piece and put it in milk. Then come to us IMMEDIATELY. Time is ticking to save that tooth!" 
+    },
+
+    // --- SALES & SERVICES (The "Pushy & Funny" Layer) ---
+    { 
+        keys: ["scale", "polish", "cleaning price", "wash teeth", "plaque", "dirty"], 
+        score: 5, 
+        text: "💰 A Scale & Polish is just **$50**. We scrape off the tartar that your toothbrush can't reach (and let's be honest, it's missing a lot). Prevent the rot—book a slot!" 
+    },
+    { 
+        keys: ["whitening", "white", "yellow", "bright", "bleach", "glow"], 
+        score: 5, 
+        text: "✨ **$150** for Professional Whitening. Don't be the person with yellow teeth in the group selfie! We do it in-chair for instant results. If it's just coffee stains, it's only **$60**. Which do you need?" 
+    },
+    { 
+        keys: ["fluoride", "enamel"], 
+        score: 4, 
+        text: "🛡️ Fluoride is **$25**. Think of it as a bulletproof vest for your teeth. Essential for kids, but adults need it too. It's cheap insurance against expensive cavities." 
+    },
+    { 
+        keys: ["deep", "root", "gum disease", "srp", "shaking"], 
+        score: 5, 
+        text: "⚠️ Deep Cleaning (SRP) is **$120**. This is a medical rescue mission for gum disease. If your teeth feel loose or gums bleed, you likely need this. Shall I book a consultation ($30) to check?" 
+    },
+    { 
+        keys: ["guard", "grinding", "sport", "bruxism", "teeth grinding"], 
+        score: 4, 
+        text: "🥊 Sports guards: **$90**. Night Guards: **$100**. Much cheaper than fixing a smashed tooth! Protect your investment." 
+    },
+    { 
+        keys: ["breath", "smell", "stink", "halitosis", "odor"], 
+        score: 5, 
+        text: "🤢 Bad breath? Awkward. It's usually bacteria hiding deep in the gums. Our 'Breath Consultation' is **$30**. Let's find the root cause so you can talk close to people again. Book it?" 
+    },
+    { 
+        keys: ["sensitive", "cold water", "pain cold", "ice cream"], 
+        score: 5, 
+        text: "❄️ Ouch! Sensitivity Treatment is **$40**. Stop suffering every time you drink water. We apply special agents to seal that pain away instantly." 
+    },
+
+    // --- LOGISTICS & GENERAL INFO ---
+    { 
+        keys: ["price", "cost", "how much", "money", "$", "rates", "fees", "menu"], 
+        score: 3, 
+        text: "💸 **Quick Price List:**\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $30\n• Kids Fluoride: $25\n\nQuality isn't expensive, it's priceless. When can you come in?" 
+    },
+    { 
+        keys: ["book", "appoint", "schedule", "slot", "visit", "reserve"], 
+        score: 6, 
+        text: "📅 **YES! Let's get you in.** Use the 'Booking' tab, or just tell me your **Name and Phone Number** here and I'll generate a WhatsApp link for you." 
+    },
+    { 
+        keys: ["location", "where", "address", "find", "map", "chipinge"], 
+        score: 4, 
+        text: "📍 We are in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. Central and easy to find—unless you need an eye doctor too! 😉" 
+    },
+    { 
+        keys: ["hour", "open", "time", "close", "day", "weekend"], 
+        score: 3, 
+        text: "⏰ Mon-Fri: 8:00 AM - 6:00 PM. We are closed on weekends to rest our own smiles! 🛠️" 
+    },
+    { 
+        keys: ["pay", "cash", "usd", "swipe", "ecocash"], 
+        score: 3, 
+        text: "💳 We accept **USD Cash, EcoCash, and Swipe**. Short on cash? Ask about our maintenance plans to save bucks!" 
+    },
+
+    // --- JOBS ---
+    { 
+        keys: ["job", "work", "hiring", "vacancy", "cv", "employ"], 
+        score: 2, 
+        text: "Yes, we are hiring! Please check the 'Jobs' tab. We need rockstars, not just workers." 
+    },
+    { 
+        keys: ["intern", "student", "learn", "attachment", "train"], 
+        score: 2, 
+        text: "🎓 We have a Student Wellness Internship! We cover school fees + uniforms + $100 stipend. Check the 'Jobs' tab to apply. We are building the future of dental health!" 
+    },
+
+    // --- CHIT CHAT ---
+    { 
+        keys: ["hello", "hi", "hey", "morning", "afternoon"], 
+        score: 1, 
+        text: "Hello there! 👋 I'm TakwiriraAI. I'm here to fix smiles and take names. Want to check prices or take a quick **Tooth Health Quiz**?" 
+    },
+    { 
+        keys: ["thank", "thx", "goodbye", "bye"], 
+        score: 1, 
+        text: "You're welcome! Keep smiling (and flossing). 😁" 
+    },
+    { 
+        keys: ["who are you", "bot", "human"], 
+        score: 1, 
+        text: "I am the Takwirira Virtual Assistant. I run on logic and dental hygiene. I'm smart, but our dentists are smarter." 
+    }
+];
+
+// 4. THE BRAIN (Main Processing Function)
+// Call this function when the user sends a message.
+function getTakwiriraResponse(userInput) {
+    let text = userInput.toLowerCase();
+
+    // --- A. EMERGENCY OVERRIDE ---
+    // If they mention pain, ignore everything else and scream "Emergency"
+    if (text.includes("pain") || text.includes("blood") || text.includes("agony") || text.includes("dying")) {
+        botState.surveyActive = false; // Kill the fun stuff
+        return knowledgeBase[0].text; // Return the emergency text
+    }
+
+    // --- B. SURVEY HANDLING ---
+    // If survey is active, handle the yes/no flow
+    if (botState.surveyActive) {
+        return handleSurveyInput(text);
+    }
+
+    // --- C. TRIGGER SURVEY ---
+    // If user asks for a quiz, checkup, or says "quiz", start the survey
+    if (text.includes("quiz") || text.includes("test") || text.includes("check") || text.includes("bad habits")) {
+        botState.surveyActive = true;
+        botState.surveyStep = 0;
+        botState.badHabitCount = 0;
+        return "🕵️‍♀️ **The Truth Test!** I'm going to ask you 5 questions. Be honest—I'm an AI, I won't judge (much). \n\n" + surveyQuestions[0];
+    }
+
+    // --- D. STANDARD KNOWLEDGE BASE SEARCH ---
+    let bestMatch = null;
+    let highestScore = 0;
+
+    knowledgeBase.forEach(item => {
+        let matchCount = 0;
+        item.keys.forEach(key => {
+            if (text.includes(key)) matchCount++;
+        });
+
+        // Multiply matches by item score (Priority System)
+        if (matchCount > 0) {
+            let currentScore = matchCount * item.score;
+            if (currentScore > highestScore) {
+                highestScore = currentScore;
+                bestMatch = item;
+            }
+        }
+    });
+
+    // Return the best match if found
+    if (bestMatch) {
+        return bestMatch.text;
+    }
+
+    // --- E. FALLBACK / PUSHY UPSELL ---
+    // If we don't understand, pivot immediately to booking
+    return "I didn't quite catch that, but here's a thought: **When was your last cleaning?** 🧼 If it's been over 6 months, you're overdue! Type 'price' to see costs or 'book' to secure a spot.";
+}
+
+// 5. INTERNAL SURVEY HELPER
+function handleSurveyInput(text) {
+    // Check for "Yes" synonyms
+    const isYes = text.includes("yes") || text.includes("yeah") || text.includes("yep") || text.includes("sure") || text.includes("sometimes");
+    
+    if (isYes) botState.badHabitCount++;
+    botState.surveyStep++;
+
+    // Check if there are more questions
+    if (botState.surveyStep < surveyQuestions.length) {
+        return surveyQuestions[botState.surveyStep];
+    } else {
+        // Survey Finished - Results Calculation
+        botState.surveyActive = false; // Reset state
+        
+        if (botState.badHabitCount >= 3) {
+            return `😱 **RESULTS: WARNING!**\nYou flagged ${botState.badHabitCount}/5 signs. \n\nListen to me closely: **You need to see us.** These are signs of gum disease or decay. It's cheaper to fix it now than later. \n\nType **'BOOK'** right now. I'm serious!`;
+        } else if (botState.badHabitCount > 0) {
+            return `🤔 **RESULTS:** You're doing okay, but you have ${botState.badHabitCount} risk factors. Prevention is better than cure!\n\nA $50 Cleaning would make your smile perfect and prevent issues. Want to book one?`;
+        } else {
+            return "🌟 **RESULTS:** Wow! You are a dental superstar! 🌟 Zero bad signs. Keep it up! But hey, even superstars need a polish to shine. Come see us for a whitening session?";
+        }
+    }
+}
         function toggleChat() {
             document.getElementById('chat-window').classList.toggle('open');
             document.getElementById('chat-input').focus();
