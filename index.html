@@ -338,7 +338,6 @@
                         <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
                         Opening Soon in Chipinge
                     </div>
-                    <!-- Fixed text scaling and breaking for mobile -->
                     <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold text-brand-900 leading-[1.1] break-words">
                         The Future of <br> <span class="text-brand-600">Oral Hygiene.</span>
                     </h1>
@@ -600,8 +599,7 @@
                                     <label class="text-xs font-bold text-brand-900 uppercase">Preferred Time</label>
                                     <select id="single-time" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
                                         <option value="" disabled selected>Select a date first...</option>
-                                        <!-- Options populated by JS -->
-                                    </select>
+                                        </select>
                                     <p class="text-[10px] text-brand-700 font-semibold mt-1">Mon-Fri: 08:00 AM to 06:00 PM</p>
                                 </div>
 
@@ -623,9 +621,15 @@
                                     </select>
                                 </div>
 
-                                <button type="button" onclick="submitSingleBooking()" id="btn-submit-booking" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-brand-900">
-                                    <i class="fa-regular fa-envelope"></i> Request Appointment
-                                </button>
+                                <div class="grid gap-3 pt-2">
+                                    <button type="button" onclick="submitSingleBooking()" id="btn-submit-booking" class="w-full py-3 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2 border border-brand-900">
+                                        <i class="fa-regular fa-envelope"></i> Request via Email
+                                    </button>
+                                    
+                                    <button type="button" onclick="submitSingleWhatsApp()" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2 border border-green-600">
+                                        <i class="fa-brands fa-whatsapp text-xl"></i> Book via WhatsApp
+                                    </button>
+                                </div>
                             </form>
 
                             <form id="form-plan" class="space-y-4 hidden">
@@ -673,8 +677,8 @@
                                     <input type="hidden" id="selected-plan-price">
                                 </div>
 
-                                <button type="button" onclick="window.submitPlanBookingEmail()" class="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-green-700">
-                                    <i class="fa-brands fa-whatsapp"></i> Subscribe to Plan
+                                <button type="button" onclick="submitPlanWhatsApp()" class="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-green-700">
+                                    <i class="fa-brands fa-whatsapp"></i> Subscribe via WhatsApp
                                 </button>
                             </form>
 
@@ -962,7 +966,6 @@
         <div id="view-portal" class="view-section">
             <div class="max-w-4xl mx-auto animate-slide-up">
                 
-                <!-- State 1: Unauthenticated -->
                 <div id="portal-auth" class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 grid md:grid-cols-2">
                     <div class="p-8 md:p-12 flex flex-col justify-center">
                         <div class="mb-8">
@@ -1008,7 +1011,6 @@
                     </div>
                 </div>
 
-                <!-- State 2: Authenticated Dashboard -->
                 <div id="portal-dashboard" class="hidden">
                     <div class="flex justify-between items-center mb-8">
                         <div>
@@ -1021,7 +1023,6 @@
                     </div>
 
                     <div class="grid md:grid-cols-3 gap-6">
-                        <!-- Private Medical Form -->
                         <div class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                             <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
                                 <div class="w-10 h-10 bg-red-50 text-red-600 rounded-full flex items-center justify-center"><i class="fa-solid fa-heart-pulse"></i></div>
@@ -1060,7 +1061,6 @@
                             </form>
                         </div>
 
-                        <!-- Appointments / Status -->
                         <div class="space-y-6">
                             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                                 <h3 class="font-bold text-brand-900 mb-4">Next Appointment</h3>
@@ -1506,16 +1506,36 @@
             document.getElementById('selected-plan-price').value = price;
         }
 
-        function submitPlanBooking() {
-            const name = document.getElementById('plan-name').value.trim();
-            const phone = document.getElementById('plan-phone').value.trim();
-            const date = document.getElementById('plan-date').value;
-            const planName = document.getElementById('selected-plan-name').value;
-            if(!name || !phone || !date || !planName) {
-                alert("Please complete the form.");
+        // --- NEW WHATSAPP FUNCTIONALITY ---
+        function submitSingleWhatsApp() {
+            const name = document.getElementById('single-name').value.trim();
+            const service = document.getElementById('single-service').value;
+            const date = document.getElementById('single-date').value;
+            const time = document.getElementById('single-time').value;
+
+            if(!name || !service || !date || !time) {
+                alert("Please select a Service, Date, and Time first.");
                 return;
             }
-            const message = `*Maintenance Plan Subscription*\n*Name:* ${name}\n*Plan:* ${planName}\n*Start Date:* ${date}`;
+
+            const message = `*New Appointment Request*\nHello Takwirira Dental,\n\nI would like to book an appointment:\n\n👤 *Name:* ${name}\n🦷 *Service:* ${service}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}`;
+            
+            // WhatsApp Link for +263788643858
+            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function submitPlanWhatsApp() {
+            const name = document.getElementById('plan-name').value.trim();
+            const planName = document.getElementById('selected-plan-name').value;
+            const date = document.getElementById('plan-date').value;
+            
+            if(!name || !date || !planName) {
+                alert("Please select a plan, enter your name and start date.");
+                return;
+            }
+            
+            const message = `*Maintenance Plan Subscription*\nHello, I want to join the club!\n\n👤 *Name:* ${name}\n💎 *Plan:* ${planName}\n📅 *Start Date:* ${date}`;
+            
             window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
         }
 
