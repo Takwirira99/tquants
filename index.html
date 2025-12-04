@@ -3,1972 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Takwirira Dental | Chipinge Oral Hygiene Centre</title>
+    <title>LimpopoPay | Borderless Lifestyle Banking for SADC</title>
+    <meta name="description" content="Send money, hold ZAR & USD, and shop globally with a virtual card. The safe, instant digital wallet for South Africa and Zimbabwe.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                            900: '#78350f',
-                        }
-                    },
-                    animation: {
-                        'slide-up': 'slideUp 0.4s ease-out forwards',
-                        'bounce-slow': 'bounce 3s infinite',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                            blue: '#0F172A',  /* Deep trust blue */
+                            teal: '#0D9488',  /* Vibrant action teal */
+                            light: '#F1F5F9', /* Soft background */
                         }
                     }
                 }
             }
         }
     </script>
-
     <style>
-        html, body {
-            overflow-x: hidden; /* Critical Mobile Fix: Stops side-scrolling */
-            max-width: 100vw;
-            width: 100%;
-            position: relative;
-        }
-
-        body {
-            background-color: #f8fafc;
-        }
-        
-        /* View Management */
-        .view-section {
-            display: none; /* Hidden by default */
-            min-height: calc(100vh - 80px);
-            padding-top: 100px; /* Reduced for mobile default */
-            padding-bottom: 80px; /* Extra padding for bottom chat widget */
-        }
-
-        /* Adjust padding for larger screens */
-        @media (min-width: 1024px) {
-            .view-section {
-                padding-top: 100px;
-                padding-bottom: 40px;
-            }
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        /* Nav Item Active State */
-        .nav-item.active {
-            color: #0284c7;
-            background-color: #f0f9ff;
-            font-weight: 700;
-        }
-
-        /* Booking Tab Active State */
-        .booking-tab.active {
-            background-color: #0c4a6e; /* brand-900 */
-            color: white;
-            border-color: #0c4a6e;
-        }
-        
-        .booking-tab {
-            transition: all 0.3s ease;
-        }
-
-        /* Glass effect */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Checkbox Custom Style */
-        .custom-checkbox:checked {
-            background-color: #0ea5e9;
-            border-color: #0ea5e9;
-        }
-
-        /* Chat Window Styles - Re-positioned to Top Right */
-        .chat-window {
-            position: fixed;
-            top: 85px; /* Just below the navbar */
-            right: 16px;
-            z-index: 1000;
-            width: 350px;
-            height: 450px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transform-origin: top right; /* Animates from the button */
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0;
-            transform: scale(0.9) translateY(-10px);
-            pointer-events: none;
-            border: 1px solid #e2e8f0;
-        }
-
-        .chat-window.open {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            pointer-events: all;
-        }
-
-        .chat-header {
-            background: #0c4a6e;
-            padding: 16px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            background-color: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-            word-wrap: break-word; /* Prevents long words breaking layout */
-        }
-
-        .message.bot {
-            background: #e0f2fe;
-            color: #0c4a6e;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
-
-        .message.user {
-            background: #0c4a6e;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        .chat-input-area {
-            padding: 12px;
-            border-top: 1px solid #e2e8f0;
-            background: white;
-            display: flex;
-            gap: 8px;
-        }
-
-        .typing-indicator {
-            display: none;
-            font-size: 12px;
-            color: #64748b;
-            margin-left: 16px;
-            margin-bottom: 8px;
-            margin-top: 4px;
-        }
-
-        /* Sparkle Button Style */
-        .btn-sparkle {
-            background: linear-gradient(45deg, #f59e0b, #d97706);
-            color: white;
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-sparkle::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        /* Mobile Optimizations for Chat */
-        @media (max-width: 640px) {
-            .chat-window {
-                /* Fits screen width perfectly on mobile with small margins */
-                width: calc(100vw - 32px); 
-                height: 60vh;
-                right: 16px;
-                left: 16px; /* Centered on small screens */
-                margin: 0 auto;
-            }
-        }
+        /* Simple smooth scrolling */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900">
+<body class="bg-brand-light font-sans text-slate-800">
 
-    <div class="fixed inset-0 z-0 pointer-events-none opacity-40 overflow-hidden">
-        <div class="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
-    </div>
-
-    <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                
-                <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('home')">
-                    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-200 flex-shrink-0">
-                        <i class="fa-solid fa-tooth text-xl"></i>
-                    </div>
-                    <span class="font-bold text-lg md:text-xl tracking-tight text-brand-900 leading-none">Takwirira<span class="text-brand-600 font-light block md:inline md:ml-1">Dental</span></span>
-                </div>
-
-                <div class="hidden md:flex bg-slate-100/50 p-1 rounded-full border border-slate-200 backdrop-blur-md">
-                    <button onclick="switchTab('home')" class="nav-item active px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Home</button>
-                    <button onclick="switchTab('services')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Bookings</button>
-                    <button onclick="switchTab('rewards')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Rewards</button>
-                    <button onclick="switchTab('jobs')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">Jobs</button>
-                    <button onclick="switchTab('about')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700">About</button>
-                    <button onclick="switchTab('portal')" class="nav-item px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 text-slate-600 hover:text-brand-700 flex items-center gap-2">
-                        <i class="fa-solid fa-lock text-xs"></i> Portal
-                    </button>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <button onclick="toggleChat()" class="bg-brand-900 hover:bg-brand-800 text-white px-4 py-2.5 rounded-full font-bold text-sm shadow-md transition-all flex items-center gap-2 border-2 border-brand-800/50 active:scale-95">
-                        <i class="fa-solid fa-robot"></i> 
-                        <span class="hidden sm:inline">Ask AI</span>
-                        <span class="sm:hidden">AI</span>
-                    </button>
-
-                    <button class="md:hidden text-brand-900 text-2xl focus:outline-none p-2 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 transition" onclick="toggleMobileMenu()">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
+    <header class="bg-white shadow-sm fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-building-columns text-brand-teal text-2xl"></i>
+                <span class="text-2xl font-bold text-brand-blue">LimpopoPay</span>
             </div>
-        </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-20 shadow-lg z-50">
-            <div class="p-4 flex flex-col space-y-2">
-                <button onclick="switchTab('home')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Home</button>
-                <button onclick="switchTab('services')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Bookings</button>
-                <button onclick="switchTab('rewards')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Rewards</button>
-                <button onclick="switchTab('jobs')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">Jobs</button>
-                <button onclick="switchTab('portal')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-brand-700 bg-blue-50"> <i class="fa-solid fa-lock mr-2"></i> Patient Portal</button>
-                <button onclick="switchTab('about')" class="text-left px-4 py-3 rounded-lg hover:bg-slate-50 font-semibold text-slate-700">About</button>
-            </div>
-        </div>
-    </nav>
-
-    <div class="chat-window" id="chat-window">
-        <div class="chat-header">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div>
-                    <p class="font-bold text-sm">Takwirira Assistant</p>
-                    <p class="text-[10px] text-brand-100 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Online (Takwirira AI)</p>
-                </div>
-            </div>
-            <button onclick="toggleChat()" class="hover:bg-white/10 p-1 rounded"><i class="fa-solid fa-times"></i></button>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="message bot">Hello! 👋 I'm the TakwiriraAI,the AI Assistant for Takwirira Dental. Ask me anything about our services, booking, or prices!</div>
-        </div>
-        <div class="typing-indicator" id="typing-indicator">Takwirira Assistant is thinking...</div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Type your question..." class="flex-1 px-3 py-2 bg-slate-100 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500 text-slate-800" onkeypress="handleChatKey(event)">
-            <button onclick="sendMessage()" class="p-2 text-brand-600 hover:bg-brand-50 rounded-lg transition"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <main class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8">
-
-        <div id="view-home" class="view-section active">
-            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 min-h-[calc(100vh-140px)] justify-center py-4 lg:py-0">
-                
-                <div class="lg:w-1/2 space-y-6 animate-slide-up order-2 lg:order-1">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold uppercase tracking-wider shadow-sm">
-                        <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
-                        Opening Soon in Chipinge
-                    </div>
-                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold text-brand-900 leading-[1.1] break-words">
-                        The Future of <br> <span class="text-brand-600">Oral Hygiene.</span>
-                    </h1>
-                    <p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed w-full">
-                        Takwirira Dental offers a premium, non-surgical approach to dental care. No drills, just pure clean comfort right here in the CBD.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-8 text-sm text-brand-900 font-bold border-l-4 border-brand-500 pl-4 py-2 bg-brand-50/50 rounded-r-lg">
-                        <span class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600 text-lg"></i> Mon - Fri: 8am - 6pm</span>
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-ban text-red-500 text-lg"></i> Weekends: Closed</span>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
-                        <button onclick="switchTab('services')" class="px-8 py-4 bg-brand-700 hover:bg-brand-800 text-white rounded-xl font-bold shadow-xl shadow-brand-200 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
-                            Book Appointment <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                        <button onclick="switchTab('jobs')" class="px-8 py-4 bg-white hover:bg-slate-50 border-2 border-slate-200 text-brand-900 rounded-xl font-bold transition-all hover:-translate-y-1 text-center">
-                            We are Hiring
-                        </button>
-                    </div>
-                </div>
-
-                <div class="lg:w-1/2 w-full relative animate-slide-up order-1 lg:order-2" style="animation-delay: 0.1s;">
-                    <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-100 border-8 border-white aspect-[4/3] lg:aspect-auto lg:h-[500px]">
-                        <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
-                             <img src="./HomeImage.png" onerror="this.style.display='none'; this.nextElementSibling.style.opacity='0.2'" alt="Takwirira Dental Home" class="w-full h-full object-cover">
-                             <i class="fa-solid fa-tooth text-6xl opacity-0 absolute"></i>
-                        </div>
-                        
-                        <div class="absolute bottom-2 left-2 right-2 lg:bottom-6 lg:left-6 lg:right-auto bg-white/95 backdrop-blur p-3 lg:p-4 rounded-2xl shadow-lg flex items-center gap-3 lg:gap-4">
-                            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-full flex flex-shrink-0 items-center justify-center text-green-700 text-lg lg:text-xl">
-                                <i class="fa-solid fa-shield-heart"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-brand-900 leading-tight text-sm lg:text-base">Child-Friendly</p>
-                                <p class="text-[10px] lg:text-xs text-slate-600 font-semibold">Professional Care</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-services" class="view-section">
-            <div class="text-center mb-10 animate-slide-up">
-                <h2 class="text-3xl font-bold text-brand-900">Select Service & Book</h2>
-                <p class="text-slate-600 font-medium">Choose from our list of 10 specialized services.</p>
-            </div>
-
-            <div class="grid lg:grid-cols-12 gap-8 items-start mb-16">
-                
-                <div class="lg:col-span-7 space-y-8 animate-slide-up" style="animation-delay: 0.1s;">
-                    
-                    <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Routine & Preventative</span>
-                        
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Fluoride & Sealants')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-child-reaching"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">1. Fluoride & Sealants</h3>
-                                        <span class="text-lg font-bold text-brand-700">$25.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">High-concentration varnish application to protect young teeth.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Scale & Polish')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">2. Scale & Polish</h3>
-                                        <span class="text-lg font-bold text-brand-700">$50.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Full plaque removal and polish. Standard hygiene session.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Breath Consultation')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-wind"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">3. Breath Consultation</h3>
-                                        <span class="text-lg font-bold text-brand-700">$30.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Diagnosis and treatment plan for halitosis (bad breath).</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Cosmetic</span>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Stain Removal')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-mug-hot"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">4. Stain Removal</h3>
-                                        <span class="text-lg font-bold text-brand-700">$60.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Cosmetic air-polishing for heavy coffee/tobacco stains.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Teeth Whitening')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-regular fa-gem"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">5. Teeth Whitening</h3>
-                                        <span class="text-lg font-bold text-brand-700">$150.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Professional in-chair whitening for a brighter smile.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Therapeutic & Medical</span>
-
-                        <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md hover:shadow-lg transition-all group cursor-pointer text-white mb-4" onclick="prefillService('Deep Cleaning')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-tooth"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-white">6. Deep Cleaning (SRP)</h3>
-                                        <span class="text-lg font-bold text-brand-200">$120.00</span>
-                                    </div>
-                                    <p class="text-slate-200 text-sm font-medium">Periodontal scaling and root planing for gum disease.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Periodontal Maintenance')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-heart-pulse"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">7. Periodontal Maintenance</h3>
-                                        <span class="text-lg font-bold text-brand-700">$80.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Specialized 3-month follow-up cleaning for gum health.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Sensitivity Treatment')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-bolt"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">8. Sensitivity Treatment</h3>
-                                        <span class="text-lg font-bold text-brand-700">$40.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Application of desensitizing agents for sensitive teeth.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 block border-b pb-2">Custom Appliances</span>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer mb-4" onclick="prefillService('Sports Mouth Guard')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">9. Sports Mouth Guard</h3>
-                                        <span class="text-lg font-bold text-brand-700">$90.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Custom-fitted guard for rugby, hockey, and contact sports.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer" onclick="prefillService('Night Guard')">
-                            <div class="flex items-start gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-indigo-900 text-indigo-100 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i class="fa-solid fa-moon"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <h3 class="text-lg font-bold text-brand-900">10. Night Guard</h3>
-                                        <span class="text-lg font-bold text-brand-700">$100.00</span>
-                                    </div>
-                                    <p class="text-slate-600 text-sm font-medium">Protective guard for teeth grinding (bruxism) while sleeping.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="lg:col-span-5 relative space-y-6">
-                    
-                    <div id="booking-container" class="bg-white rounded-3xl shadow-xl shadow-slate-200 border border-slate-100 animate-slide-up lg:sticky lg:top-28" style="animation-delay: 0.2s;">
-                        
-                        <div class="flex border-b border-slate-200">
-                            <button onclick="switchBookingType('single')" id="tab-btn-single" class="booking-tab active w-1/2 py-4 text-sm font-bold rounded-tl-3xl text-center">
-                                <i class="fa-regular fa-calendar-check mr-2"></i> Single Visit
-                            </button>
-                            <button onclick="switchBookingType('plan')" id="tab-btn-plan" class="booking-tab w-1/2 py-4 text-sm font-bold text-slate-500 rounded-tr-3xl text-center hover:bg-slate-50">
-                                <i class="fa-solid fa-rotate mr-2"></i> Maintenance Plan
-                            </button>
-                        </div>
-
-                        <div class="p-8">
-                            
-                            <div class="bg-green-50 border border-green-200 rounded-xl p-3 mb-6 flex items-start gap-2">
-                                <i class="fa-regular fa-clock text-green-700 mt-1 flex-shrink-0"></i>
-                                <p class="text-xs text-green-900 font-bold">We will respond within 15 minutes if booked on a business day.</p>
-                            </div>
-
-                            <form id="form-single" class="space-y-4">
-                                <div>
-                                    <label class="text-xs font-bold text-brand-900 uppercase">Your Name</label>
-                                    <input type="text" id="single-name" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="e.g. Tawanda Moyo">
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="text-xs font-bold text-brand-900 uppercase">Phone</label>
-                                        <input type="tel" id="single-phone" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="+263...">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-brand-900 uppercase">Date</label>
-                                        <input type="date" id="single-date" onchange="handleDateChange(this.value)" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="text-xs font-bold text-brand-900 uppercase">Preferred Time</label>
-                                    <select id="single-time" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
-                                        <option value="" disabled selected>Select a date first...</option>
-                                        </select>
-                                    <p class="text-[10px] text-brand-700 font-semibold mt-1">Mon-Fri: 08:00 AM to 06:00 PM</p>
-                                </div>
-
-                                <div>
-                                    <label class="text-xs font-bold text-brand-900 uppercase">Service</label>
-                                    <select id="single-service" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
-                                        <option value="" disabled selected>Select a service...</option>
-                                        <option value="Fluoride & Sealants">1. Fluoride & Sealants ($25)</option>
-                                        <option value="Scale & Polish">2. Scale & Polish ($50)</option>
-                                        <option value="Breath Consultation">3. Breath Consultation ($30)</option>
-                                        <option value="Stain Removal">4. Stain Removal ($60)</option>
-                                        <option value="Teeth Whitening">5. Teeth Whitening ($150)</option>
-                                        <option value="Deep Cleaning">6. Deep Cleaning ($120)</option>
-                                        <option value="Periodontal Maintenance">7. Periodontal Maintenance ($80)</option>
-                                        <option value="Sensitivity Treatment">8. Sensitivity Treatment ($40)</option>
-                                        <option value="Sports Mouth Guard">9. Sports Mouth Guard ($90)</option>
-                                        <option value="Night Guard">10. Night Guard ($100)</option>
-                                        <option value="Consultation">General Consultation</option>
-                                    </select>
-                                </div>
-
-                                <div class="grid gap-3 pt-2">
-                                    <button type="button" onclick="submitSingleBooking()" id="btn-submit-booking" class="w-full py-3 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2 border border-brand-900">
-                                        <i class="fa-regular fa-envelope"></i> Request via Email
-                                    </button>
-                                    
-                                    <button type="button" onclick="submitSingleWhatsApp()" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2 border border-green-600">
-                                        <i class="fa-brands fa-whatsapp text-xl"></i> Book via WhatsApp
-                                    </button>
-                                </div>
-                            </form>
-
-                            <form id="form-plan" class="space-y-4 hidden">
-                                <div>
-                                    <label class="text-xs font-bold text-brand-900 uppercase">Your Name</label>
-                                    <input type="text" id="plan-name" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="e.g. Tawanda Moyo">
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="text-xs font-bold text-brand-900 uppercase">Phone</label>
-                                        <input type="tel" id="plan-phone" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium placeholder-slate-400" placeholder="+263...">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-brand-900 uppercase">First Date</label>
-                                        <input type="date" id="plan-date" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 font-medium">
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="text-xs font-bold text-brand-900 uppercase mb-2 block">Select Frequency Plan</label>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Quarterly (Every 3 Months)', '35')">
-                                            <div class="absolute top-0 right-0 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-bl-lg rounded-tr-lg shadow-sm">BEST VALUE</div>
-                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Quarterly</div>
-                                            <div class="text-xl font-bold text-brand-700">$35<span class="text-xs text-slate-400 font-medium">/visit</span></div>
-                                            <div class="text-[10px] text-slate-400">4 visits per year</div>
-                                        </div>
-                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Tri-Annual (Every 4 Months)', '40')">
-                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Tri-Annual</div>
-                                            <div class="text-xl font-bold text-brand-700">$40<span class="text-xs text-slate-400 font-medium">/visit</span></div>
-                                            <div class="text-[10px] text-slate-400">3 visits per year</div>
-                                        </div>
-                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Bi-Annual (Every 6 Months)', '45')">
-                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Bi-Annual</div>
-                                            <div class="text-xl font-bold text-brand-700">$45<span class="text-xs text-slate-400 font-medium">/visit</span></div>
-                                            <div class="text-[10px] text-slate-400">2 visits per year</div>
-                                        </div>
-                                        <div class="plan-card bg-white border border-slate-200 p-3 rounded-xl text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition relative group active:scale-95" onclick="selectPlanCard(this, 'Annual (Every 12 Months)', '50')">
-                                            <div class="text-xs font-bold text-slate-500 group-hover:text-brand-600 transition-colors">Annual</div>
-                                            <div class="text-xl font-bold text-brand-700">$50<span class="text-xs text-slate-400 font-medium">/visit</span></div>
-                                            <div class="text-[10px] text-slate-400">1 visit per year</div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="selected-plan-name">
-                                    <input type="hidden" id="selected-plan-price">
-                                </div>
-
-                                <button type="button" onclick="submitPlanWhatsApp()" class="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 border border-green-700">
-                                    <i class="fa-brands fa-whatsapp"></i> Subscribe via WhatsApp
-                                </button>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-rewards" class="view-section">
-            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden animate-slide-up mb-12 h-full min-h-[500px] flex flex-col justify-center">
-                <div class="absolute -top-10 -right-10 w-96 h-96 bg-gold-400 rounded-full blur-[120px] opacity-10"></div>
-                <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-500 rounded-full blur-[100px] opacity-10"></div>
-
-                <div class="relative z-10 text-center mb-10">
-                    <span class="inline-block px-4 py-1 rounded-full border border-gold-600/30 bg-gold-900/20 text-gold-400 text-xs font-bold uppercase tracking-widest mb-4">Loyalty Program</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Takwirira Rewards</h2>
-                    <p class="text-slate-400 max-w-xl mx-auto text-lg">Share the love of a healthy smile. Our referral program is designed to give back to our community champions.</p>
-                </div>
-
-                <div class="relative z-10 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition duration-300">
-                        <div class="flex items-start gap-5">
-                            <div class="w-14 h-14 bg-brand-500/20 rounded-xl flex items-center justify-center text-brand-400 text-2xl flex-shrink-0 border border-brand-500/30">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white text-xl mb-2">Refer 5 People</h4>
-                                <p class="text-slate-300 mb-4 leading-relaxed">When 5 friends you refer book and complete a visit, you instantly qualify for a reward.</p>
-                                <div class="inline-block bg-brand-900/50 border border-brand-700/50 rounded-lg px-4 py-2">
-                                    <span class="text-brand-300 text-sm font-bold">Reward:</span> <span class="text-white font-bold">$30 Cash OR Free Cleaning</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-br from-gold-900/40 to-slate-900 border border-gold-500/30 rounded-2xl p-6 backdrop-blur-sm hover:border-gold-500/50 transition duration-300 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 bg-gold-500 text-slate-900 text-[10px] font-bold px-3 py-1 rounded-bl-xl">VIP STATUS</div>
-                        <div class="flex items-start gap-5">
-                            <div class="w-14 h-14 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center text-white text-2xl flex-shrink-0 shadow-lg shadow-gold-900/50">
-                                <i class="fa-regular fa-credit-card"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white text-xl mb-2">The TakwiriraCard</h4>
-                                <p class="text-slate-300 mb-4 leading-relaxed">For the super-connectors. Refer 20 people to unlock our exclusive pre-loaded debit card.</p>
-                                <div class="inline-block bg-gold-900/40 border border-gold-700/40 rounded-lg px-4 py-2">
-                                    <span class="text-gold-300 text-sm font-bold">Value:</span> <span class="text-white font-bold">$100 for Local Shopping</span>
-                                </div>
-                                <p class="text-[10px] text-slate-400 mt-2 italic">*Valid at participating Chipinge stores & restaurants.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-jobs" class="view-section">
-            <div class="text-center mb-12 animate-slide-up">
-                <span class="text-brand-600 font-bold tracking-widest text-xs uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Careers & Training</span>
-                <h2 class="text-3xl font-bold text-brand-900 mt-4">Join the Takwirira Family</h2>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 animate-slide-up" style="animation-delay: 0.1s;">
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-tooth"></i></div>
-                            <span class="bg-red-50 text-red-700 border border-red-200 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-900 mb-2">Dental Hygienist</h3>
-                        <p class="text-slate-700 mb-6 text-sm font-medium">Professional needed for scaling, polishing, and patient education. Must be registered.</p>
-                    </div>
-                    <button onclick="openJobApplication('Dental Hygienist')" class="w-full py-3 bg-brand-700 text-white font-bold rounded-xl hover:bg-brand-800 transition flex items-center justify-center gap-2 shadow-lg shadow-brand-200">
-                        Apply Now
-                    </button>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors"><i class="fa-solid fa-broom"></i></div>
-                            <span class="bg-red-50 text-red-700 border border-red-200 text-xs font-bold px-2 py-1 rounded">18+ Only</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-900 mb-2">General Cleaning Assistant</h3>
-                        <p class="text-slate-700 mb-6 text-sm font-medium">Morning to evening shift. Responsible for sterilization of workspace and general facility cleanliness.</p>
-                    </div>
-                    <button onclick="openJobApplication('General Cleaning Assistant')" class="w-full py-3 bg-brand-700 text-white font-bold rounded-xl hover:bg-brand-800 transition flex items-center justify-center gap-2 shadow-lg shadow-brand-200">
-                        Apply Now
-                    </button>
-                </div>
-
-                <div class="bg-blue-50 p-8 rounded-2xl border border-blue-200 shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm"><i class="fa-solid fa-chalkboard-user"></i></div>
-                            <span class="bg-blue-200 text-blue-800 border border-blue-300 text-xs font-bold px-2 py-1 rounded">Training</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-900 mb-2">Dental Hygiene Trainee</h3>
-                        <p class="text-slate-700 mb-4 text-sm font-medium">Learn the theory of Dental Hygiene with us. Pass the exam to get a Certificate and a job offer.</p>
-                        
-                        <div class="bg-white/60 p-3 rounded-xl border border-blue-100 mb-6">
-                            <p class="text-xs font-bold text-slate-500 uppercase mb-1">Requirements</p>
-                            <p class="text-xs text-brand-900 font-bold flex items-center gap-2">
-                                <i class="fa-solid fa-check text-green-600"></i> 3 'O' Levels (Inc. Science)
-                            </p>
-                        </div>
-                    </div>
-                    <button onclick="openJobApplication('Dental Hygiene Training')" class="w-full py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition flex items-center justify-center gap-2 shadow-sm border border-blue-200">
-                        Apply for Training
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-12 animate-slide-up" style="animation-delay: 0.2s;">
-                <i class="fa-solid fa-graduation-cap absolute -right-10 -bottom-10 text-[12rem] text-white opacity-5"></i>
-                <div class="relative z-10 md:flex items-center justify-between gap-10">
-                    <div class="md:w-2/3">
-                        <div class="inline-block bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full mb-4">STUDENT PROGRAM</div>
-                        <h3 class="text-3xl font-bold mb-4 text-white">Patient Wellness Intern</h3>
-                        <p class="text-blue-100 mb-6 text-lg font-medium">Help us manage patient care while we help you build your future. This is a mentorship program designed for youth.</p>
-                        
-                        <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
-                            <h4 class="font-bold text-yellow-300 mb-4 text-sm uppercase">Benefits Package:</h4>
-                            <div class="grid sm:grid-cols-2 gap-4 text-sm font-medium text-blue-50">
-                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-school"></i></div> Free school fees for 1 term</div>
-                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-shirt"></i></div> Free school uniforms for 1 term</div>
-                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-pen-ruler"></i></div> Term Stationery</div>
-                                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center"><i class="fa-solid fa-money-bill"></i></div> $100 Cash Stipend</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="md:w-1/3 mt-8 md:mt-0">
-                        <button onclick="switchTab('intern-apply')" class="w-full py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-blue-50 transition shadow-lg border-2 border-white/20">Apply Now</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-job-apply" class="view-section">
-            <div class="max-w-4xl mx-auto animate-slide-up">
-                <button onclick="switchTab('jobs')" class="mb-6 flex items-center text-slate-600 hover:text-brand-700 transition font-bold">
-                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Jobs
+            
+            <nav class="hidden md:flex space-x-8 items-center font-medium">
+                <a href="#features" class="hover:text-brand-teal transition">Features</a>
+                <a href="#safety" class="hover:text-brand-teal transition">Safety & AI</a>
+                <a href="#how-it-works" class="hover:text-brand-teal transition">How it Works</a>
+                <button class="text-brand-blue border border-brand-blue px-4 py-2 rounded-lg hover:bg-brand-light transition">
+                    Log In
                 </button>
-                
-                <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-200">
-                    <div class="mb-10 pb-6 border-b border-slate-200">
-                        <h2 class="text-2xl font-bold text-brand-900">Online Application</h2>
-                        <p class="text-slate-600 mt-2 font-medium">Complete this form to apply via email. WhatsApp is reserved for queries only.</p>
-                    </div>
-
-                    <form id="job-app-form" class="space-y-8">
-                        
-                        <div>
-                            <label class="block text-xs font-bold text-brand-900 uppercase mb-2 tracking-wide">Position Applying For</label>
-                            <input type="text" id="app-position" class="w-full px-4 py-3 bg-slate-100 border border-slate-300 rounded-xl text-brand-800 font-bold" readonly>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-bold text-brand-900 mb-2">Full Name</label>
-                                <input type="text" id="app-name" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Your Name" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-brand-900 mb-2">Phone Number</label>
-                                <input type="tel" id="app-phone" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="+263..." required>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                            <h3 class="text-lg font-bold text-brand-900 mb-4 flex items-center gap-2">
-                                <i class="fa-solid fa-briefcase text-brand-600"></i> Employment History (Last 3 Jobs)
-                            </h3>
-                            <p class="text-xs text-slate-500 mb-4 italic">If applying for training and you have no history, leave this section blank.</p>
-                            
-                            <div class="mb-4">
-                                <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Most Recent Job</label>
-                                <div class="grid md:grid-cols-3 gap-3">
-                                    <input type="text" id="job1-pos" placeholder="Position" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                    <input type="text" id="job1-emp" placeholder="Employer Name" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                    <input type="number" id="job1-dur" placeholder="Months Worked" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Previous Job 2</label>
-                                <div class="grid md:grid-cols-3 gap-3">
-                                    <input type="text" id="job2-pos" placeholder="Position" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                    <input type="text" id="job2-emp" placeholder="Employer Name" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                    <input type="number" id="job2-dur" placeholder="Months Worked" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Previous Job 3</label>
-                                <div class="grid md:grid-cols-3 gap-3">
-                                    <input type="text" id="job3-pos" placeholder="Position" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                    <input type="text" id="job3-emp" placeholder="Employer Name" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                    <input type="number" id="job3-dur" placeholder="Months Worked" class="px-3 py-2 border border-slate-300 rounded-lg text-slate-900">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="block text-sm font-bold text-brand-900" id="question-label">Assessment Question</label>
-                                <button type="button" onclick="generateApplicationDraft('app-question')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 opacity-50 cursor-not-allowed">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Offline
-                                </button>
-                            </div>
-                            <p class="text-xs text-slate-600 mb-3 font-semibold" id="question-hint">"Why are you the best fit for this role?" (Max 500 words)</p>
-                            <textarea id="app-question" rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Type your answer here..." required></textarea>
-                        </div>
-
-                        <div>
-                            <button type="button" onclick="submitJobApplication()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                                <i class="fa-regular fa-paper-plane text-xl"></i> Submit Application via Email
-                            </button>
-                            <p class="text-center text-xs text-slate-500 mt-2 font-medium">Clicking submit will open your email app. Please attach your CV before sending.</p>
-                            
-                            <div class="mt-4 text-center">
-                                <button type="button" onclick="notifyReception()" class="text-sm text-brand-700 font-bold hover:underline flex items-center justify-center gap-2 mx-auto">
-                                    <i class="fa-brands fa-whatsapp"></i> Notify Reception via WhatsApp (After Emailing)
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-intern-apply" class="view-section">
-            <div class="max-w-2xl mx-auto animate-slide-up">
-                <button onclick="switchTab('jobs')" class="mb-6 flex items-center text-slate-600 hover:text-brand-700 transition font-bold">
-                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Jobs
+                <button class="bg-brand-teal text-white px-5 py-2 rounded-lg hover:bg-teal-700 transition shadow-lg shadow-teal-500/30 animate-pulse">
+                    Sign Up Free
                 </button>
-                
-                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-200">
-                    <div class="text-center mb-8">
-                        <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-                            <i class="fa-solid fa-graduation-cap"></i>
+            </nav>
+
+            <div class="md:hidden text-2xl text-brand-blue">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="pt-32 pb-20 bg-brand-blue text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 opacity-10">
+            <i class="fa-solid fa-globe text-[400px]"></i>
+        </div>
+
+        <div class="container mx-auto px-6 flex flex-col-reverse md:flex-row items-center relative z-10">
+            <div class="md:w-1/2 mt-10 md:mt-0">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                    Stop Sending Cash.<br>
+                    <span class="text-brand-teal">Start Living Globally.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 mb-8 pr-8">
+                    The digital wallet designed for the SADC corridor. Hold ZAR & USD, shop online instantly, and manage your money cheaper and safer than ever before.
+                </button>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button class="bg-brand-teal text-white text-lg font-bold px-8 py-4 rounded-xl hover:bg-teal-700 transition shadow-lg shadow-teal-500/30 flex items-center justify-center">
+                        <i class="fa-solid fa-credit-card mr-3"></i>
+                        Get Your Free Virtual Card
+                    </button>
+                    <a href="#how-it-works" class="bg-transparent border-2 border-white text-white text-lg font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition flex items-center justify-center">
+                        See How It Works
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <div class="bg-white p-4 rounded-[3rem] border-8 border-slate-800 shadow-2xl h-[500px] w-[280px] flex flex-col justify-between bg-gradient-to-br from-brand-light to-white">
+                        <div class="text-center mt-4">
+                            <h3 class="text-slate-500 text-sm">Total Balance</h3>
+                            <p class="text-3xl font-bold text-brand-blue">R 4,500.00</p>
+                            <p class="text-sm text-brand-teal font-semibold">$ 235.00 USD</p>
                         </div>
-                        <h2 class="text-2xl font-bold text-brand-900">Internship Application</h2>
-                        <p class="text-slate-600 mt-2 font-medium">Submit your personal statement to our team.</p>
+                        <div class="absolute top-1/3 -right-12 bg-gradient-to-r from-brand-teal to-blue-600 p-4 rounded-xl shadow-xl w-48 h-28 transform rotate-12 border-t-2 border-white/30">
+                            <div class="flex justify-between text-white/80 mb-4">
+                                <i class="fa-brands fa-cc-visa text-2xl text-white"></i>
+                            </div>
+                            <p class="text-white font-mono mt-4">**** **** **** 1234</p>
+                        </div>
+                         <div class="mb-6 mx-auto">
+                             <button class="bg-brand-blue text-white w-full py-3 rounded-xl text-sm">Send Money</button>
+                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <form id="intern-form" class="space-y-6">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-bold text-brand-900 mb-2">First Name (as on ID)</label>
-                                <input type="text" id="intern-fname" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="First Name" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-brand-900 mb-2">Last Name (as on ID)</label>
-                                <input type="text" id="intern-lname" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Last Name" required>
-                            </div>
-                        </div>
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-brand-blue mb-12">Banking Made Easier, Cheaper, and Global</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 rounded-2xl bg-brand-light border border-slate-100 hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-brand-teal/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-coins text-3xl text-brand-teal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Cheaper than Cash</h3>
+                    <p class="text-slate-600">Forget exorbitant cross-border fees and risky "runners". We offer real-time, low-cost FX execution so you keep more of your money.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-brand-light border border-slate-100 hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-brand-teal/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-cart-shopping text-3xl text-brand-teal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Shop SA Retailers</h3>
+                    <p class="text-slate-600">Connect directly to stores like Makro and Checkers to buy goods for your family or restock your shop without leaving home.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-brand-light border border-slate-100 hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-brand-teal/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-earth-africa text-3xl text-brand-teal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Dual Currency Wallet</h3>
+                    <p class="text-slate-600">Hold balances in both ZAR and USD. Protect your value and switch between currencies instantly within the app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
-                            <div class="flex h-6 items-center">
-                                <input id="no-id-check" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-brand-600 focus:ring-brand-600 custom-checkbox cursor-pointer">
-                            </div>
-                            <div class="text-sm">
-                                <label for="no-id-check" class="font-bold text-brand-900 cursor-pointer">I have no ID or birth certificate.</label>
-                                <p class="text-slate-600 mt-1 font-medium">We do not discriminate against children or undocumented youths. You are still welcome to apply.</p>
-                            </div>
-                        </div>
-
+    <section id="safety" class="py-16 bg-brand-blue text-white">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <i class="fa-solid fa-shield-halved text-6xl text-brand-teal mb-6"></i>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Your Safety is Our Priority.<br>AI-Powered Protection.</h2>
+                <p class="text-lg text-slate-300 mb-6">We know trust is everything. That's why we've built a system that is safer than carrying cash and smarter than traditional banking.</p>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check-circle text-brand-teal mt-1 mr-3"></i>
                         <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="block text-sm font-bold text-brand-900">Personal Statement</label>
-                                <button type="button" onclick="generateApplicationDraft('intern-statement')" class="btn-sparkle text-xs px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 opacity-50 cursor-not-allowed">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Offline
-                                </button>
-                            </div>
-                            <p class="text-xs text-slate-600 mb-3 font-medium">Why do you think an internship at Takwirira will be helpful to you? Share your career goals with us, and any struggles you faced in your life.</p>
-                            <textarea id="intern-statement" rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition text-slate-900 placeholder-slate-400" placeholder="Type your story here..." required></textarea>
+                            <strong>Segregated Trust Accounts:</strong> Your money is never held by LimpopoPay directly. It is safely stored in ring-fenced, regulated third-party bank trust accounts.
                         </div>
-
-                        <button type="button" onclick="submitInternApplication()" class="w-full py-4 bg-brand-900 hover:bg-slate-900 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95">
-                            <i class="fa-regular fa-paper-plane mr-2"></i> Send Application via Email
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-portal" class="view-section">
-            <div class="max-w-4xl mx-auto animate-slide-up">
-                
-                <div id="portal-auth" class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 grid md:grid-cols-2">
-                    <div class="p-8 md:p-12 flex flex-col justify-center">
-                        <div class="mb-8">
-                            <span class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-2 block">Secure Access</span>
-                            <h2 class="text-3xl font-bold text-brand-900 mb-2">Patient Portal</h2>
-                            <p class="text-slate-600">Access your private medical records and appointment history securely.</p>
-                        </div>
-
-                        <form id="auth-form" class="space-y-4" onsubmit="handleAuth(event)">
-                            <div class="bg-red-50 text-red-700 text-sm p-3 rounded-lg hidden" id="auth-error"></div>
-                            
-                            <div>
-                                <label class="text-xs font-bold text-brand-900 uppercase">Email</label>
-                                <input type="email" id="auth-email" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" required>
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-brand-900 uppercase">Password</label>
-                                <input type="password" id="auth-password" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition" required>
-                            </div>
-
-                            <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-brand-900 hover:bg-brand-800 text-white font-bold rounded-xl shadow-lg transition">
-                                <i class="fa-solid fa-lock mr-2"></i> Login Securely
-                            </button>
-                        </form>
-
-                        <div class="mt-6 text-center text-sm">
-                            <p class="text-slate-500" id="auth-toggle-text">New patient?</p>
-                            <button onclick="toggleAuthMode()" class="text-brand-600 font-bold hover:underline" id="auth-toggle-btn">Create Secure Account</button>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-brand-900 p-12 text-white flex flex-col justify-center items-center text-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                        <i class="fa-solid fa-shield-halved text-6xl mb-6 text-brand-400"></i>
-                        <h3 class="text-2xl font-bold mb-4">Your Data is Safe</h3>
-                        <p class="text-blue-100 text-sm leading-relaxed mb-6">
-                            We use bank-level encryption to store your medical records. Your data is stored in a secure cloud vault and is never exposed publicly.
-                        </p>
-                        <div class="flex gap-2 justify-center">
-                            <span class="bg-white/10 px-3 py-1 rounded-full text-xs border border-white/20">Encrypted</span>
-                            <span class="bg-white/10 px-3 py-1 rounded-full text-xs border border-white/20">Private</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="portal-dashboard" class="hidden">
-                    <div class="flex justify-between items-center mb-8">
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-robot text-brand-teal mt-1 mr-3"></i>
                         <div>
-                            <h2 class="text-2xl font-bold text-brand-900">My Dashboard</h2>
-                            <p class="text-slate-600 text-sm">Welcome back, <span id="user-display-email" class="font-bold"></span></p>
+                            <strong>AI-Driven Security Monitoring:</strong> We use advanced AI to monitor transactions 24/7, detecting unusual activity and stopping fraud before it happens to keep your account safe.
                         </div>
-                        <button onclick="logout()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 font-bold text-sm transition">
-                            Logout
-                        </button>
-                    </div>
-
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                            <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                                <div class="w-10 h-10 bg-red-50 text-red-600 rounded-full flex items-center justify-center"><i class="fa-solid fa-heart-pulse"></i></div>
-                                <div>
-                                    <h3 class="font-bold text-brand-900">Medical Profile</h3>
-                                    <p class="text-xs text-slate-500">Only visible to your doctor.</p>
-                                </div>
-                            </div>
-
-                            <form id="medical-form" class="space-y-4">
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase">Full Name</label>
-                                        <input type="text" id="med-fullname" class="w-full mt-1 p-2 border rounded-lg bg-slate-50">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase">Date of Birth</label>
-                                        <input type="date" id="med-dob" class="w-full mt-1 p-2 border rounded-lg bg-slate-50">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase">Allergies (if any)</label>
-                                    <input type="text" id="med-allergies" class="w-full mt-1 p-2 border rounded-lg bg-slate-50" placeholder="e.g. Penicillin, Latex">
-                                </div>
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase">Current Medications</label>
-                                    <textarea id="med-medications" rows="2" class="w-full mt-1 p-2 border rounded-lg bg-slate-50" placeholder="List any meds you are taking..."></textarea>
-                                </div>
-                                
-                                <div class="flex justify-end pt-2">
-                                    <button type="button" onclick="saveMedicalData()" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2 rounded-lg font-bold text-sm transition flex items-center gap-2">
-                                        <i class="fa-solid fa-save"></i> Save Securely
-                                    </button>
-                                </div>
-                                <p id="save-status" class="text-xs text-center text-green-600 font-bold hidden">Data Saved to Secure Vault</p>
-                            </form>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                                <h3 class="font-bold text-brand-900 mb-4">Next Appointment</h3>
-                                <div class="bg-brand-50 rounded-xl p-4 text-center border border-brand-100">
-                                    <p class="text-brand-900 font-bold text-lg">No upcoming visits</p>
-                                    <button onclick="switchTab('services')" class="text-xs text-brand-600 font-bold mt-2 hover:underline">Book Now</button>
-                                </div>
-                            </div>
-
-                            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-sm p-6 text-white">
-                                <h3 class="font-bold mb-2"><i class="fa-brands fa-google-drive mr-2"></i>Export Data</h3>
-                                <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                                    Need a spreadsheet? We can securely export your data to Google Sheets via our backend.
-                                </p>
-                                <button class="w-full py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-xs font-bold transition">
-                                    Request Data Export
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="view-reviews" class="view-section">
-            <div class="text-center mb-12 animate-slide-up">
-                <h2 class="text-3xl font-bold text-brand-900">Patient Stories</h2>
-                <p class="text-slate-600 font-medium">Real experiences from our community.</p>
-            </div>
-
-            <div class="max-w-4xl mx-auto">
-                <div id="reviews-container" class="mb-10 animate-slide-up">
-                    </div>
-
-                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200 animate-slide-up" style="animation-delay: 0.2s;">
-                    <h3 class="font-bold text-lg mb-4 text-brand-900">Share your experience</h3>
-                    <form id="review-form" class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <input type="text" id="review-name" placeholder="Your Name" class="px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-brand-500 text-slate-900 placeholder-slate-400" required>
-                            <select id="review-rating" class="px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-bold">
-                                <option value="5" selected>★★★★★ (5/5)</option>
-                                <option value="4">★★★★☆ (4/5)</option>
-                                <option value="3">★★★☆☆ (3/5)</option>
-                                <option value="2">★★☆☆☆ (2/5)</option>
-                                <option value="1">★☆☆☆☆ (1/5)</option>
-                            </select>
-                        </div>
-                        <textarea id="review-text" placeholder="Tell us about your visit..." rows="3" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-brand-500 text-slate-900 placeholder-slate-400" required></textarea>
-                        <button type="submit" class="w-full bg-brand-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900 transition shadow-lg">Post Review</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-about" class="view-section">
-            <div class="max-w-4xl mx-auto animate-slide-up">
-                <div class="text-center mb-12">
-                    <span class="text-brand-600 font-bold tracking-widest text-xs uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Who We Are</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-brand-900 mt-4 mb-4">Licensed. Safe. Sterile.</h2>
-                    <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-                        We are a fully licensed oral hygiene centre dedicated to serving the people of Chipinge.
-                    </p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8 mb-12">
-                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 bg-blue-50 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-                        <i class="fa-solid fa-pump-medical text-4xl text-brand-600 mb-6 relative z-10"></i>
-                        <h3 class="text-xl font-bold text-brand-900 mb-3 relative z-10">Uncompromised Safety</h3>
-                        <p class="text-slate-600 relative z-10">
-                            Our spaces are spotless. We adhere to strict sterilization protocols because we care about your safety above all else. A clean clinic is a safe clinic.
-                        </p>
-                    </div>
-                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative overflow-hidden group">
-                         <div class="absolute top-0 right-0 bg-green-50 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-                        <i class="fa-solid fa-user-nurse text-4xl text-green-600 mb-6 relative z-10"></i>
-                        <h3 class="text-xl font-bold text-brand-900 mb-3 relative z-10">Expert Hands</h3>
-                        <p class="text-slate-600 relative z-10">
-                            Our helpers are highly trained and good at what they do. We treat every patient with gentleness, dignity, and professional expertise.
-                        </p>
-                    </div>
-                </div>
-                <div class="bg-gradient-to-br from-brand-900 to-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
-                    <i class="fa-solid fa-heart-crack absolute -right-10 -bottom-10 text-[10rem] text-white opacity-5"></i>
-                    <div class="relative z-10 text-center">
-                        <h3 class="text-2xl md:text-3xl font-bold mb-6">Our Core Mission</h3>
-                        <p class="text-blue-100 text-lg md:text-xl leading-relaxed font-medium mb-8">
-                            "We are here to serve and to educate. We need everyone to understand that bad oral hygiene affects your lifespan. We are here to ensure people do not suffer simply because of a lack of knowledge."
-                        </p>
-                        <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
-                            <i class="fa-solid fa-book-medical text-yellow-400"></i>
-                            <span class="text-sm font-bold">Education Saves Lives</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-12 flex justify-center">
-                      <div class="flex items-center gap-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                        <i class="fa-solid fa-certificate text-4xl text-brand-600"></i>
-                        <div class="text-left">
-                            <p class="text-xs font-bold uppercase text-slate-400">Officially Registered</p>
-                            <p class="text-sm font-bold text-slate-600">Licensed Oral Hygiene Centre</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // 1. Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1at8Ed1XqtNYgw62Gln2drJ0tVcvVopQ",
-            authDomain: "takwiriradental.firebaseapp.com",
-            projectId: "takwiriradental",
-            storageBucket: "takwiriradental.firebasestorage.app",
-            messagingSenderId: "203276188494",
-            appId: "1:203276188494:web:f336905030ce0291a43c1f",
-            measurementId: "G-31R190PKEM"
-        };
-
-        // 2. Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = 'takwirira-v1'; 
-
-        // 3. Auth State Logic (Portal)
-        let isLoginMode = true;
-        let currentUser = null;
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            const authContainer = document.getElementById('portal-auth');
-            const dashContainer = document.getElementById('portal-dashboard');
-            
-            if (user && user.emailVerified) {
-                authContainer.classList.add('hidden');
-                dashContainer.classList.remove('hidden');
-                const warning = document.getElementById('verification-warning');
-                if(warning) warning.remove();
-                document.getElementById('user-display-email').textContent = user.email;
-                loadMedicalData(user.uid);
-            } else if (user && !user.emailVerified) {
-                authContainer.classList.remove('hidden'); 
-                dashContainer.classList.add('hidden');    
-                showVerificationUI(user.email);
-            } else {
-                authContainer.classList.remove('hidden');
-                dashContainer.classList.add('hidden');
-                const warning = document.getElementById('verification-warning');
-                if(warning) warning.remove();
-            }
-        });
-
-        function showVerificationUI(email) {
-            const container = document.getElementById('portal-auth').querySelector('div');
-            const existingForm = document.getElementById('auth-form');
-            if(existingForm) existingForm.style.display = 'none';
-            const existingToggle = document.querySelector('.mt-6.text-center');
-            if(existingToggle) existingToggle.style.display = 'none';
-
-            let warning = document.getElementById('verification-warning');
-            if (!warning) {
-                warning = document.createElement('div');
-                warning.id = 'verification-warning';
-                warning.className = "bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4";
-                warning.innerHTML = `
-                    <div class="flex">
-                        <div class="flex-shrink-0"><i class="fa-solid fa-envelope text-yellow-400"></i></div>
-                        <div class="ml-3">
-                            <p class="text-sm text-yellow-700">Verification link sent to <strong>${email}</strong>.</p>
-                            <div class="mt-4 flex gap-2">
-                                <button onclick="window.location.reload()" class="text-sm font-medium text-yellow-700 underline">I have verified</button>
-                                <button onclick="logout()" class="text-sm font-medium text-slate-500 hover:text-slate-800">Logout</button>
-                            </div>
-                        </div>
-                    </div>`;
-                container.prepend(warning);
-            }
-        }
-
-        // 4. Window Functions
-        window.toggleAuthMode = function() {
-            isLoginMode = !isLoginMode;
-            document.getElementById('auth-submit-btn').innerHTML = isLoginMode ? '<i class="fa-solid fa-lock mr-2"></i> Login Securely' : '<i class="fa-solid fa-user-plus mr-2"></i> Create Account';
-            document.getElementById('auth-toggle-text').textContent = isLoginMode ? "New patient?" : "Already have an account?";
-            document.getElementById('auth-toggle-btn').textContent = isLoginMode ? "Create Secure Account" : "Login Securely";
-        };
-
-        window.handleAuth = async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            const pass = document.getElementById('auth-password').value;
-            const errorDiv = document.getElementById('auth-error');
-            errorDiv.classList.add('hidden');
-
-            try {
-                if (isLoginMode) {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                } else {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                    await sendEmailVerification(userCredential.user);
-                    alert("Account created! Please check your email for the verification link.");
-                }
-            } catch (error) {
-                errorDiv.textContent = error.message;
-                errorDiv.classList.remove('hidden');
-            }
-        };
-
-        window.logout = function() {
-            signOut(auth).then(() => window.location.reload());
-        };
-
-        window.saveMedicalData = async function() {
-            if (!currentUser) return;
-            const data = {
-                fullname: document.getElementById('med-fullname').value,
-                dob: document.getElementById('med-dob').value,
-                allergies: document.getElementById('med-allergies').value,
-                medications: document.getElementById('med-medications').value,
-                lastUpdated: new Date().toISOString()
-            };
-            try {
-                await setDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'patientData', 'profile'), data);
-                const status = document.getElementById('save-status');
-                status.classList.remove('hidden');
-                setTimeout(() => status.classList.add('hidden'), 3000);
-            } catch (e) { alert("Error saving data: " + e.message); }
-        };
-
-        async function loadMedicalData(uid) {
-            try {
-                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'users', uid, 'patientData', 'profile'));
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.getElementById('med-fullname').value = data.fullname || '';
-                    document.getElementById('med-dob').value = data.dob || '';
-                    document.getElementById('med-allergies').value = data.allergies || '';
-                    document.getElementById('med-medications').value = data.medications || '';
-                }
-            } catch (e) { console.log("No profile found."); }
-        }
-
-        // --- PUBLIC BOOKING LOGIC (ROBUST MODE) ---
-        
-        window.handleDateChange = async function(dateValue) {
-            const timeSelect = document.getElementById('single-time');
-            
-            if(!dateValue) {
-                timeSelect.innerHTML = '<option value="" disabled selected>Select a date first...</option>';
-                return;
-            }
-
-            // WEEKEND CHECK
-            const dateObj = new Date(dateValue);
-            const day = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
-            if(day === 0 || day === 6) {
-                alert("We are closed on weekends. Please select a weekday (Mon-Fri).");
-                document.getElementById('single-date').value = ""; 
-                return;
-            }
-
-            const slots = ["08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"];
-            timeSelect.innerHTML = '<option value="" disabled selected>Loading availability...</option>';
-
-            let bookedTimes = [];
-
-            try {
-                // Try to get bookings from Firebase
-                const q = query(
-                    collection(db, 'artifacts', appId, 'public', 'data', 'appointments'),
-                    where("date", "==", dateValue)
-                );
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    bookedTimes.push(doc.data().time);
-                });
-            } catch (e) {
-                console.warn("Database check failed (Permissions/Connection). Defaulting to all available.", e);
-                // We deliberately swallow the error here so the user can still proceed with the email booking
-                bookedTimes = []; 
-            }
-
-            timeSelect.innerHTML = '<option value="" disabled selected>Select a time slot...</option>';
-            slots.forEach(time => {
-                const isBooked = bookedTimes.includes(time);
-                const option = document.createElement('option');
-                option.value = time;
-                option.textContent = isBooked ? `${time} (Booked)` : time;
-                if(isBooked) {
-                    option.disabled = true;
-                    option.classList.add('bg-slate-200', 'text-slate-400');
-                }
-                timeSelect.appendChild(option);
-            });
-        };
-
-        window.submitSingleBookingWithFirebase = async function() {
-            const name = document.getElementById('single-name').value.trim();
-            const phone = document.getElementById('single-phone').value.trim();
-            const service = document.getElementById('single-service').value;
-            const date = document.getElementById('single-date').value;
-            const time = document.getElementById('single-time').value;
-            const btn = document.getElementById('btn-submit-booking');
-
-            if(!name || !phone || !service || !date || !time) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
-            btn.disabled = true;
-
-            // 1. Construct Email Data (Prepare this first)
-            const targetEmail = "samueltakwirira@gmail.com";
-            const subject = `Appointment: ${name} - ${date}`;
-            const body = `New Appointment Request\n\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}`;
-            const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-            try {
-                // 2. Try to Save to Database (Best Effort)
-                const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'appointments', `${date}_${time}`);
-                // Check if already exists
-                const snap = await getDoc(bookingRef);
-                if(snap.exists()) {
-                    alert("Sorry! That slot was just taken. Please choose another.");
-                    window.handleDateChange(date); 
-                    btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Request Appointment';
-                    btn.disabled = false;
-                    return;
-                }
-                
-                // Write
-                await setDoc(bookingRef, {
-                    date: date, time: time, service: service,
-                    clientName: name, clientPhone: phone,
-                    status: 'booked', bookedAt: new Date().toISOString()
-                });
-                
-            } catch (e) {
-                console.warn("Could not save to database (likely permissions), proceeding to email anyway.");
-            }
-
-            // 3. Open Email (Happens regardless of DB success/fail)
-            window.location.href = mailtoLink;
-            
-            alert("Opening your email app to finalize...");
-            document.getElementById('form-single').reset();
-            window.handleDateChange(''); 
-            
-            btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Request Appointment';
-            btn.disabled = false;
-        };
-
-        window.submitPlanBookingEmail = function() {
-            const name = document.getElementById('plan-name').value.trim();
-            const phone = document.getElementById('plan-phone').value.trim();
-            const date = document.getElementById('plan-date').value;
-            const planName = document.getElementById('selected-plan-name').value;
-            
-            if(!name || !phone || !date || !planName) { alert("Please complete the form."); return; }
-
-            const targetEmail = "samueltakwirira@gmail.com";
-            const subject = `Plan Subscription: ${name}`;
-            const body = `I would like to subscribe to a Maintenance Plan.\n\nName: ${name}\nPhone: ${phone}\nSelected Plan: ${planName}\nPreferred Start Date: ${date}`;
-
-            window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        };
-    </script>
-    <script>
-        // --- STANDARD UI LOGIC (Navigation, Local AI, Reviews) ---
-        
-        function switchTab(tabId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById('view-' + tabId);
-            if(target) target.classList.add('active');
-            document.querySelectorAll(`button[onclick="switchTab('${tabId}')"]`).forEach(b => {
-                if(b.classList.contains('nav-item')) b.classList.add('active');
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.getElementById('mobile-menu').classList.add('hidden');
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
-
-        // BOOKING LOGIC (UI Toggles)
-        function switchBookingType(type) {
-            const sBtn = document.getElementById('tab-btn-single');
-            const pBtn = document.getElementById('tab-btn-plan');
-            const singleForm = document.getElementById('form-single');
-            const planForm = document.getElementById('form-plan');
-
-            if(type === 'single') {
-                sBtn.classList.add('active'); pBtn.classList.remove('active');
-                singleForm.classList.remove('hidden');
-                planForm.classList.add('hidden');
-            } else {
-                pBtn.classList.add('active'); sBtn.classList.remove('active');
-                planForm.classList.remove('hidden');
-                singleForm.classList.add('hidden');
-            }
-        }
-
-        function prefillService(serviceName) {
-            switchTab('services');
-            switchBookingType('single');
-            document.getElementById('single-service').value = serviceName;
-            const widget = document.getElementById('booking-container');
-            const offsetTop = widget.getBoundingClientRect().top + window.scrollY - 100;
-            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-            widget.classList.add('ring-4', 'ring-brand-400');
-            setTimeout(() => widget.classList.remove('ring-4', 'ring-brand-400'), 1000);
-        }
-
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('single-date').min = today;
-        document.getElementById('plan-date').min = today;
-
-        // Bridge function to call the Module-based function
-        function submitSingleBooking() {
-            if(window.submitSingleBookingWithFirebase) {
-                window.submitSingleBookingWithFirebase();
-            } else {
-                alert("System initializing... please try again in a moment.");
-            }
-        }
-
-        function selectPlanCard(element, name, price) {
-            document.querySelectorAll('.plan-card').forEach(card => {
-                card.classList.remove('border-brand-600', 'ring-2', 'ring-brand-200', 'bg-brand-50');
-            });
-            element.classList.add('border-brand-600', 'ring-2', 'ring-brand-200', 'bg-brand-50');
-            document.getElementById('selected-plan-name').value = name;
-            document.getElementById('selected-plan-price').value = price;
-        }
-
-        // --- NEW WHATSAPP FUNCTIONALITY ---
-        function submitSingleWhatsApp() {
-            const name = document.getElementById('single-name').value.trim();
-            const service = document.getElementById('single-service').value;
-            const date = document.getElementById('single-date').value;
-            const time = document.getElementById('single-time').value;
-
-            if(!name || !service || !date || !time) {
-                alert("Please select a Service, Date, and Time first.");
-                return;
-            }
-
-            const message = `*New Appointment Request*\nHello Takwirira Dental,\n\nI would like to book an appointment:\n\n👤 *Name:* ${name}\n🦷 *Service:* ${service}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}`;
-            
-            // WhatsApp Link for +263788643858
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function submitPlanWhatsApp() {
-            const name = document.getElementById('plan-name').value.trim();
-            const planName = document.getElementById('selected-plan-name').value;
-            const date = document.getElementById('plan-date').value;
-            
-            if(!name || !date || !planName) {
-                alert("Please select a plan, enter your name and start date.");
-                return;
-            }
-            
-            const message = `*Maintenance Plan Subscription*\nHello, I want to join the club!\n\n👤 *Name:* ${name}\n💎 *Plan:* ${planName}\n📅 *Start Date:* ${date}`;
-            
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // REVIEWS SYSTEM
-        function getReviews() {
-            const saved = localStorage.getItem('takwirira_reviews_v2');
-            return saved ? JSON.parse(saved) : []; 
-        }
-
-        function renderReviews() {
-            const reviews = getReviews();
-            const container = document.getElementById('reviews-container');
-            
-            if (reviews.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center p-10 bg-slate-100 rounded-3xl border border-dashed border-slate-300">
-                        <i class="fa-regular fa-comment-dots text-4xl text-slate-400 mb-3"></i>
-                        <h3 class="text-xl font-bold text-slate-600">No reviews yet</h3>
-                        <p class="text-slate-500">Be the first to share your smile with Chipinge!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const total = reviews.reduce((acc, r) => acc + r.stars, 0);
-            const avg = (total / reviews.length).toFixed(1);
-            
-            const starsHTML = (score) => {
-                return '<i class="fa-solid fa-star text-yellow-400"></i>'.repeat(score) + 
-                       '<i class="fa-regular fa-star text-slate-200"></i>'.repeat(5 - score);
-            };
-
-            const header = `
-                <div class="flex flex-col items-center mb-10">
-                    <span class="text-6xl font-bold text-brand-900 tracking-tighter">${avg}</span>
-                    <div class="flex gap-1 text-2xl my-2">${starsHTML(Math.round(avg))}</div>
-                    <span class="text-slate-500 font-medium">${reviews.length} Patient Reviews</span>
-                </div>
-            `;
-
-            const list = reviews.map(r => `
-                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm mb-4 transition hover:shadow-md">
-                    <div class="flex justify-between items-start mb-2">
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-fingerprint text-brand-teal mt-1 mr-3"></i>
                         <div>
-                            <h4 class="font-bold text-slate-900">${r.name}</h4>
-                            <span class="text-xs text-slate-400 font-mono">${r.date}</span>
+                            <strong>Biometric Verification:</strong> Utilizing Tiered KYC and facial biometrics for secure, fully compliant onboarding. Your face is your password.
                         </div>
-                        <div class="text-sm">${starsHTML(r.stars)}</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="md:w-1/2 md:pl-12 flex justify-center">
+                 <div class="bg-white/10 p-8 rounded-3xl border border-white/20 backdrop-blur-sm text-center relative">
+                     <i class="fa-solid fa-lock text-8xl text-white/80 absolute -top-10 -left-10 opacity-20"></i>
+                    <h3 class="text-2xl font-bold mb-4">The "Safe Money" Guarantee</h3>
+                    <p>Regulated. Compliant. Secure.</p>
+                    <div class="mt-6 flex justify-center space-x-4">
+                        <span class="bg-white/20 px-3 py-1 rounded-full text-sm"><i class="fa-solid fa-check mr-1"></i> FICA Compliant</span>
+                        <span class="bg-white/20 px-3 py-1 rounded-full text-sm"><i class="fa-solid fa-check mr-1"></i> Bank Partnered</span>
                     </div>
-                    <p class="text-slate-700 leading-relaxed">"${r.text}"</p>
                 </div>
-            `).join('');
+            </div>
+        </div>
+    </section>
 
-            container.innerHTML = header + '<div class="grid gap-4">' + list + '</div>';
-        }
+    <section id="features" class="py-16 bg-white overflow-hidden">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 relative">
+                <div class="bg-gradient-to-r from-brand-teal to-blue-600 p-8 rounded-2xl shadow-2xl w-full max-w-md h-64 relative z-10 transform md:-rotate-6 hover:rotate-0 transition duration-500">
+                    <div class="flex justify-between text-white mb-8">
+                        <i class="fa-solid fa-wifi text-2xl opacity-70"></i>
+                        <i class="fa-brands fa-cc-visa text-4xl"></i>
+                    </div>
+                    <div class="text-white font-mono text-2xl tracking-widest mb-4">
+                        **** **** **** 4582
+                    </div>
+                    <div class="flex justify-between text-white/80 uppercase text-sm">
+                        <div>Card Holder<br><span class="font-bold text-white text-base">T. Moyo</span></div>
+                        <div>Expires<br><span class="font-bold text-white text-base">09/28</span></div>
+                    </div>
+                </div>
+                 <div class="absolute top-10 left-10 bg-brand-blue w-full max-w-md h-64 rounded-2xl -z-10 opacity-20 transform md:rotate-3"></div>
+            </div>
 
-        document.getElementById('review-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('review-name').value;
-            const text = document.getElementById('review-text').value;
-            const stars = parseInt(document.getElementById('review-rating').value);
+            <div class="md:w-1/2 mt-12 md:mt-0 md:pl-12">
+                <h2 class="text-3xl font-bold text-brand-blue mb-6">Introducing the "Ghost" Card. Global Access, Instantly.</h2>
+                <p class="text-lg text-slate-600 mb-8">Don't get locked out of the global economy. Every user gets an instantly issued Virtual Visa/MasterCard.</p>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-teal mr-3"></i> Shop online at Takealot, Netflix, Amazon, and more.</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-teal mr-3"></i> Pay for subscriptions and digital services.</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-teal mr-3"></i> Safer than carrying cash for cross-border shopping.</li>
+                </ul>
+                <button class="bg-brand-blue text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition shadow-lg">
+                    Claim Your Virtual Card Now
+                </button>
+            </div>
+        </div>
+    </section>
 
-            const newReview = {
-                name: name,
-                text: text,
-                stars: stars,
-                date: new Date().toLocaleDateString()
-            };
+    <section class="py-20 bg-brand-teal text-white text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to join the future of banking?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of users switching to a safer, cheaper, and faster way to manage their money across borders.</p>
+            <button class="bg-white text-brand-teal text-xl font-bold px-10 py-4 rounded-full hover:bg-brand-light transition shadow-xl">
+                Create Free Account in 2 Minutes
+            </button>
+            <p class="mt-4 text-sm text-white/80">No hidden fees. Secure biometric signup.</p>
+        </div>
+    </section>
 
-            const reviews = getReviews();
-            reviews.unshift(newReview);
-            localStorage.setItem('takwirira_reviews_v2', JSON.stringify(reviews));
-            
-            renderReviews();
-            e.target.reset();
-            alert("Thank you! Your review has been saved locally.");
-        });
+    <footer class="bg-brand-blue text-slate-400 py-12">
+        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fa-solid fa-building-columns text-brand-teal text-xl"></i>
+                    <span class="text-xl font-bold text-white">LimpopoPay</span>
+                </div>
+                <p class="text-sm">The "Lifestyle Banking" Neobank for the SADC Corridor. Modernizing cross-border finance.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Product</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-brand-teal">Virtual Card</a></li>
+                    <li><a href="#" class="hover:text-brand-teal">Dual Currency Wallet</a></li>
+                    <li><a href="#" class="hover:text-brand-teal">Marketplace</a></li>
+                    <li><a href="#" class="hover:text-brand-teal">Pricing</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Safety & Trust</h4>
+                 <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-brand-teal">Security Hub</a></li>
+                    <li><a href="#" class="hover:text-brand-teal">AI Fraud Protection</a></li>
+                    <li><a href="#" class="hover:text-brand-teal">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                 <h4 class="text-white font-bold mb-4">Contact</h4>
+                 <ul class="space-y-2 text-sm">
+                    <li><i class="fa-solid fa-envelope mr-2"></i> support@limpopopay.com</li>
+                    <li><i class="fa-solid fa-location-dot mr-2"></i> Johannesburg, South Africa</li>
+                </ul>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-white hover:text-brand-teal"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="text-white hover:text-brand-teal"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="text-white hover:text-brand-teal"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-slate-700 pt-8 text-center text-sm">
+            <p>© 2023 LimpopoPay. All rights reserved.</p>
+            <p class="mt-2 text-xs">LimpopoPay is a financial technology company, not a bank. Banking services and card issuing are provided by our regulated banking partners.</p>
+        </div>
+    </footer>
 
-        renderReviews();
-
-       /* =========================================
-   TAKWIRIRA AI: LOGIC & KNOWLEDGE BASE
-   ========================================= */
-
-// 1. STATE MANAGEMENT (Tracks the conversation context)
-let botState = {
-    surveyActive: false,
-    surveyStep: 0,
-    badHabitCount: 0,
-    awaitingBooking: false
-};
-
-// 2. THE SURVEY QUESTIONS (Diagnostic Tools)
-const surveyQuestions = [
-    "Do your gums ever bleed when you brush or floss? (Yes/No)",
-    "Do you drink coffee, tea, or soda almost every day? (Yes/No)",
-    "Do you sometimes feel pain when drinking ice-cold water? (Yes/No)",
-    "Be honest: Do you sometimes skip brushing your teeth at night? (Yes/No)",
-    "Do you smoke or chew tobacco products? (Yes/No)"
-];
-
-// 3. THE KNOWLEDGE BASE
-const knowledgeBase = [
-    // --- URGENT / SYMPTOMS (Highest Priority) ---
-    { 
-        keys: ["pain", "hurt", "blood", "emergency", "ache", "swollen", "dying", "agony", "throbbing"], 
-        score: 20, // Super high score to override everything else
-        text: "🚨 **EMERGENCY ALERT:** If you are in pain or seeing blood, we need to stop chatting and start treating. Pain = Damage. \n\nPlease click the 'Book Now' button immediately or come straight to our clinic in Chipinge. Do not wait." 
-    },
-    { 
-        keys: ["broken", "chip", "crack", "fell", "knocked"], 
-        score: 15, 
-        text: "Ouch! 🦷 If a tooth is broken, try to find the piece and put it in milk. Then come to us IMMEDIATELY. Time is ticking to save that tooth!" 
-    },
-
-    // --- SALES & SERVICES (The "Pushy & Funny" Layer) ---
-    { 
-        keys: ["scale", "polish", "cleaning price", "wash teeth", "plaque", "dirty"], 
-        score: 5, 
-        text: "💰 A Scale & Polish is just **$50**. We scrape off the tartar that your toothbrush can't reach (and let's be honest, it's missing a lot). Prevent the rot—book a slot!" 
-    },
-    { 
-        keys: ["whitening", "white", "yellow", "bright", "bleach", "glow"], 
-        score: 5, 
-        text: "✨ **$150** for Professional Whitening. Don't be the person with yellow teeth in the group selfie! We do it in-chair for instant results. If it's just coffee stains, it's only **$60**. Which do you need?" 
-    },
-    { 
-        keys: ["fluoride", "enamel"], 
-        score: 4, 
-        text: "🛡️ Fluoride is **$25**. Think of it as a bulletproof vest for your teeth. Essential for kids, but adults need it too. It's cheap insurance against expensive cavities." 
-    },
-    { 
-        keys: ["deep", "root", "gum disease", "srp", "shaking"], 
-        score: 5, 
-        text: "⚠️ Deep Cleaning (SRP) is **$120**. This is a medical rescue mission for gum disease. If your teeth feel loose or gums bleed, you likely need this. Shall I book a consultation ($30) to check?" 
-    },
-    { 
-        keys: ["guard", "grinding", "sport", "bruxism", "teeth grinding"], 
-        score: 4, 
-        text: "🥊 Sports guards: **$90**. Night Guards: **$100**. Much cheaper than fixing a smashed tooth! Protect your investment." 
-    },
-    { 
-        keys: ["breath", "smell", "stink", "halitosis", "odor"], 
-        score: 5, 
-        text: "🤢 Bad breath? Awkward. It's usually bacteria hiding deep in the gums. Our 'Breath Consultation' is **$30**. Let's find the root cause so you can talk close to people again. Book it?" 
-    },
-    { 
-        keys: ["sensitive", "cold water", "pain cold", "ice cream"], 
-        score: 5, 
-        text: "❄️ Ouch! Sensitivity Treatment is **$40**. Stop suffering every time you drink water. We apply special agents to seal that pain away instantly." 
-    },
-
-    // --- LOGISTICS & GENERAL INFO ---
-    { 
-        keys: ["price", "cost", "how much", "money", "$", "rates", "fees", "menu"], 
-        score: 3, 
-        text: "💸 **Quick Price List:**\n• Cleaning: $50\n• Whitening: $150\n• Consultation: $30\n• Kids Fluoride: $25\n\nQuality isn't expensive, it's priceless. When can you come in?" 
-    },
-    { 
-        keys: ["book", "appoint", "schedule", "slot", "visit", "reserve"], 
-        score: 6, 
-        text: "📅 **YES! Let's get you in.** Use the 'Booking' tab, or just tell me your **Name and Phone Number** here and I'll generate a WhatsApp link for you." 
-    },
-    { 
-        keys: ["location", "where", "address", "find", "map", "chipinge"], 
-        score: 4, 
-        text: "📍 We are in **Chipinge CBD**. Look for the Takwirira Dental signage near the main shops. Central and easy to find—unless you need an eye doctor too! 😉" 
-    },
-    { 
-        keys: ["hour", "open", "time", "close", "day", "weekend"], 
-        score: 3, 
-        text: "⏰ Mon-Fri: 8:00 AM - 6:00 PM. We are closed on weekends to rest our own smiles! 🛠️" 
-    },
-    { 
-        keys: ["pay", "cash", "usd", "swipe", "ecocash"], 
-        score: 3, 
-        text: "💳 We accept **USD Cash, EcoCash, and Swipe**. Short on cash? Ask about our maintenance plans to save bucks!" 
-    },
-
-    // --- JOBS ---
-    { 
-        keys: ["job", "work", "hiring", "vacancy", "cv", "employ"], 
-        score: 2, 
-        text: "Yes, we are hiring! Please check the 'Jobs' tab. We need rockstars, not just workers." 
-    },
-    { 
-        keys: ["intern", "student", "learn", "attachment", "train"], 
-        score: 2, 
-        text: "🎓 We have a Student Wellness Internship! We cover school fees + uniforms + $100 stipend. Check the 'Jobs' tab to apply. We are building the future of dental health!" 
-    },
-
-    // --- CHIT CHAT ---
-    { 
-        keys: ["hello", "hi", "hey", "morning", "afternoon"], 
-        score: 1, 
-        text: "Hello there! 👋 I'm TakwiriraAI. I'm here to fix smiles and take names. Want to check prices or take a quick **Tooth Health Quiz**?" 
-    },
-    { 
-        keys: ["thank", "thx", "goodbye", "bye"], 
-        score: 1, 
-        text: "You're welcome! Keep smiling (and flossing). 😁" 
-    },
-    { 
-        keys: ["who are you", "bot", "human"], 
-        score: 1, 
-        text: "I am the Takwirira Virtual Assistant. I run on logic and dental hygiene. I'm smart, but our dentists are smarter." 
-    }
-];
-
-// 4. THE BRAIN (Main Processing Function)
-// Call this function when the user sends a message.
-function getTakwiriraResponse(userInput) {
-    let text = userInput.toLowerCase();
-
-    // --- A. EMERGENCY OVERRIDE ---
-    // If they mention pain, ignore everything else and scream "Emergency"
-    if (text.includes("pain") || text.includes("blood") || text.includes("agony") || text.includes("dying")) {
-        botState.surveyActive = false; // Kill the fun stuff
-        return knowledgeBase[0].text; // Return the emergency text
-    }
-
-    // --- B. SURVEY HANDLING ---
-    // If survey is active, handle the yes/no flow
-    if (botState.surveyActive) {
-        return handleSurveyInput(text);
-    }
-
-    // --- C. TRIGGER SURVEY ---
-    // If user asks for a quiz, checkup, or says "quiz", start the survey
-    if (text.includes("quiz") || text.includes("test") || text.includes("check") || text.includes("bad habits")) {
-        botState.surveyActive = true;
-        botState.surveyStep = 0;
-        botState.badHabitCount = 0;
-        return "🕵️‍♀️ **The Truth Test!** I'm going to ask you 5 questions. Be honest—I'm an AI, I won't judge (much). \n\n" + surveyQuestions[0];
-    }
-
-    // --- D. STANDARD KNOWLEDGE BASE SEARCH ---
-    let bestMatch = null;
-    let highestScore = 0;
-
-    knowledgeBase.forEach(item => {
-        let matchCount = 0;
-        item.keys.forEach(key => {
-            if (text.includes(key)) matchCount++;
-        });
-
-        // Multiply matches by item score (Priority System)
-        if (matchCount > 0) {
-            let currentScore = matchCount * item.score;
-            if (currentScore > highestScore) {
-                highestScore = currentScore;
-                bestMatch = item;
-            }
-        }
-    });
-
-    // Return the best match if found
-    if (bestMatch) {
-        return bestMatch.text;
-    }
-
-    // --- E. FALLBACK / PUSHY UPSELL ---
-    // If we don't understand, pivot immediately to booking
-    return "I didn't quite catch that, but here's a thought: **When was your last cleaning?** 🧼 If it's been over 6 months, you're overdue! Type 'price' to see costs or 'book' to secure a spot.";
-}
-
-// 5. INTERNAL SURVEY HELPER
-function handleSurveyInput(text) {
-    // Check for "Yes" synonyms
-    const isYes = text.includes("yes") || text.includes("yeah") || text.includes("yep") || text.includes("sure") || text.includes("sometimes");
-    
-    if (isYes) botState.badHabitCount++;
-    botState.surveyStep++;
-
-    // Check if there are more questions
-    if (botState.surveyStep < surveyQuestions.length) {
-        return surveyQuestions[botState.surveyStep];
-    } else {
-        // Survey Finished - Results Calculation
-        botState.surveyActive = false; // Reset state
-        
-        if (botState.badHabitCount >= 3) {
-            return `😱 **RESULTS: WARNING!**\nYou flagged ${botState.badHabitCount}/5 signs. \n\nListen to me closely: **You need to see us.** These are signs of gum disease or decay. It's cheaper to fix it now than later. \n\nType **'BOOK'** right now. I'm serious!`;
-        } else if (botState.badHabitCount > 0) {
-            return `🤔 **RESULTS:** You're doing okay, but you have ${botState.badHabitCount} risk factors. Prevention is better than cure!\n\nA $50 Cleaning would make your smile perfect and prevent issues. Want to book one?`;
-        } else {
-            return "🌟 **RESULTS:** Wow! You are a dental superstar! 🌟 Zero bad signs. Keep it up! But hey, even superstars need a polish to shine. Come see us for a whitening session?";
-        }
-    }
-}
-        function toggleChat() {
-            document.getElementById('chat-window').classList.toggle('open');
-            document.getElementById('chat-input').focus();
-        }
-
-        function handleChatKey(e) { if(e.key === 'Enter') sendMessage(); }
-
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim().toLowerCase();
-            if(!text) return;
-
-            addMessage(input.value, 'user');
-            input.value = '';
-
-            // Show typing
-            const dots = document.getElementById('typing-indicator');
-            const msgs = document.getElementById('chat-messages');
-            dots.style.display = 'block';
-            msgs.scrollTop = msgs.scrollHeight;
-
-            // ENHANCED Logic: Find the best match based on Score & Word Matching
-            setTimeout(() => {
-                let bestMatch = null;
-                let highestScore = 0;
-
-                // Split input into words for partial matching
-                const inputWords = text.split(/[\s,?.!]+/);
-
-                knowledgeBase.forEach(item => {
-                    let currentScore = 0;
-                    let matchesFound = 0;
-
-                    // Check triggers
-                    item.keys.forEach(key => {
-                        if (text.includes(key)) {
-                            // Full phrase match gets full score
-                            currentScore += item.score;
-                            matchesFound++;
-                        } else {
-                            // Partial word match logic (smarter fallback)
-                            inputWords.forEach(word => {
-                                if (word.length > 3 && key.includes(word)) {
-                                    currentScore += (item.score * 0.5); // Partial credit
-                                    matchesFound++;
-                                }
-                            });
-                        }
-                    });
-
-                    // Bonus for multiple keyword hits
-                    if (matchesFound > 1) currentScore += 1;
-
-                    if (currentScore > highestScore) {
-                        highestScore = currentScore;
-                        bestMatch = item;
-                    }
-                });
-
-                let reply = "";
-                // Threshold ensures we don't just guess randomly
-                if (bestMatch && highestScore >= 0.5) {
-                    reply = bestMatch.text;
-                } else {
-                    reply = "I'm not totally sure about that. 🤔\n\nI mostly know about **prices**, **booking**, and **services**. Would you like to see our Price List or book an appointment?";
-                }
-
-                dots.style.display = 'none';
-                addMessage(reply, 'bot');
-            }, 600); // 600ms delay for natural feel
-        }
-
-        function addMessage(html, type) {
-            const div = document.createElement('div');
-            div.className = `message ${type}`;
-            div.innerHTML = html.replace(/\n/g, '<br>'); // Handle line breaks
-            document.getElementById('chat-messages').appendChild(div);
-            document.getElementById('chat-messages').scrollTop = 9999;
-        }
-
-        // --- 5. JOB & INTERN FORMS ---
-        function openJobApplication(pos) {
-            document.getElementById('app-position').value = pos;
-            switchTab('job-apply');
-            
-            const qHint = document.getElementById('question-hint');
-            const qArea = document.getElementById('app-question');
-            const qLabel = document.getElementById('question-label');
-            
-            if(pos.includes("Training")) {
-                qLabel.innerText = "Education & Results";
-                qHint.innerText = "Please list your 'O' Level subjects and grades here (Must include Science).";
-                qArea.placeholder = "Example:\nScience: B\nMaths: C\nEnglish: B...";
-            } else {
-                qLabel.innerText = "Assessment Question";
-                qHint.innerText = "\"Why are you the best fit for this role?\" (Max 500 words)";
-                qArea.placeholder = "Type your answer here...";
-            }
-        }
-
-        function generateApplicationDraft(targetId) {
-            alert("AI Drafting is currently offline. Please write your own amazing answer!");
-        }
-
-        function submitJobApplication() {
-            const pos = document.getElementById('app-position').value;
-            const name = document.getElementById('app-name').value.trim();
-            const phone = document.getElementById('app-phone').value.trim();
-            const question = document.getElementById('app-question').value.trim();
-            
-            if(!name || !phone || !question) { alert("Please fill in all required fields."); return; }
-
-            const j1 = { p: document.getElementById('job1-pos').value, e: document.getElementById('job1-emp').value, d: document.getElementById('job1-dur').value };
-            const j2 = { p: document.getElementById('job2-pos').value, e: document.getElementById('job2-emp').value, d: document.getElementById('job2-dur').value };
-            const j3 = { p: document.getElementById('job3-pos').value, e: document.getElementById('job3-emp').value, d: document.getElementById('job3-dur').value };
-
-            let body = `APPLICATION FOR: ${pos}\n\nAPPLICANT DETAILS:\nName: ${name}\nPhone: ${phone}\n\n--- EMPLOYMENT HISTORY ---\n`;
-            if(j1.p) body += `1. ${j1.p} at ${j1.e} (${j1.d} months)\n`;
-            if(j2.p) body += `2. ${j2.p} at ${j2.e} (${j2.d} months)\n`;
-            if(j3.p) body += `3. ${j3.p} at ${j3.e} (${j3.d} months)\n`;
-            body += `\n--- ANSWER / EDUCATION ---\n\n${question}`;
-
-            window.location.href = `mailto:info@takwiriradental.co.zw?subject=Job App: ${name}&body=${encodeURIComponent(body)}`;
-        }
-        
-        function submitInternApplication() {
-             const fname = document.getElementById('intern-fname').value.trim();
-             const lname = document.getElementById('intern-lname').value.trim();
-             const statement = document.getElementById('intern-statement').value.trim();
-             const noId = document.getElementById('no-id-check').checked;
-             
-             if(!fname || !lname || !statement) { alert("Please complete the form."); return; }
-
-             let body = `INTERNSHIP APP\nName: ${fname} ${lname}\nNo ID: ${noId ? 'Yes' : 'No'}\n\nStatement:\n${statement}`;
-             window.location.href = `mailto:info@takwiriradental.co.zw?subject=Intern App: ${fname} ${lname}&body=${encodeURIComponent(body)}`;
-        }
-
-        function notifyReception() {
-            const name = document.getElementById('app-name').value;
-            const message = `Hello, I sent my CV via email. Name: ${name}`;
-            window.open(`https://wa.me/263788643858?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-    </script>
 </body>
 </html>
