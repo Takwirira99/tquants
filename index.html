@@ -1171,17 +1171,9 @@
     </main>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword, 
-            createUserWithEmailAndPassword, 
-            signOut, 
-            onAuthStateChanged, 
-            sendEmailVerification 
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // 1. Firebase Configuration
         const firebaseConfig = {
@@ -1196,14 +1188,11 @@
 
         // 2. Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        // App ID for database structure
         const appId = 'takwirira-v1'; 
 
-        // 3. Auth State Logic
+        // 3. Auth State Logic (Portal)
         let isLoginMode = true;
         let currentUser = null;
 
@@ -1231,7 +1220,6 @@
             }
         });
 
-        // ... [Verification UI functions remain the same] ...
         function showVerificationUI(email) {
             const container = document.getElementById('portal-auth').querySelector('div');
             const existingForm = document.getElementById('auth-form');
@@ -1250,7 +1238,7 @@
                         <div class="ml-3">
                             <p class="text-sm text-yellow-700">Verification link sent to <strong>${email}</strong>.</p>
                             <div class="mt-4 flex gap-2">
-                                <button onclick="window.location.reload()" class="text-sm font-medium text-yellow-700 underline">I have verified, Refresh</button>
+                                <button onclick="window.location.reload()" class="text-sm font-medium text-yellow-700 underline">I have verified</button>
                                 <button onclick="logout()" class="text-sm font-medium text-slate-500 hover:text-slate-800">Logout</button>
                             </div>
                         </div>
@@ -1259,16 +1247,12 @@
             }
         }
 
-        // 4. Portal Functions (Exposed to Window)
+        // 4. Window Functions
         window.toggleAuthMode = function() {
             isLoginMode = !isLoginMode;
-            const btnText = isLoginMode ? '<i class="fa-solid fa-lock mr-2"></i> Login Securely' : '<i class="fa-solid fa-user-plus mr-2"></i> Create Account';
-            const toggleText = isLoginMode ? "New patient?" : "Already have an account?";
-            const toggleBtn = isLoginMode ? "Create Secure Account" : "Login Securely";
-
-            document.getElementById('auth-submit-btn').innerHTML = btnText;
-            document.getElementById('auth-toggle-text').textContent = toggleText;
-            document.getElementById('auth-toggle-btn').textContent = toggleBtn;
+            document.getElementById('auth-submit-btn').innerHTML = isLoginMode ? '<i class="fa-solid fa-lock mr-2"></i> Login Securely' : '<i class="fa-solid fa-user-plus mr-2"></i> Create Account';
+            document.getElementById('auth-toggle-text').textContent = isLoginMode ? "New patient?" : "Already have an account?";
+            document.getElementById('auth-toggle-btn').textContent = isLoginMode ? "Create Secure Account" : "Login Securely";
         };
 
         window.handleAuth = async function(e) {
@@ -1296,7 +1280,6 @@
             signOut(auth).then(() => window.location.reload());
         };
 
-        // 5. Secure Firestore Data Logic
         window.saveMedicalData = async function() {
             if (!currentUser) return;
             const data = {
@@ -1311,15 +1294,12 @@
                 const status = document.getElementById('save-status');
                 status.classList.remove('hidden');
                 setTimeout(() => status.classList.add('hidden'), 3000);
-            } catch (e) {
-                alert("Error saving data: " + e.message);
-            }
+            } catch (e) { alert("Error saving data: " + e.message); }
         };
 
         async function loadMedicalData(uid) {
             try {
-                const docRef = doc(db, 'artifacts', appId, 'users', uid, 'patientData', 'profile');
-                const docSnap = await getDoc(docRef);
+                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'users', uid, 'patientData', 'profile'));
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     document.getElementById('med-fullname').value = data.fullname || '';
@@ -1330,13 +1310,11 @@
             } catch (e) { console.log("No profile found."); }
         }
 
-        // --- PUBLIC BOOKING LOGIC ---
+        // --- PUBLIC BOOKING LOGIC (ROBUST MODE) ---
         
-        // Handle Date Logic: Block Weekends & Fetch Time Slots
         window.handleDateChange = async function(dateValue) {
             const timeSelect = document.getElementById('single-time');
             
-            // Reset logic
             if(!dateValue) {
                 timeSelect.innerHTML = '<option value="" disabled selected>Select a date first...</option>';
                 return;
@@ -1347,46 +1325,45 @@
             const day = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
             if(day === 0 || day === 6) {
                 alert("We are closed on weekends. Please select a weekday (Mon-Fri).");
-                document.getElementById('single-date').value = ""; // Clear input
+                document.getElementById('single-date').value = ""; 
                 return;
             }
 
             const slots = ["08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"];
             timeSelect.innerHTML = '<option value="" disabled selected>Loading availability...</option>';
 
+            let bookedTimes = [];
+
             try {
-                // Check Firebase for bookings on this date
+                // Try to get bookings from Firebase
                 const q = query(
                     collection(db, 'artifacts', appId, 'public', 'data', 'appointments'),
                     where("date", "==", dateValue)
                 );
-                
                 const querySnapshot = await getDocs(q);
-                const bookedTimes = [];
                 querySnapshot.forEach((doc) => {
                     bookedTimes.push(doc.data().time);
                 });
-
-                timeSelect.innerHTML = '<option value="" disabled selected>Select a time slot...</option>';
-                slots.forEach(time => {
-                    const isBooked = bookedTimes.includes(time);
-                    const option = document.createElement('option');
-                    option.value = time;
-                    option.textContent = isBooked ? `${time} (Booked)` : time;
-                    if(isBooked) {
-                        option.disabled = true;
-                        option.classList.add('bg-slate-200', 'text-slate-400');
-                    }
-                    timeSelect.appendChild(option);
-                });
-
             } catch (e) {
-                console.error("Error fetching bookings:", e);
-                timeSelect.innerHTML = '<option value="" disabled>Error loading times</option>';
+                console.warn("Database check failed (Permissions/Connection). Defaulting to all available.", e);
+                // We deliberately swallow the error here so the user can still proceed with the email booking
+                bookedTimes = []; 
             }
+
+            timeSelect.innerHTML = '<option value="" disabled selected>Select a time slot...</option>';
+            slots.forEach(time => {
+                const isBooked = bookedTimes.includes(time);
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = isBooked ? `${time} (Booked)` : time;
+                if(isBooked) {
+                    option.disabled = true;
+                    option.classList.add('bg-slate-200', 'text-slate-400');
+                }
+                timeSelect.appendChild(option);
+            });
         };
 
-        // --- UPDATED: SEND TO EMAIL INSTEAD OF WHATSAPP ---
         window.submitSingleBookingWithFirebase = async function() {
             const name = document.getElementById('single-name').value.trim();
             const phone = document.getElementById('single-phone').value.trim();
@@ -1403,59 +1380,54 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
 
+            // 1. Construct Email Data (Prepare this first)
+            const targetEmail = "samueltakwirira@gmail.com";
+            const subject = `Appointment: ${name} - ${date}`;
+            const body = `New Appointment Request\n\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}`;
+            const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
             try {
-                // 1. Check double booking
+                // 2. Try to Save to Database (Best Effort)
                 const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'appointments', `${date}_${time}`);
+                // Check if already exists
                 const snap = await getDoc(bookingRef);
                 if(snap.exists()) {
-                    alert("Sorry! That slot was just taken. Please choose another time.");
+                    alert("Sorry! That slot was just taken. Please choose another.");
                     window.handleDateChange(date); 
+                    btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Request Appointment';
+                    btn.disabled = false;
                     return;
                 }
-
-                // 2. Save to Database
+                
+                // Write
                 await setDoc(bookingRef, {
-                    date: date,
-                    time: time,
-                    service: service,
-                    clientName: name,
-                    clientPhone: phone,
-                    status: 'booked',
-                    bookedAt: new Date().toISOString()
+                    date: date, time: time, service: service,
+                    clientName: name, clientPhone: phone,
+                    status: 'booked', bookedAt: new Date().toISOString()
                 });
-
-                // 3. Construct Email
-                const targetEmail = "samueltakwirira@gmail.com";
-                const subject = `Appointment Request: ${name} for ${date}`;
-                const body = `New Booking Request\n\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}\n\nPlease reply to confirm availability.`;
                 
-                // 4. Open Email Client
-                window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                
-                alert("Slot reserved in system! Opening your email app to send the details...");
-                document.getElementById('form-single').reset();
-                window.handleDateChange(''); 
-
             } catch (e) {
-                alert("Error saving booking: " + e.message);
-            } finally {
-                btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Request Appointment';
-                btn.disabled = false;
+                console.warn("Could not save to database (likely permissions), proceeding to email anyway.");
             }
+
+            // 3. Open Email (Happens regardless of DB success/fail)
+            window.location.href = mailtoLink;
+            
+            alert("Opening your email app to finalize...");
+            document.getElementById('form-single').reset();
+            window.handleDateChange(''); 
+            
+            btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Request Appointment';
+            btn.disabled = false;
         };
 
-        // --- UPDATED: MAINTENANCE PLAN TO EMAIL ---
-        // We attach this to the window so the standard script below can call it
         window.submitPlanBookingEmail = function() {
             const name = document.getElementById('plan-name').value.trim();
             const phone = document.getElementById('plan-phone').value.trim();
             const date = document.getElementById('plan-date').value;
             const planName = document.getElementById('selected-plan-name').value;
             
-            if(!name || !phone || !date || !planName) {
-                alert("Please complete the form.");
-                return;
-            }
+            if(!name || !phone || !date || !planName) { alert("Please complete the form."); return; }
 
             const targetEmail = "samueltakwirira@gmail.com";
             const subject = `Plan Subscription: ${name}`;
