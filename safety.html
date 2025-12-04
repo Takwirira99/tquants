@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety & Security | LimpopoPay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { brand: { blue: '#0F172A', teal: '#0D9488', light: '#F1F5F9', }}} } }
+    </script>
+</head>
+<body class="bg-brand-light font-sans text-slate-800 flex flex-col min-h-screen">
+
+    <header class="bg-white shadow-sm w-full">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fa-solid fa-building-columns text-brand-teal text-2xl"></i>
+                <span class="text-2xl font-bold text-brand-blue">LimpopoPay</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center font-medium">
+                <a href="index.html" class="hover:text-brand-teal transition">Home</a>
+                <a href="features.html" class="hover:text-brand-teal transition">Features</a>
+                <a href="safety.html" class="text-brand-teal font-bold">Safety & AI</a>
+                <a href="login.html" class="text-brand-blue border border-brand-blue px-4 py-2 rounded-lg hover:bg-brand-light transition">Log In</a>
+                <a href="signup.html" class="bg-brand-teal text-white px-5 py-2 rounded-lg hover:bg-teal-700 transition shadow-lg shadow-teal-500/30">Sign Up Free</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="py-20 bg-brand-blue text-white">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <i class="fa-solid fa-shield-halved text-6xl text-brand-teal mb-6"></i>
+                    <h1 class="text-4xl font-bold mb-6">Safer than Cash. Smarter than Banks.</h1>
+                    <p class="text-lg text-slate-300 mb-8">We use bank-grade security and cutting-edge AI to ensure your hard-earned money is safe, no matter where you are.</p>
+                    <a href="signup.html" class="bg-brand-teal text-white px-8 py-4 rounded-xl font-bold hover:bg-teal-700 transition shadow-lg">Create Secure Account</a>
+                </div>
+                <div class="md:w-1/2 md:pl-12 flex justify-center">
+                    <div class="bg-white/10 p-8 rounded-3xl border border-white/20 backdrop-blur-sm text-center">
+                        <i class="fa-solid fa-lock text-6xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">The "Safe Money" Guarantee</h3>
+                        <p>Your funds are held in segregated, regulated third-party bank trust accounts. We don't touch your money.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white">
+             <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                         <h2 class="text-3xl font-bold text-brand-blue mb-6">AI-Powered Protection</h2>
+                         <p class="text-lg text-slate-600 mb-4">We don't sleep, so your money is always watched.</p>
+                         <ul class="space-y-4">
+                            <li class="flex items-start"><i class="fa-solid fa-robot text-brand-teal mt-1 mr-3"></i> <strong>24/7 Monitoring:</strong> Our AI detects unusual activity instantly.</li>
+                            <li class="flex items-start"><i class="fa-solid fa-fingerprint text-brand-teal mt-1 mr-3"></i> <strong>Biometric Security:</strong> Your face is your password for high-value transactions.</li>
+                        </ul>
+                    </div>
+                     <div class="flex justify-center">
+                        <i class="fa-solid fa-user-shield text-9xl text-brand-teal/20"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-brand-blue text-slate-400 py-8">
+        <div class="container mx-auto px-6 text-center text-sm"><p>© 2023 LimpopoPay. All rights reserved.</p></div>
+    </footer>
+
+</body>
+</html>
