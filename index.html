@@ -370,7 +370,7 @@
 
         /* --- FRONT SIDE --- */
         .card-front {
-            /* DEEPEST GREEN */
+            /* DEEPEST GREEN - REMAINS DARK IN PREVIEW */
             background: linear-gradient(135deg, #082613 0%, #020d06 100%);
             border: 1px solid #1f5c37;
         }
@@ -1134,11 +1134,19 @@
             };
 
             try {
+                // 1. Capture Front
                 const frontClone = prepareElement(frontElement);
+
+                // --- CHANGE BACKGROUND FOR DOWNLOAD ONLY ---
+                // Keep original dark green for consistency
+                // frontClone.style.background = "linear-gradient(135deg, #e8f5e9 0%, #dcedc8 100%)";
+                // -------------------------------------------
+
                 const frontCanvas = await html2canvas(frontClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(frontClone);
                 const frontImg = frontCanvas.toDataURL("image/png");
 
+                // 2. Capture Back
                 const backClone = prepareElement(backElement);
                 const backCanvas = await html2canvas(backClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(backClone);
