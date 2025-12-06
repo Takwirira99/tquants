@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Load html2canvas for downloading the card -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root {
@@ -150,7 +152,7 @@
             border-bottom: 2px solid var(--gold);
         }
 
-        /* --- PRODUCT GRID (MENU STYLE) --- */
+        /* --- PRODUCT GRID --- */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -236,7 +238,6 @@
             gap: 10px;
         }
 
-        /* Quantity Input Styling */
         .qty-input {
             width: 60px;
             padding: 8px;
@@ -267,27 +268,51 @@
             color: var(--primary);
         }
 
-        /* --- LOYALTY CARD --- */
+        /* --- LOYALTY CARD SECTION (INTERACTIVE) --- */
         .loyalty-box {
             background: linear-gradient(135deg, var(--primary) 0%, #0d2b1a 100%);
             color: var(--gold);
-            padding: 30px;
-            margin: 40px 0;
+            padding: 40px 20px;
+            margin: 60px 0;
             text-align: center;
-            border-radius: 4px;
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(26, 77, 46, 0.2);
+            box-shadow: 0 10px 30px rgba(26, 77, 46, 0.3);
         }
 
         .loyalty-box h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin: 0;
+            font-size: 2rem;
+            margin: 0 0 10px 0;
             color: var(--white);
         }
         
-        .loyalty-box p { color: #e0e0e0; margin: 10px 0 20px; }
+        .loyalty-form {
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: left;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .loyalty-label { color: var(--gold); font-size: 0.9rem; display: block; margin-bottom: 5px; }
+        
+        .loyalty-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gold);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            border-radius: 4px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .loyalty-input::placeholder { color: rgba(255,255,255,0.5); }
 
         .btn-gold {
             background-color: var(--gold);
@@ -298,9 +323,101 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
+            display: block;
+            width: 100%;
+            border-radius: 4px;
         }
+
+        .btn-gold:hover { background-color: #d4af37; transform: translateY(-2px); }
+
+        /* --- GENERATED CARD STYLES --- */
+        #card-preview-area {
+            margin-top: 30px;
+            display: none; /* Hidden until generated */
+            animation: fadeIn 0.5s ease;
+        }
+
+        .card-wrapper {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow-x: auto; /* Handle mobile overflow */
+            padding: 10px;
+        }
+
+        .h-card {
+            width: 420px;
+            height: 260px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            overflow: hidden;
+            background: linear-gradient(135deg, #1A4D2E 0%, #082212 100%);
+            border: 1px solid #1f5c37;
+            flex-shrink: 0; /* Prevent squishing */
+        }
+
+        /* Gold Text Effect */
+        .gold-text {
+            font-family: 'Playfair Display', serif;
+            color: #C9A66B;
+            background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 1px 1px 0px #3a2c0f, 2px 2px 0px #634f2c, 3px 3px 5px rgba(0,0,0,0.6);
+        }
+
+        /* Card Elements */
+        .card-border {
+            position: absolute;
+            top: 18px; left: 18px; right: 18px; bottom: 18px;
+            border: 2px solid #a68b58;
+            border-radius: 10px;
+            opacity: 0.8;
+            box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .logo-area {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -60%);
+            text-align: center;
+            width: 100%;
+        }
+
+        .main-logo { font-size: 3.2rem; letter-spacing: 2px; margin: 0; line-height: 1; text-transform: uppercase; }
+        .sub-logo { font-family: 'Lato', sans-serif; font-size: 0.85rem; letter-spacing: 4px; color: #e0d2b4; margin-top: 10px; text-transform: uppercase; font-weight: 700; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
+        .member-name-display { color: #fff; font-family: 'Courier New', monospace; margin-top: 15px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .chip {
+            position: absolute; top: 100px; left: 40px; width: 50px; height: 38px;
+            background: linear-gradient(135deg, #e0d2b4 0%, #a68b58 100%);
+            border-radius: 6px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.3); opacity: 0.9;
+        }
+        .chip::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #634f2c; }
+        .chip::after { content: ''; position: absolute; left: 33%; top: 0; width: 1px; height: 100%; background: #634f2c; }
+
+        .bottom-details {
+            position: absolute; bottom: 30px; width: 100%; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: flex-end; box-sizing: border-box;
+        }
+
+        .member-number { font-family: 'Courier New', monospace; color: #fff; font-size: 1.1rem; letter-spacing: 2px; text-shadow: -1px -1px 1px rgba(255,255,255,0.2), 1px 1px 2px rgba(0,0,0,0.8); }
+        .est { font-size: 0.65rem; color: #a68b58; letter-spacing: 1px; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
+
+        .btn-download {
+            background-color: var(--white);
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .btn-download:hover { background-color: #eee; }
 
         /* --- MODAL (RECEIPT STYLE) --- */
         .modal-overlay {
@@ -450,10 +567,40 @@
         <div class="grid" id="product-grid">
             </div>
 
+        <!-- LOYALTY CARD SECTION -->
         <div class="loyalty-box">
             <h3>The Hampshire Card</h3>
-            <p>Join our exclusive membership program. Earn rewards with every purchase.</p>
-            <button onclick="loyaltySignup()" class="btn-gold">Request Membership</button>
+            <p>Join our exclusive membership program. Enter your details to generate your digital card.</p>
+            
+            <!-- Input Form -->
+            <div class="loyalty-form">
+                <label class="loyalty-label">Full Name for Card</label>
+                <input type="text" id="card-name-input" class="loyalty-input" placeholder="e.g. Tinashe Moyo">
+                <button onclick="generateCard()" class="btn-gold">Generate Digital Card</button>
+            </div>
+
+            <!-- Hidden Preview Area -->
+            <div id="card-preview-area">
+                <p style="color:white; margin-bottom:10px;">Your Official Member Card:</p>
+                <div class="card-wrapper">
+                    <div class="h-card" id="generated-card">
+                        <div class="card-border"></div>
+                        <div class="chip"></div>
+                        <div class="logo-area">
+                            <h1 class="main-logo gold-text">Hampshire</h1>
+                            <div class="sub-logo">Privileged Member</div>
+                            <div class="member-name-display" id="display-name">MEMBER NAME</div>
+                        </div>
+                        <div class="bottom-details">
+                            <div class="member-number" id="display-id">8854 **** **** 0001</div>
+                            <div class="est">CHIPINGE &bull; ZW</div>
+                        </div>
+                        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); pointer-events: none;"></div>
+                    </div>
+                </div>
+                <button onclick="downloadCard()" class="btn-download">Download & Print</button>
+                <p style="font-size:0.8rem; color:#ccc; margin-top:10px;">Save this image and bring it to the store to activate your account.</p>
+            </div>
         </div>
     </div>
 
@@ -492,7 +639,7 @@
         // CONFIGURATION
         const SHOP_PHONE = "263788643858"; 
 
-        // INVENTORY DATA (All stocks removed)
+        // INVENTORY DATA
         const inventory = [
             // Beverages
             { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00 }, 
@@ -574,7 +721,6 @@
                     const card = document.createElement('div');
                     card.className = 'card';
                     
-                    // UNRESTRICTED CONTROLS
                     const controls = `<div class="action-row">
                              <input type="number" id="qty-${index}" class="qty-input" value="1" min="1">
                              <button class="btn-add" onclick="addToCart(${index})">Add</button>
@@ -609,20 +755,14 @@
                 return;
             }
 
-            // Check if item already exists in cart
             const existingItem = cart.find(cartItem => cartItem.name === item.name);
 
             if(existingItem) {
                 existingItem.qty += qty;
             } else {
-                // Add new item with qty property
-                cart.push({
-                    ...item,
-                    qty: qty
-                });
+                cart.push({ ...item, qty: qty });
             }
 
-            // Visual feedback
             const originalText = document.activeElement.innerText;
             document.activeElement.innerText = "Added!";
             setTimeout(() => document.activeElement.innerText = originalText, 1000);
@@ -676,7 +816,7 @@
             modal.style.display = style.display === 'none' ? 'block' : 'none';
         }
 
-        // WHATSAPP FUNCTIONS
+        // WHATSAPP CHECKOUT
         function checkout() {
             if (cart.length === 0) { alert("Your cart is empty."); return; }
             const name = document.getElementById('customer-name').value;
@@ -701,10 +841,43 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        function loyaltySignup() {
-            const message = `*MEMBERSHIP REQUEST*\n\nI would like to sign up for the Hampshire Supermarket Loyalty Card.`;
-            const whatsappUrl = `https://wa.me/${SHOP_PHONE}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+        // CARD GENERATION LOGIC
+        function generateCard() {
+            const nameInput = document.getElementById('card-name-input').value;
+            
+            if(nameInput.trim() === "") {
+                alert("Please enter your name first!");
+                return;
+            }
+
+            // Update Name
+            document.getElementById('display-name').innerText = nameInput;
+
+            // Generate Random ID (8854 prefix + 12 random digits)
+            const randomPart = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
+            const formattedID = "8854 " + randomPart.substring(0,4) + " " + randomPart.substring(4,8) + " " + randomPart.substring(8,12);
+            document.getElementById('display-id').innerText = formattedID;
+
+            // Show Preview
+            document.getElementById('card-preview-area').style.display = 'block';
+        }
+
+        function downloadCard() {
+            const cardElement = document.getElementById("generated-card");
+            
+            html2canvas(cardElement, {
+                backgroundColor: null, 
+                scale: 2, 
+                useCORS: true 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Hampshire_Member_Card.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            }).catch(err => {
+                console.error("Download failed:", err);
+                alert("Download failed. Please take a screenshot.");
+            });
         }
 
         // INITIALIZE
