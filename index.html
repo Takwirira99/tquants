@@ -1,97 +1,192 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | LimpopoPay</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = { theme: { extend: { colors: { brand: { blue: '#0F172A', teal: '#0D9488', light: '#F1F5F9', }}} } }
-    </script>
-</head>
-<body class="bg-brand-light font-sans text-slate-800 flex flex-col min-h-screen">
+<script>
+        // --- CONFIGURATION ---
+        // REPLACE THIS WITH YOUR SUPERMARKET'S WHATSAPP NUMBER (International format, no +)
+        const SHOP_PHONE_NUMBER = "263771234567"; 
+        // ---------------------
 
-    <header class="bg-white shadow-sm w-full">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <i class="fa-solid fa-building-columns text-brand-teal text-2xl"></i>
-                <span class="text-2xl font-bold text-brand-blue">LimpopoPay</span>
-            </a>
-            
-            <nav class="hidden md:flex space-x-8 items-center font-medium">
-                <a href="index.html" class="text-brand-teal font-bold">Home</a>
-                <a href="features.html" class="hover:text-brand-teal transition">Features</a>
-                <a href="safety.html" class="hover:text-brand-teal transition">Safety & AI</a>
-                <a href="ai.html" class="hover:text-brand-teal transition flex items-center"><i class="fa-solid fa-robot mr-2"></i>LimpopoAI</a>
-                <a href="login.html" class="text-brand-blue border border-brand-blue px-4 py-2 rounded-lg hover:bg-brand-light transition">Log In</a>
-                <a href="signup.html" class="bg-brand-teal text-white px-5 py-2 rounded-lg hover:bg-teal-700 transition shadow-lg shadow-teal-500/30">Sign Up Free</a>
-            </nav>
-        </div>
-    </header>
+        const inventory = [
+            // ... (Keep the inventory list exactly as it was in the previous code) ...
+            // Beverages
+            { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00, stock: 1 }, 
+            { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00, stock: 5 }, 
+            { cat: 'Beverages & Condiments', name: 'Coffee', size: '250g tin', price: 3.00, stock: 5 },
+            { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2 Litres', price: 3.00, stock: 20 },
+            { cat: 'Beverages & Condiments', name: 'Salad Cream', size: '500ml', price: 2.50, stock: 10 },
+            { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00, stock: 1 },
+            { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00, stock: 5 },
+            { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00, stock: 10 },
+            // Household
+            { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00, stock: 30 },
+            { cat: 'Household & Personal', name: 'Bath Soap', size: '225g Bar', price: 0.60, stock: 10 },
+            { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20, stock: 10 },
+            { cat: 'Household & Personal', name: 'Carie / Curry', size: 'Pack', price: 5.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00, stock: 5 },
+            { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60, stock: 10 },
+            { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00, stock: 5 },
+            { cat: 'Household & Personal', name: 'Matches', size: '10-box pack', price: 0.50, stock: 10 },
+            { cat: 'Household & Personal', name: 'Pags / Pegs', size: '1 pack', price: 2.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Royco', size: 'Pack', price: 4.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll pack', price: 1.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00, stock: 10 },
+            // Oils
+            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '1 Litre', price: 2.00, stock: 10 },
+            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '2 Litres', price: 4.00, stock: 10 },
+            { cat: 'Oils & Dairy', name: 'Margarine/Butter', size: '500g', price: 1.20, stock: 0 },
+            { cat: 'Oils & Dairy', name: 'Fresh Milk', size: '1 Litre', price: 1.20, stock: 10 },
+            // Produce
+            { cat: 'Produce', name: 'Cabbage', size: 'Per head', price: 1.50, stock: 0 },
+            { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00, stock: 0 },
+            { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80, stock: 0 },
+            { cat: 'Produce', name: 'Onions', size: 'Per kg', price: 1.20, stock: 5 },
+            { cat: 'Produce', name: 'Potatoes', size: 'Per kg', price: 1.00, stock: 5 },
+            { cat: 'Produce', name: 'Tomatoes', size: 'Per kg', price: 1.00, stock: 5 },
+            // Proteins
+            { cat: 'Proteins', name: 'Canned Beef', size: '300g can', price: 5.00, stock: 10 },
+            { cat: 'Proteins', name: 'Dried Kapenta', size: 'Per kg', price: 5.00, stock: 5 },
+            { cat: 'Proteins', name: 'Eggs', size: '30-egg tray', price: 3.80, stock: 5 },
+            { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00, stock: 0 },
+            { cat: 'Proteins', name: 'Peanut Butter', size: '375ml', price: 5.00, stock: 10 },
+            // Snacks
+            { cat: 'Snacks', name: 'Biscuits', size: '150g pack', price: 5.00, stock: 10 },
+            { cat: 'Snacks', name: 'Sweets & Chocolates', size: '500g pack', price: 2.00, stock: 5 },
+            { cat: 'Snacks', name: 'Sweets & Chocolates (Lrg)', size: 'Pack', price: 6.00, stock: 15 },
+            // Staples
+            { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50, stock: 20 },
+            { cat: 'Staples & Grains', name: 'Self-Raising Flour', size: '1kg', price: 1.20, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Self-Raising Flour', size: '2kg', price: 2.50, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Instant Porridge', size: 'Pack', price: 3.50, stock: 20 },
+            { cat: 'Staples & Grains', name: 'Roller Meal', size: '5kg', price: 4.30, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Roller Meal', size: '10kg', price: 6.50, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Roller Meal', size: '20kg', price: 11.00, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Maputi', size: 'Pack', price: 2.00, stock: 10 },
+            { cat: 'Staples & Grains', name: 'Mhandire', size: 'Pack', price: 2.00, stock: 10 },
+            { cat: 'Staples & Grains', name: 'Popcorn Kernels', size: 'Per kg', price: 1.00, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '1kg', price: 1.67, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '2kg', price: 2.67, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Rice (Value White)', size: '1kg', price: 1.44, stock: 5 },
+            { cat: 'Staples & Grains', name: 'Rice (Value White)', size: '2kg', price: 2.44, stock: 5 }
+        ];
 
-    <main class="flex-grow">
-        <section class="pt-20 pb-20 bg-brand-blue text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 -mt-20 -mr-20 opacity-10"><i class="fa-solid fa-globe text-[400px]"></i></div>
-            <div class="container mx-auto px-6 flex flex-col-reverse md:flex-row items-center relative z-10">
-                <div class="md:w-1/2 mt-10 md:mt-0">
-                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">Stop Sending Cash.<br><span class="text-brand-teal">Start Living Globally.</span></h1>
-                    <p class="text-lg text-slate-300 mb-8 pr-8">The digital wallet designed for the SADC corridor. Hold ZAR & USD, shop online instantly, and manage your money cheaper.</p>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="signup.html" class="bg-brand-teal text-white text-lg font-bold px-8 py-4 rounded-xl hover:bg-teal-700 transition shadow-lg flex items-center justify-center">
-                            <i class="fa-solid fa-credit-card mr-3"></i> Get Your Free Virtual Card
-                        </a>
-                         <a href="features.html" class="bg-transparent border-2 border-white text-white text-lg font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition flex items-center justify-center">
-                            See Features
-                        </a>
-                    </div>
-                </div>
-                <div class="md:w-1/2 flex justify-center">
-                    <div class="relative">
-                        <div class="bg-white p-4 rounded-[3rem] border-8 border-slate-800 shadow-2xl h-[500px] w-[280px] flex flex-col justify-between bg-gradient-to-br from-brand-light to-white">
-                            <div class="text-center mt-4">
-                                <h3 class="text-slate-500 text-sm">Total Balance</h3>
-                                <p class="text-3xl font-bold text-brand-blue">R 4,500.00</p>
-                                <p class="text-sm text-brand-teal font-semibold">$ 235.00 USD</p>
-                            </div>
+        let cart = [];
+
+        function renderProducts(category) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = ''; 
+
+            inventory.forEach((item, index) => {
+                if (category === 'All' || item.cat === category) {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    const isOutOfStock = item.stock === 0;
+                    const btnHtml = isOutOfStock 
+                        ? `<button class="add-btn" disabled>Out of Stock</button>` 
+                        : `<button class="add-btn" onclick="addToCart(${index})">Add to Cart</button>`;
+
+                    card.innerHTML = `
+                        <div>
+                            <div class="product-name">${item.name}</div>
+                            <div class="product-size">${item.size}</div>
+                            <div class="product-price">$${item.price.toFixed(2)}</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                        ${btnHtml}
+                    `;
+                    grid.appendChild(card);
+                }
+            });
 
-        <section class="py-16 bg-white">
-             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl font-bold text-brand-blue mb-12">Why choose LimpopoPay?</h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="p-6 rounded-2xl bg-brand-light border border-slate-100">
-                         <i class="fa-solid fa-coins text-3xl text-brand-teal mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Cheaper than Cash</h3>
-                        <p>Low FX rates. Keep more of your money.</p>
-                    </div>
-                     <div class="p-6 rounded-2xl bg-brand-light border border-slate-100">
-                         <i class="fa-solid fa-cart-shopping text-3xl text-brand-teal mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Shop Online</h3>
-                        <p>Buy from Takealot, Makro & Netflix.</p>
-                    </div>
-                     <div class="p-6 rounded-2xl bg-brand-light border border-slate-100">
-                         <i class="fa-solid fa-shield-halved text-3xl text-brand-teal mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">AI Security</h3>
-                        <p>Bank-grade safety and fraud protection.</p>
-                    </div>
-                </div>
-                <div class="mt-12">
-                    <a href="safety.html" class="text-brand-teal font-bold hover:underline">Learn more about our safety measures <i class="fa-solid fa-arrow-right ml-2"></i></a>
-                </div>
-            </div>
-        </section>
-    </main>
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if(tab.innerText.includes(category) || (category === 'All' && tab.innerText === 'All Items')) {
+                    tab.classList.add('active');
+                }
+            });
+        }
 
-    <footer class="bg-brand-blue text-slate-400 py-8 mt-auto">
-        <div class="container mx-auto px-6 text-center text-sm">
-            <p>© 2023 LimpopoPay. All rights reserved.</p>
-        </div>
-    </footer>
+        function filterProducts(cat) {
+            renderProducts(cat);
+        }
 
-</body>
-</html>
+        function addToCart(index) {
+            const item = inventory[index];
+            cart.push(item);
+            updateCart();
+            
+            // Optional: Small visual feedback without alert
+            const btn = document.activeElement;
+            const originalText = btn.innerText;
+            btn.innerText = "Added!";
+            setTimeout(() => btn.innerText = originalText, 1000);
+        }
+
+        function updateCart() {
+            const headerTotal = document.getElementById('header-total');
+            const cartTotal = document.getElementById('cart-total');
+            const cartItems = document.getElementById('cart-items');
+            
+            let total = 0;
+            let html = '';
+
+            if (cart.length === 0) {
+                html = '<p>Your cart is empty.</p>';
+            } else {
+                cart.forEach((item, i) => {
+                    total += item.price;
+                    html += `
+                        <div class="cart-item">
+                            <span>${item.name} (${item.size})</span>
+                            <span>$${item.price.toFixed(2)} <button onclick="removeFromCart(${i})" style="color:red;border:none;background:none;cursor:pointer;">x</button></span>
+                        </div>
+                    `;
+                });
+            }
+
+            cartItems.innerHTML = html;
+            headerTotal.innerText = total.toFixed(2);
+            cartTotal.innerText = total.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // --- NEW CHECKOUT FUNCTION (WHATSAPP INTEGRATION) ---
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let message = "Hello Hampshire Supermarket, I would like to place an order:\n\n";
+            let total = 0;
+
+            // Combine duplicates (optional logic for cleaner list) or list as is
+            cart.forEach(item => {
+                message += `• ${item.name} (${item.size}) - $${item.price.toFixed(2)}\n`;
+                total += item.price;
+            });
+
+            message += `\n*TOTAL: $${total.toFixed(2)}*`;
+            message += `\n\nPlease confirm availability. I will pay upon collection/delivery.`;
+
+            // Create WhatsApp Link
+            const whatsappUrl = `https://wa.me/${SHOP_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Attach checkout function to button
+        document.querySelector('.checkout-btn').onclick = checkout;
+
+        // Initial Load
+        renderProducts('All');
+    </script>
