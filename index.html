@@ -20,6 +20,7 @@
             --text-main: #333333;
             --text-light: #777777;
             --whatsapp: #25D366;
+            --error: #d9534f;
         }
 
         * { box-sizing: border-box; }
@@ -296,6 +297,7 @@
             padding: 20px;
             border-radius: 8px;
             backdrop-filter: blur(5px);
+            border: 1px solid rgba(201, 166, 107, 0.3);
         }
 
         .loyalty-label { color: var(--gold); font-size: 0.9rem; display: block; margin-bottom: 5px; }
@@ -304,7 +306,7 @@
             width: 100%;
             padding: 12px;
             border: 1px solid var(--gold);
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.4);
             color: white;
             border-radius: 4px;
             font-family: 'Lato', sans-serif;
@@ -343,7 +345,7 @@
             justify-content: center;
             margin-bottom: 20px;
             overflow-x: auto; /* Handle mobile overflow */
-            padding: 10px;
+            padding: 20px; /* Padding for shadow */
         }
 
         .h-card {
@@ -356,7 +358,10 @@
             background: linear-gradient(135deg, #1A4D2E 0%, #082212 100%);
             border: 1px solid #1f5c37;
             flex-shrink: 0; /* Prevent squishing */
+            transition: transform 0.5s ease;
         }
+
+        .h-card:hover { transform: rotateY(10deg) rotateX(5deg) scale(1.02); }
 
         /* Gold Text Effect */
         .gold-text {
@@ -416,8 +421,32 @@
             cursor: pointer;
             border-radius: 4px;
             margin-top: 10px;
+            width: 100%;
         }
         .btn-download:hover { background-color: #eee; }
+
+        /* Admin Instructions Box */
+        .admin-instructions-box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            color: #333;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .admin-instructions-box h4 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .step-list { padding-left: 20px; margin: 0; }
+        .step-list li { margin-bottom: 8px; line-height: 1.4; }
 
         /* --- MODAL (RECEIPT STYLE) --- */
         .modal-overlay {
@@ -525,6 +554,25 @@
             display: block;
         }
 
+        .staff-link {
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .staff-link:hover { color: rgba(255,255,255,0.8); }
+
+        /* Admin Login Modal */
+        .auth-container { text-align: center; }
+        .auth-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .auth-btn { width: 100%; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .auth-btn:hover { background: #143d24; }
+        .auth-switch { margin-top: 10px; font-size: 0.9rem; color: #666; cursor: pointer; text-decoration: underline; }
+        .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 5px; }
+        .verified-badge { background: var(--gold); color: var(--primary); padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; vertical-align: middle; margin-left: 5px; }
+
         @media (max-width: 768px) {
             .category-scroll { justify-content: flex-start; }
             .cart-float { position: static; margin-top: 15px; transform: none; width: 100%; justify-content: center;}
@@ -540,7 +588,7 @@
     <header>
         <h1 class="brand-name">HAMPSHIRE</h1>
         <div class="brand-sub">Supermarket &bull; Est. Chipinge</div>
-        <div class="cart-float" onclick="toggleCart()">
+        <div class="cart-float" onclick="window.toggleCart()">
             <span>View Cart</span> 
             <span>•</span>
             <span style="font-weight: bold;">$<span id="header-total">0.00</span></span>
@@ -554,14 +602,14 @@
 
     <div class="container">
         <div class="category-scroll">
-            <button class="cat-btn active" onclick="filterProducts('All', this)">All Collection</button>
-            <button class="cat-btn" onclick="filterProducts('Staples & Grains', this)">Staples</button>
-            <button class="cat-btn" onclick="filterProducts('Beverages & Condiments', this)">Beverages</button>
-            <button class="cat-btn" onclick="filterProducts('Household & Personal', this)">Household</button>
-            <button class="cat-btn" onclick="filterProducts('Oils & Dairy', this)">Dairy & Oils</button>
-            <button class="cat-btn" onclick="filterProducts('Produce', this)">Fresh Produce</button>
-            <button class="cat-btn" onclick="filterProducts('Proteins', this)">Butchery</button>
-            <button class="cat-btn" onclick="filterProducts('Snacks', this)">Snacks</button>
+            <button class="cat-btn active" onclick="window.filterProducts('All', this)">All Collection</button>
+            <button class="cat-btn" onclick="window.filterProducts('Staples & Grains', this)">Staples</button>
+            <button class="cat-btn" onclick="window.filterProducts('Beverages & Condiments', this)">Beverages</button>
+            <button class="cat-btn" onclick="window.filterProducts('Household & Personal', this)">Household</button>
+            <button class="cat-btn" onclick="window.filterProducts('Oils & Dairy', this)">Dairy & Oils</button>
+            <button class="cat-btn" onclick="window.filterProducts('Produce', this)">Fresh Produce</button>
+            <button class="cat-btn" onclick="window.filterProducts('Proteins', this)">Butchery</button>
+            <button class="cat-btn" onclick="window.filterProducts('Snacks', this)">Snacks</button>
         </div>
 
         <div class="grid" id="product-grid">
@@ -570,18 +618,24 @@
         <!-- LOYALTY CARD SECTION -->
         <div class="loyalty-box">
             <h3>The Hampshire Card</h3>
-            <p>Join our exclusive membership program. Enter your details to generate your digital card.</p>
             
-            <!-- Input Form -->
-            <div class="loyalty-form">
-                <label class="loyalty-label">Full Name for Card</label>
-                <input type="text" id="card-name-input" class="loyalty-input" placeholder="e.g. Tinashe Moyo">
-                <button onclick="generateCard()" class="btn-gold">Generate Digital Card</button>
+            <!-- ADMIN ONLY BADGE (Hidden by default) -->
+            <div id="admin-indicator" style="display:none; color: var(--white); background: rgba(0,0,0,0.5); display:inline-block; padding: 5px 15px; border-radius: 20px; margin-bottom: 20px;">
+                <span style="color: var(--gold);">★ ADMIN MODE ACTIVE</span>
             </div>
 
-            <!-- Hidden Preview Area -->
+            <p>Join our exclusive membership program.</p>
+            
+            <!-- NAME ENTRY -->
+            <div id="step-name" class="loyalty-form">
+                <label class="loyalty-label">Full Name for Card</label>
+                <input type="text" id="card-name-input" class="loyalty-input" placeholder="e.g. Tinashe Moyo">
+                <button onclick="window.generateCard()" class="btn-gold" id="gen-btn">Preview Digital Card</button>
+            </div>
+
+            <!-- PREVIEW AREA -->
             <div id="card-preview-area">
-                <p style="color:white; margin-bottom:10px;">Your Official Member Card:</p>
+                <p id="preview-title" style="color:white; margin-bottom:10px;">Card Preview:</p>
                 <div class="card-wrapper">
                     <div class="h-card" id="generated-card">
                         <div class="card-border"></div>
@@ -598,291 +652,298 @@
                         <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); pointer-events: none;"></div>
                     </div>
                 </div>
-                <button onclick="downloadCard()" class="btn-download">Download & Print</button>
-                <p style="font-size:0.8rem; color:#ccc; margin-top:10px;">Save this image and bring it to the store to activate your account.</p>
+                
+                <!-- CUSTOMER MSG -->
+                <p id="customer-msg" style="font-size:0.9rem; color:#fff; margin-top:10px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px;">
+                    Please visit the store to have your card printed and activated.
+                </p>
+
+                <!-- ADMIN SECTION -->
+                <div id="admin-controls-area" style="display:none;">
+                    <button onclick="window.downloadCard()" class="btn-download">Download High-Res Card</button>
+                    
+                    <div class="admin-instructions-box">
+                        <h4>🖨️ Admin Printing Instructions</h4>
+                        <ol class="step-list">
+                            <li>Click <b>Download High-Res Card</b> to save the .png file to your device.</li>
+                            <li>Open the downloaded file.</li>
+                            <li><b>For PVC ID Printers:</b> Select 'CR80' as the paper size in your printer settings.</li>
+                            <li><b>For Standard Printers:</b> Print at 100% scale (approx 3.375" x 2.125") on heavy cardstock or photo paper.</li>
+                            <li>Verify that the member name matches the customer's ID before issuing.</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- CART MODAL -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-body">
-            <span class="close-modal" onclick="toggleCart()">&times;</span>
-            
+            <span class="close-modal" onclick="window.toggleCart()">&times;</span>
             <div class="receipt-header">
                 <div style="font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--primary);">HAMPSHIRE</div>
                 <small style="color: #999;">ORDER SUMMARY</small>
             </div>
-
             <div id="cart-items">
                 <p style="text-align: center; color: #999;">Your cart is empty.</p>
             </div>
-
             <div class="receipt-total">
                 <span>Total Due</span>
                 <span>$<span id="cart-total">0.00</span></span>
             </div>
-
             <input type="text" id="customer-name" class="input-field" placeholder="Enter your full name">
-
-            <button class="btn-checkout" onclick="checkout()">
+            <button class="btn-checkout" onclick="window.checkout()">
                 Place Order via WhatsApp
             </button>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div class="modal-overlay" id="admin-login-modal">
+        <div class="modal-body auth-container">
+            <span class="close-modal" onclick="window.toggleLoginModal()">&times;</span>
+            <h3 style="color: var(--primary);">Admin Portal</h3>
+            
+            <!-- Auth Form -->
+            <div id="auth-form-container">
+                <input type="email" id="auth-email" class="auth-input" placeholder="Admin Email">
+                <input type="password" id="auth-password" class="auth-input" placeholder="Password">
+                <button onclick="window.handleAuth()" id="auth-action-btn" class="auth-btn">Login</button>
+                <div id="auth-error" class="error-msg"></div>
+                <div class="auth-switch" onclick="window.switchAuthMode()">Switch to <span id="auth-switch-text">Signup</span></div>
+            </div>
+
+            <!-- Logged In View -->
+            <div id="auth-loggedin-view" style="display:none;">
+                <p>Welcome, <span id="admin-email-display" style="font-weight:bold;"></span></p>
+                <div id="verification-warning" style="background:#fff3cd; color:#856404; padding:10px; font-size:0.85rem; border-radius:4px; margin-bottom:10px; display:none;">
+                    Account not verified. Check email to unlock card printing.
+                    <br><button onclick="window.resendVerification()" style="background:none; border:none; text-decoration:underline; cursor:pointer; font-size:0.8rem;">Resend Email</button>
+                </div>
+                <div id="verification-success" style="background:#d4edda; color:#155724; padding:10px; font-size:0.85rem; border-radius:4px; margin-bottom:10px; display:none;">
+                    <span class="verified-badge">VERIFIED ADMIN</span>
+                    <br>Card printing unlocked.
+                </div>
+                <button onclick="window.handleLogout()" class="auth-btn" style="background: #666;">Logout</button>
+            </div>
         </div>
     </div>
 
     <footer>
         <span class="brand-small">HAMPSHIRE</span>
         <small>&copy; 2025 Hampshire Supermarket. Quality Grocers of Chipinge.</small>
+        <br>
+        <span class="staff-link" onclick="window.toggleLoginModal()">[Admin Login]</span>
     </footer>
 
-    <script>
-        // CONFIGURATION
+    <!-- MAIN APP SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // 1. Firebase Configuration (From provided details)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1at8Ed1XqtNYgw62Gln2drJ0tVcvVopQ",
+            authDomain: "takwiriradental.firebaseapp.com",
+            projectId: "takwiriradental",
+            storageBucket: "takwiriradental.firebasestorage.app",
+            messagingSenderId: "203276188494",
+            appId: "1:203276188494:web:f336905030ce0291a43c1f",
+            measurementId: "G-31R190PKEM"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        let isLoginMode = true;
+        let isAdminVerified = false;
+
+        // --- AUTH STATE LISTENER ---
+        onAuthStateChanged(auth, (user) => {
+            const formContainer = document.getElementById('auth-form-container');
+            const loggedInView = document.getElementById('auth-loggedin-view');
+            const adminControls = document.getElementById('admin-controls-area');
+            const customerMsg = document.getElementById('customer-msg');
+            const genBtn = document.getElementById('gen-btn');
+            const adminIndicator = document.getElementById('admin-indicator');
+
+            if (user) {
+                // User is logged in
+                formContainer.style.display = 'none';
+                loggedInView.style.display = 'block';
+                document.getElementById('admin-email-display').innerText = user.email;
+
+                if (user.emailVerified) {
+                    isAdminVerified = true;
+                    document.getElementById('verification-success').style.display = 'block';
+                    document.getElementById('verification-warning').style.display = 'none';
+                    // Enable Admin Features
+                    adminControls.style.display = 'block'; // Show instructions + button
+                    customerMsg.style.display = 'none';
+                    genBtn.innerText = "Generate Official Card";
+                    adminIndicator.style.display = 'inline-block';
+                } else {
+                    isAdminVerified = false;
+                    document.getElementById('verification-success').style.display = 'none';
+                    document.getElementById('verification-warning').style.display = 'block';
+                    // Disable Admin Features
+                    adminControls.style.display = 'none';
+                    customerMsg.style.display = 'block';
+                    genBtn.innerText = "Preview Digital Card";
+                    adminIndicator.style.display = 'none';
+                }
+            } else {
+                // User logged out
+                formContainer.style.display = 'block';
+                loggedInView.style.display = 'none';
+                isAdminVerified = false;
+                adminControls.style.display = 'none';
+                customerMsg.style.display = 'block';
+                genBtn.innerText = "Preview Digital Card";
+                adminIndicator.style.display = 'none';
+            }
+        });
+
+        // --- AUTH FUNCTIONS (Exposed to Window) ---
+        window.toggleLoginModal = () => {
+            const modal = document.getElementById('admin-login-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        };
+
+        window.switchAuthMode = () => {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-action-btn').innerText = isLoginMode ? "Login" : "Signup";
+            document.getElementById('auth-switch-text').innerText = isLoginMode ? "Signup" : "Login";
+            document.getElementById('auth-error').innerText = "";
+        };
+
+        window.handleAuth = async () => {
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.innerText = "";
+
+            if(!email || !password) { errorDiv.innerText = "Please fill all fields"; return; }
+
+            try {
+                if(isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } else {
+                    const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                    await sendEmailVerification(userCred.user);
+                    alert("Account created! Please check your email to verify.");
+                }
+            } catch (error) {
+                errorDiv.innerText = error.message.replace("Firebase: ", "");
+            }
+        };
+
+        window.handleLogout = () => signOut(auth);
+
+        window.resendVerification = async () => {
+            if(auth.currentUser) {
+                await sendEmailVerification(auth.currentUser);
+                alert("Verification email sent!");
+            }
+        };
+
+        // --- ORIGINAL APP LOGIC (Exposed to Window) ---
         const SHOP_PHONE = "263788643858"; 
 
-        // INVENTORY DATA
+        // Inventory & Cart Logic (Same as before)
         const inventory = [
-            // Beverages
-            { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00 }, 
-            { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00 }, 
-            { cat: 'Beverages & Condiments', name: 'Premium Coffee', size: '250g tin', price: 3.00 },
-            { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2L', price: 3.00 },
-            { cat: 'Beverages & Condiments', name: 'Salad Cream', size: '500ml', price: 2.50 },
-            { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00 },
-            { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00 },
-            { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00 },
-            // Household
-            { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00 },
-            { cat: 'Household & Personal', name: 'Bath Soap', size: '225g', price: 0.60 },
-            { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20 },
-            { cat: 'Household & Personal', name: 'Curry Powder', size: 'Pack', price: 5.00 },
-            { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00 },
-            { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60 },
-            { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00 },
-            { cat: 'Household & Personal', name: 'Matches', size: '10-box', price: 0.50 },
-            { cat: 'Household & Personal', name: 'Clothes Pegs', size: 'Pack', price: 2.00 },
-            { cat: 'Household & Personal', name: 'Royco Usavi', size: 'Pack', price: 4.00 },
-            { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00 },
-            { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00 },
-            { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll', price: 1.00 },
-            { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00 },
-            // Oils
-            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '1 Litre', price: 2.00 },
-            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '2 Litres', price: 4.00 },
-            { cat: 'Oils & Dairy', name: 'Margarine', size: '500g', price: 1.20 },
-            { cat: 'Oils & Dairy', name: 'Fresh Milk', size: '1 Litre', price: 1.20 },
-            // Produce
-            { cat: 'Produce', name: 'Cabbage', size: 'Head', price: 1.50 },
-            { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00 },
-            { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80 },
-            { cat: 'Produce', name: 'Red Onions', size: 'Per kg', price: 1.20 },
-            { cat: 'Produce', name: 'Potatoes', size: 'Per kg', price: 1.00 },
-            { cat: 'Produce', name: 'Tomatoes', size: 'Per kg', price: 1.00 },
-            // Proteins
-            { cat: 'Proteins', name: 'Canned Beef', size: '300g', price: 5.00 },
-            { cat: 'Proteins', name: 'Dried Kapenta', size: 'Per kg', price: 5.00 },
-            { cat: 'Proteins', name: 'Farm Eggs', size: '30-tray', price: 3.80 },
-            { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00 },
-            { cat: 'Proteins', name: 'Peanut Butter', size: '375ml', price: 5.00 },
-            // Snacks
-            { cat: 'Snacks', name: 'Biscuits', size: '150g', price: 5.00 },
-            { cat: 'Snacks', name: 'Sweets', size: '500g', price: 2.00 },
-            { cat: 'Snacks', name: 'Chocolates', size: 'Pack', price: 6.00 },
-            // Staples
-            { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50 },
-            { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '1kg', price: 1.20 },
-            { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '2kg', price: 2.50 },
-            { cat: 'Staples & Grains', name: 'Instant Porridge', size: 'Pack', price: 3.50 },
-            { cat: 'Staples & Grains', name: 'Roller Meal', size: '5kg', price: 4.30 },
-            { cat: 'Staples & Grains', name: 'Roller Meal', size: '10kg', price: 6.50 },
-            { cat: 'Staples & Grains', name: 'Roller Meal', size: '20kg', price: 11.00 },
-            { cat: 'Staples & Grains', name: 'Maputi', size: 'Pack', price: 2.00 },
-            { cat: 'Staples & Grains', name: 'Mhandire', size: 'Pack', price: 2.00 },
-            { cat: 'Staples & Grains', name: 'Popcorn Kernels', size: 'Per kg', price: 1.00 },
-            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '1kg', price: 1.67 },
-            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '2kg', price: 2.67 },
-            { cat: 'Staples & Grains', name: 'Rice (Value)', size: '1kg', price: 1.44 },
-            { cat: 'Staples & Grains', name: 'Rice (Value)', size: '2kg', price: 2.44 }
+            { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00 }, { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00 }, { cat: 'Beverages & Condiments', name: 'Premium Coffee', size: '250g tin', price: 3.00 }, { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2L', price: 3.00 }, { cat: 'Beverages & Condiments', name: 'Salad Cream', size: '500ml', price: 2.50 }, { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00 }, { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00 }, { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00 },
+            { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00 }, { cat: 'Household & Personal', name: 'Bath Soap', size: '225g', price: 0.60 }, { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20 }, { cat: 'Household & Personal', name: 'Curry Powder', size: 'Pack', price: 5.00 }, { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00 }, { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60 }, { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00 }, { cat: 'Household & Personal', name: 'Matches', size: '10-box', price: 0.50 }, { cat: 'Household & Personal', name: 'Clothes Pegs', size: 'Pack', price: 2.00 }, { cat: 'Household & Personal', name: 'Royco Usavi', size: 'Pack', price: 4.00 }, { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00 }, { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00 }, { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll', price: 1.00 }, { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00 },
+            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '1 Litre', price: 2.00 }, { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '2 Litres', price: 4.00 }, { cat: 'Oils & Dairy', name: 'Margarine', size: '500g', price: 1.20 }, { cat: 'Oils & Dairy', name: 'Fresh Milk', size: '1 Litre', price: 1.20 },
+            { cat: 'Produce', name: 'Cabbage', size: 'Head', price: 1.50 }, { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00 }, { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80 }, { cat: 'Produce', name: 'Red Onions', size: 'Per kg', price: 1.20 }, { cat: 'Produce', name: 'Potatoes', size: 'Per kg', price: 1.00 }, { cat: 'Produce', name: 'Tomatoes', size: 'Per kg', price: 1.00 },
+            { cat: 'Proteins', name: 'Canned Beef', size: '300g', price: 5.00 }, { cat: 'Proteins', name: 'Dried Kapenta', size: 'Per kg', price: 5.00 }, { cat: 'Proteins', name: 'Farm Eggs', size: '30-tray', price: 3.80 }, { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00 }, { cat: 'Proteins', name: 'Peanut Butter', size: '375ml', price: 5.00 },
+            { cat: 'Snacks', name: 'Biscuits', size: '150g', price: 5.00 }, { cat: 'Snacks', name: 'Sweets', size: '500g', price: 2.00 }, { cat: 'Snacks', name: 'Chocolates', size: 'Pack', price: 6.00 },
+            { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50 }, { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '1kg', price: 1.20 }, { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '2kg', price: 2.50 }, { cat: 'Staples & Grains', name: 'Instant Porridge', size: 'Pack', price: 3.50 }, { cat: 'Staples & Grains', name: 'Roller Meal', size: '5kg', price: 4.30 }, { cat: 'Staples & Grains', name: 'Roller Meal', size: '10kg', price: 6.50 }, { cat: 'Staples & Grains', name: 'Roller Meal', size: '20kg', price: 11.00 }, { cat: 'Staples & Grains', name: 'Maputi', size: 'Pack', price: 2.00 }, { cat: 'Staples & Grains', name: 'Mhandire', size: 'Pack', price: 2.00 }, { cat: 'Staples & Grains', name: 'Popcorn Kernels', size: 'Per kg', price: 1.00 }, { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '1kg', price: 1.67 }, { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '2kg', price: 2.67 }, { cat: 'Staples & Grains', name: 'Rice (Value)', size: '1kg', price: 1.44 }, { cat: 'Staples & Grains', name: 'Rice (Value)', size: '2kg', price: 2.44 }
         ];
 
         let cart = [];
 
-        // RENDER LOGIC
-        function filterProducts(category, element) {
+        window.filterProducts = (category, element) => {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = ''; 
-
-            if(element) {
-                document.querySelectorAll('.cat-btn').forEach(el => el.classList.remove('active'));
-                element.classList.add('active');
-            }
-
+            if(element) { document.querySelectorAll('.cat-btn').forEach(el => el.classList.remove('active')); element.classList.add('active'); }
             inventory.forEach((item, index) => {
                 if (category === 'All' || item.cat === category) {
                     const card = document.createElement('div');
                     card.className = 'card';
-                    
-                    const controls = `<div class="action-row">
-                             <input type="number" id="qty-${index}" class="qty-input" value="1" min="1">
-                             <button class="btn-add" onclick="addToCart(${index})">Add</button>
-                           </div>`;
-
-                    card.innerHTML = `
-                        <div>
-                            <div class="item-category">${item.cat.split('&')[0]}</div>
-                            <h3 class="item-title">${item.name}</h3>
-                            <div class="item-size">${item.size}</div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-row">
-                                <div class="price">$${item.price.toFixed(2)}</div>
-                            </div>
-                            ${controls}
-                        </div>
-                    `;
+                    card.innerHTML = `<div><div class="item-category">${item.cat.split('&')[0]}</div><h3 class="item-title">${item.name}</h3><div class="item-size">${item.size}</div></div><div class="card-footer"><div class="price-row"><div class="price">$${item.price.toFixed(2)}</div></div><div class="action-row"><input type="number" id="qty-${index}" class="qty-input" value="1" min="1"><button class="btn-add" onclick="window.addToCart(${index})">Add</button></div></div>`;
                     grid.appendChild(card);
                 }
             });
-        }
+        };
 
-        // CART LOGIC
-        function addToCart(index) {
+        window.addToCart = (index) => {
             const qtyInput = document.getElementById(`qty-${index}`);
             const qty = parseInt(qtyInput.value);
             const item = inventory[index];
-
-            if(isNaN(qty) || qty < 1) {
-                alert("Please enter a valid quantity.");
-                return;
-            }
-
+            if(isNaN(qty) || qty < 1) { alert("Please enter a valid quantity."); return; }
             const existingItem = cart.find(cartItem => cartItem.name === item.name);
-
-            if(existingItem) {
-                existingItem.qty += qty;
-            } else {
-                cart.push({ ...item, qty: qty });
-            }
-
+            if(existingItem) { existingItem.qty += qty; } else { cart.push({ ...item, qty: qty }); }
             const originalText = document.activeElement.innerText;
             document.activeElement.innerText = "Added!";
             setTimeout(() => document.activeElement.innerText = originalText, 1000);
+            window.updateCartUI();
+        };
 
-            updateCartUI();
-        }
+        window.removeFromCart = (index) => { cart.splice(index, 1); window.updateCartUI(); };
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
+        window.updateCartUI = () => {
             const headerTotal = document.getElementById('header-total');
             const cartTotal = document.getElementById('cart-total');
             const cartItems = document.getElementById('cart-items');
-            
-            let total = 0;
-            let html = '';
-
-            if (cart.length === 0) {
-                html = '<p style="text-align: center; color: #999;">Your cart is empty.</p>';
-            } else {
-                cart.forEach((item, i) => {
-                    const lineTotal = item.price * item.qty;
-                    total += lineTotal;
-                    html += `
-                        <div class="receipt-item">
-                            <div style="flex-grow:1;">
-                                <span class="receipt-qty">${item.qty}x</span>
-                                <span style="font-weight:bold;">${item.name}</span> 
-                                <br><small style="color:#777; margin-left:38px;">(${item.size})</small>
-                            </div>
-                            <div style="text-align:right;">
-                                <div>$${lineTotal.toFixed(2)}</div>
-                                <span onclick="removeFromCart(${i})" style="color:#d9534f; cursor:pointer; font-size:0.8rem; text-decoration:underline;">Remove</span>
-                            </div>
-                        </div>
-                    `;
-                });
+            let total = 0; let html = '';
+            if (cart.length === 0) { html = '<p style="text-align: center; color: #999;">Your cart is empty.</p>'; } else {
+                cart.forEach((item, i) => { const lineTotal = item.price * item.qty; total += lineTotal; html += `<div class="receipt-item"><div style="flex-grow:1;"><span class="receipt-qty">${item.qty}x</span><span style="font-weight:bold;">${item.name}</span><br><small style="color:#777; margin-left:38px;">(${item.size})</small></div><div style="text-align:right;"><div>$${lineTotal.toFixed(2)}</div><span onclick="window.removeFromCart(${i})" style="color:#d9534f; cursor:pointer; font-size:0.8rem; text-decoration:underline;">Remove</span></div></div>`; });
             }
+            cartItems.innerHTML = html; headerTotal.innerText = total.toFixed(2); cartTotal.innerText = total.toFixed(2);
+        };
 
-            cartItems.innerHTML = html;
-            headerTotal.innerText = total.toFixed(2);
-            cartTotal.innerText = total.toFixed(2);
-        }
+        window.toggleCart = () => { const modal = document.getElementById('cart-modal'); modal.style.display = modal.style.display === 'none' ? 'block' : 'none'; };
 
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            const style = window.getComputedStyle(modal);
-            modal.style.display = style.display === 'none' ? 'block' : 'none';
-        }
-
-        // WHATSAPP CHECKOUT
-        function checkout() {
+        window.checkout = () => {
             if (cart.length === 0) { alert("Your cart is empty."); return; }
             const name = document.getElementById('customer-name').value;
             if(!name) { alert("Please enter your name to complete the order."); return; }
-
-            let message = `*HAMPSHIRE SUPERMARKET ORDER*\n`;
-            message += `-----------------------------\n`;
-            message += `Customer: ${name}\n\n`;
-            
+            let message = `*HAMPSHIRE SUPERMARKET ORDER*\n-----------------------------\nCustomer: ${name}\n\n`;
             let total = 0;
-            cart.forEach(item => {
-                const lineTotal = item.price * item.qty;
-                message += `• ${item.name} (${item.size}) x ${item.qty} - $${lineTotal.toFixed(2)}\n`;
-                total += lineTotal;
-            });
-
-            message += `\n*TOTAL DUE: $${total.toFixed(2)}*`;
-            message += `\n-----------------------------\n`;
-            message += `I will collect this order from the store.`;
-
+            cart.forEach(item => { const lineTotal = item.price * item.qty; message += `• ${item.name} (${item.size}) x ${item.qty} - $${lineTotal.toFixed(2)}\n`; total += lineTotal; });
+            message += `\n*TOTAL DUE: $${total.toFixed(2)}*\n-----------------------------\nI will collect this order from the store.`;
             const whatsappUrl = `https://wa.me/${SHOP_PHONE}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
-        }
+        };
 
-        // CARD GENERATION LOGIC
-        function generateCard() {
+        window.generateCard = () => {
             const nameInput = document.getElementById('card-name-input').value;
-            
-            if(nameInput.trim() === "") {
-                alert("Please enter your name first!");
-                return;
-            }
-
-            // Update Name
+            if(nameInput.trim() === "") { alert("Please enter your name first!"); return; }
             document.getElementById('display-name').innerText = nameInput;
-
-            // Generate Random ID (8854 prefix + 12 random digits)
             const randomPart = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
             const formattedID = "8854 " + randomPart.substring(0,4) + " " + randomPart.substring(4,8) + " " + randomPart.substring(8,12);
             document.getElementById('display-id').innerText = formattedID;
-
-            // Show Preview
             document.getElementById('card-preview-area').style.display = 'block';
-        }
+        };
 
-        function downloadCard() {
+        window.downloadCard = () => {
+            if(!isAdminVerified) return;
             const cardElement = document.getElementById("generated-card");
-            
-            html2canvas(cardElement, {
-                backgroundColor: null, 
-                scale: 2, 
-                useCORS: true 
-            }).then(canvas => {
+            cardElement.style.transform = "none";
+            html2canvas(cardElement, { backgroundColor: null, scale: 4, useCORS: true, logging: false }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Hampshire_Member_Card.png';
                 link.href = canvas.toDataURL("image/png");
                 link.click();
-            }).catch(err => {
-                console.error("Download failed:", err);
-                alert("Download failed. Please take a screenshot.");
-            });
-        }
+                cardElement.style.transform = ""; 
+            }).catch(err => { console.error("Download failed:", err); alert("Download failed. Please take a screenshot."); cardElement.style.transform = ""; });
+        };
 
-        // INITIALIZE
-        filterProducts('All', null);
-
+        // Init
+        window.filterProducts('All', null);
     </script>
 </body>
 </html>
