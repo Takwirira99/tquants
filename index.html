@@ -412,37 +412,88 @@
         /* Card Elements Front */
         .card-border {
             position: absolute;
-            top: 18px; left: 18px; right: 18px; bottom: 18px;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
             border: 2px solid #a68b58;
             border-radius: 10px;
             opacity: 0.8;
             box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.5);
+            z-index: 1;
         }
 
+        /* GOLD RIBBON CONTAINER */
         .logo-area {
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -60%);
-            text-align: center;
+            top: 40%; 
+            left: 0;
             width: 100%;
+            text-align: center;
+            z-index: 2;
         }
 
-        .main-logo { font-size: 2.2rem; letter-spacing: 1px; margin: 0; line-height: 1; text-transform: uppercase; white-space: nowrap; }
-        .sub-logo { font-family: 'Lato', sans-serif; font-size: 0.85rem; letter-spacing: 4px; color: #e0d2b4; margin-top: 10px; text-transform: uppercase; font-weight: 700; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
-        .member-name-display { color: #fff; font-family: 'Courier New', monospace; margin-top: 15px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .gold-ribbon {
+            width: 100%;
+            padding: 10px 0;
+            background: linear-gradient(90deg, 
+                rgba(166,139,88,0) 0%, 
+                rgba(201,166,107,1) 15%, 
+                rgba(252,246,186,1) 50%, 
+                rgba(179,135,40,1) 85%, 
+                rgba(166,139,88,0) 100%);
+            margin-bottom: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-logo { 
+            font-size: 1.6rem; 
+            letter-spacing: 1px; 
+            margin: 0; 
+            line-height: 1; 
+            text-transform: uppercase; 
+            white-space: nowrap; 
+            font-weight: 800;
+            color: #0d2b1a; /* Dark Green Text for contrast on Gold */
+            text-shadow: 0px 1px 1px rgba(255,255,255,0.4);
+        }
+
+        .sub-logo { 
+            font-family: 'Lato', sans-serif; 
+            font-size: 0.85rem; 
+            letter-spacing: 4px; 
+            color: #e0d2b4; 
+            margin-top: 15px; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5); 
+        }
+        
+        .member-name-display { 
+            color: #fff; 
+            font-family: 'Courier New', monospace; 
+            margin-top: 15px; 
+            font-size: 1.1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: bold;
+            text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+        }
 
         .chip {
             position: absolute; top: 100px; left: 40px; width: 50px; height: 38px;
             background: linear-gradient(135deg, #e0d2b4 0%, #a68b58 100%);
             border-radius: 6px;
             box-shadow: inset 0 0 5px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.3); opacity: 0.9;
+            z-index: 1;
         }
         .chip::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #634f2c; }
         .chip::after { content: ''; position: absolute; left: 33%; top: 0; width: 1px; height: 100%; background: #634f2c; }
 
         .bottom-details {
-            position: absolute; bottom: 30px; width: 100%; padding: 0 40px;
+            position: absolute; bottom: 25px; width: 100%; padding: 0 40px;
             display: flex; justify-content: space-between; align-items: flex-end; box-sizing: border-box;
+            z-index: 2;
         }
 
         .member-number { font-family: 'Courier New', monospace; color: #fff; font-size: 1.1rem; letter-spacing: 2px; text-shadow: -1px -1px 1px rgba(255,255,255,0.2), 1px 1px 2px rgba(0,0,0,0.8); }
@@ -681,7 +732,9 @@
                         <div class="card-border"></div>
                         <div class="chip"></div>
                         <div class="logo-area">
-                            <h1 class="main-logo gold-text">Hampshire Supermarkets</h1>
+                            <div class="gold-ribbon">
+                                <h1 class="main-logo">HAMPSHIRE SUPERMARKET</h1>
+                            </div>
                             <div class="sub-logo">Privileged Member</div>
                             <div class="member-name-display" id="display-name">MEMBER NAME</div>
                         </div>
@@ -697,8 +750,8 @@
                         <div class="mag-stripe"></div>
                         <div class="signature-strip">Authorized Signature</div>
                         <div class="back-info">
-                            <p><strong>HAMPSHIRE SUPERMARKETS</strong><br>
-                            This card remains property of Hampshire Supermarkets.<br>
+                            <p><strong>HAMPSHIRE SUPERMARKET</strong><br>
+                            This card remains property of Hampshire Supermarket.<br>
                             Found? Call +263 78 864 3858</p>
                         </div>
                         <div class="qr-placeholder">QR CODE</div>
@@ -1025,13 +1078,8 @@
                 clone.style.zIndex = "9999";
                 clone.style.boxShadow = "none"; // Clean edges
                 
-                // Fix gold text clipping for canvas
-                const goldTexts = clone.querySelectorAll('.gold-text');
-                goldTexts.forEach(t => {
-                    t.style.background = "none";
-                    t.style.webkitTextFillColor = "#C9A66B";
-                    t.style.color = "#C9A66B";
-                });
+                // Fix gold text clipping for canvas if using gradient text (though we moved to ribbon now)
+                // We kept solid dark green text on the ribbon, so this is less critical but good safety
                 
                 document.body.appendChild(clone);
                 return clone;
@@ -1040,6 +1088,7 @@
             try {
                 // 1. Capture Front
                 const frontClone = prepareElement(frontElement);
+                // Ensure scale captures high res
                 const frontCanvas = await html2canvas(frontClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(frontClone);
                 const frontImg = frontCanvas.toDataURL("image/png");
