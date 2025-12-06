@@ -527,7 +527,8 @@
         let cart = [];
 
         // RENDER LOGIC
-        function renderProducts(category, element) {
+        // Fixed: Function name now matches HTML onclick event
+        function filterProducts(category, element) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = ''; 
 
@@ -642,7 +643,7 @@
         }
 
         // INITIALIZE
-        renderProducts('All', null);
+        filterProducts('All', null);
 
     </script>
 </body>
