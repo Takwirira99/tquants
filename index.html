@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet"> <!-- Font for card numbers -->
     <!-- Load html2canvas for capturing graphics -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- Load jsPDF for generating print-ready PDFs -->
@@ -384,19 +385,53 @@
         .mag-stripe {
             width: 100%; height: 50px; background: #222; margin-top: 30px;
         }
-        .signature-strip {
-            width: 70%; height: 40px; background: white; margin: 15px 0 0 20px;
-            border: 1px solid #ccc; display: flex; align-items: center; padding-left: 10px;
-            font-style: italic; color: #999; font-size: 0.8rem;
+        
+        /* Signature + CVV Container */
+        .signature-area {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            padding: 0 20px;
         }
+
+        .signature-strip {
+            flex-grow: 1;
+            height: 40px; 
+            background: white; 
+            border: 1px solid #ccc; 
+            display: flex; 
+            align-items: center; 
+            padding-left: 10px;
+            font-style: italic; color: #999; font-size: 0.8rem;
+            /* repeating pattern for security look */
+            background-image: repeating-linear-gradient(45deg, #fff 0, #fff 5px, #f9f9f9 5px, #f9f9f9 10px);
+        }
+
+        .cvv-box {
+            width: 50px;
+            height: 35px;
+            background: white;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #333;
+        }
+        
+        .cvv-label {
+            position: absolute;
+            top: -15px;
+            right: 0;
+            font-size: 0.6rem;
+            color: #666;
+        }
+
         .back-info {
             padding: 20px; font-size: 0.7rem; color: #666; position: absolute; bottom: 0; width: 100%;
-        }
-        .qr-placeholder {
-            position: absolute; right: 20px; bottom: 20px;
-            width: 60px; height: 60px; background: #fff; border: 1px solid #ddd;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #333; font-size: 0.7rem;
         }
 
         /* Gold Text Effect */
@@ -420,10 +455,10 @@
             z-index: 1;
         }
 
-        /* GOLD RIBBON CONTAINER */
+        /* GOLD RIBBON CONTAINER - AT TOP */
         .logo-area {
             position: absolute;
-            top: 40%; 
+            top: 30px; 
             left: 0;
             width: 100%;
             text-align: center;
@@ -432,14 +467,13 @@
 
         .gold-ribbon {
             width: 100%;
-            padding: 10px 0;
+            padding: 12px 0;
             background: linear-gradient(90deg, 
                 rgba(166,139,88,0) 0%, 
                 rgba(201,166,107,1) 15%, 
                 rgba(252,246,186,1) 50%, 
                 rgba(179,135,40,1) 85%, 
                 rgba(166,139,88,0) 100%);
-            margin-bottom: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
@@ -458,30 +492,9 @@
             text-shadow: 0px 1px 1px rgba(255,255,255,0.4);
         }
 
-        .sub-logo { 
-            font-family: 'Lato', sans-serif; 
-            font-size: 0.85rem; 
-            letter-spacing: 4px; 
-            color: #e0d2b4; 
-            margin-top: 15px; 
-            text-transform: uppercase; 
-            font-weight: 700; 
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.5); 
-        }
-        
-        .member-name-display { 
-            color: #fff; 
-            font-family: 'Courier New', monospace; 
-            margin-top: 15px; 
-            font-size: 1.1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            font-weight: bold;
-            text-shadow: 0 2px 2px rgba(0,0,0,0.5);
-        }
-
+        /* LAYOUT FOR ELEMENTS */
         .chip {
-            position: absolute; top: 100px; left: 40px; width: 50px; height: 38px;
+            position: absolute; top: 90px; left: 40px; width: 50px; height: 38px;
             background: linear-gradient(135deg, #e0d2b4 0%, #a68b58 100%);
             border-radius: 6px;
             box-shadow: inset 0 0 5px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.3); opacity: 0.9;
@@ -490,13 +503,55 @@
         .chip::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #634f2c; }
         .chip::after { content: ''; position: absolute; left: 33%; top: 0; width: 1px; height: 100%; background: #634f2c; }
 
+        /* CENTER CARD NUMBER */
+        .card-number-container {
+            position: absolute;
+            top: 140px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+        .member-number { 
+            font-family: 'Share Tech Mono', monospace; 
+            color: #fff; 
+            font-size: 1.5rem; 
+            letter-spacing: 3px; 
+            text-shadow: 0px 2px 3px rgba(0,0,0,0.8); 
+        }
+
+        /* EXPIRY DATE */
+        .expiry-container {
+            position: absolute;
+            top: 175px;
+            left: 50%; /* Center horizontally */
+            transform: translateX(-20%); /* Slight adjust */
+            color: #ddd;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+        .valid-label { font-size: 0.5rem; line-height: 1; margin-right: 5px; text-align: right; }
+        .expiry-date { font-size: 1.1rem; color: #fff; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+
+        /* BOTTOM NAME AND EST */
         .bottom-details {
             position: absolute; bottom: 25px; width: 100%; padding: 0 40px;
             display: flex; justify-content: space-between; align-items: flex-end; box-sizing: border-box;
             z-index: 2;
         }
 
-        .member-number { font-family: 'Courier New', monospace; color: #fff; font-size: 1.1rem; letter-spacing: 2px; text-shadow: -1px -1px 1px rgba(255,255,255,0.2), 1px 1px 2px rgba(0,0,0,0.8); }
+        .member-name-display { 
+            color: #e0d2b4; /* Pale Gold */
+            font-family: 'Courier New', monospace; 
+            font-size: 1.1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        
         .est { font-size: 0.65rem; color: #a68b58; letter-spacing: 1px; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
 
         .btn-download {
@@ -730,31 +785,53 @@
                     <!-- FRONT -->
                     <div class="h-card-base card-front" id="card-side-front">
                         <div class="card-border"></div>
-                        <div class="chip"></div>
+                        
+                        <!-- Top Logo -->
                         <div class="logo-area">
                             <div class="gold-ribbon">
                                 <h1 class="main-logo">HAMPSHIRE SUPERMARKET</h1>
                             </div>
-                            <div class="sub-logo">Privileged Member</div>
-                            <div class="member-name-display" id="display-name">MEMBER NAME</div>
                         </div>
-                        <div class="bottom-details">
+
+                        <!-- Chip -->
+                        <div class="chip"></div>
+
+                        <!-- Card Number -->
+                        <div class="card-number-container">
                             <div class="member-number" id="display-id">8854 **** **** 0001</div>
+                        </div>
+
+                        <!-- Expiry -->
+                        <div class="expiry-container">
+                            <div class="valid-label">VALID<br>THRU</div>
+                            <div class="expiry-date" id="display-expiry">12/28</div>
+                        </div>
+
+                        <!-- Bottom Name & Location -->
+                        <div class="bottom-details">
+                            <div class="member-name-display" id="display-name">MEMBER NAME</div>
                             <div class="est">CHIPINGE &bull; ZW</div>
                         </div>
+                        
                         <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); pointer-events: none;"></div>
                     </div>
 
                     <!-- BACK -->
                     <div class="h-card-base card-back" id="card-side-back">
                         <div class="mag-stripe"></div>
-                        <div class="signature-strip">Authorized Signature</div>
+                        <div class="signature-area">
+                            <div class="signature-strip">Authorized Signature</div>
+                            <div style="position: relative;">
+                                <div class="cvv-box" id="display-cvv">123</div>
+                                <div style="position:absolute; top:-15px; right:0; font-size:0.6rem; color:#666;">CVV</div>
+                            </div>
+                        </div>
+                        
                         <div class="back-info">
                             <p><strong>HAMPSHIRE SUPERMARKET</strong><br>
                             This card remains property of Hampshire Supermarket.<br>
                             Found? Call +263 78 864 3858</p>
                         </div>
-                        <div class="qr-placeholder">QR CODE</div>
                     </div>
 
                 </div>
@@ -1058,6 +1135,17 @@
             const randomPart = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
             const formattedID = "8854 " + randomPart.substring(0,4) + " " + randomPart.substring(4,8) + " " + randomPart.substring(8,12);
             document.getElementById('display-id').innerText = formattedID;
+            
+            // Set Expiry (Current Date + 3 Years)
+            const today = new Date();
+            const expYear = today.getFullYear() + 3;
+            const expMonth = String(today.getMonth() + 1).padStart(2, '0');
+            document.getElementById('display-expiry').innerText = `${expMonth}/${String(expYear).slice(-2)}`;
+
+            // Set CVV (Random 3 digits)
+            const cvv = Math.floor(Math.random() * 900) + 100;
+            document.getElementById('display-cvv').innerText = cvv;
+
             document.getElementById('card-preview-area').style.display = 'block';
         };
 
