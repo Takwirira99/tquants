@@ -420,9 +420,19 @@
             padding: 20px; font-size: 0.7rem; color: #666; position: absolute; bottom: 0; width: 100%;
         }
 
-        /* Staff Contact Info on Back */
+        /* FIXED STAFF CONTACT INFO ON BACK - PREVENTS OVERLAP */
         .staff-contact-display {
-            padding: 0 20px; margin-top: 15px; font-size: 0.85rem; color: #333;
+            position: absolute;
+            top: 150px; /* Fixed position below signature/magstripe */
+            left: 20px;
+            right: 20px;
+            padding: 10px; 
+            font-size: 0.85rem; 
+            color: #333;
+            background: rgba(255,255,255,0.5); /* Slight separation */
+            border-radius: 4px;
+            z-index: 5;
+            word-wrap: break-word; /* Ensure long emails wrap */
         }
         .staff-contact-display strong { color: var(--primary); display: block; margin-bottom: 2px; }
 
