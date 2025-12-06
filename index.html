@@ -1,13 +1,316 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hampshire Supermarket | Chipinge</title>
+    <style>
+        :root {
+            --primary: #2E7D32; /* Chipinge Green */
+            --secondary: #F9A825; /* Harvest Gold */
+            --light: #f4f4f4;
+            --dark: #333;
+            --white: #ffffff;
+            --whatsapp: #25D366;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--dark);
+            padding-bottom: 80px; /* Space for mobile footer */
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .cart-icon {
+            background: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .hero h1 { margin: 0; font-size: 2rem; }
+        .hero p { font-size: 1rem; margin-top: 10px; opacity: 0.9; }
+
+        /* Loyalty Card Section */
+        .loyalty-banner {
+            background-color: white;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 20px 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .btn-signup {
+            padding: 10px 20px;
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Product Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .category-tabs::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
+
+        .tab {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .product-name { font-weight: bold; font-size: 1rem; margin-bottom: 5px; line-height: 1.2; }
+        .product-size { color: #666; font-size: 0.85rem; margin-bottom: 8px; }
+        .product-price { color: var(--primary); font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; }
+        
+        .add-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .add-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Cart Modal */
+        #cart-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .cart-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .close-cart {
+            position: absolute; top: 10px; right: 15px;
+            font-size: 1.5rem; cursor: pointer;
+            color: #666;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .remove-btn {
+            color: red;
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 10px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .product-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">🛒 Hampshire Supermarket</div>
+        <div class="cart-icon" onclick="toggleCart()">
+            Cart: $<span id="header-total">0.00</span>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Chipinge's Best</h1>
+        <p>Order Online, Pickup or Delivery.</p>
+    </div>
+
+    <div class="loyalty-banner">
+        <h2>💳 Hampshire Card</h2>
+        <p>Sign up to get points and rewards!</p>
+        <button onclick="loyaltySignup()" class="btn-signup">Sign Up via WhatsApp</button>
+    </div>
+
+    <div class="container">
+        <div class="category-tabs" id="category-tabs">
+            <div class="tab active" onclick="filterProducts('All')">All Items</div>
+            <div class="tab" onclick="filterProducts('Staples & Grains')">Staples</div>
+            <div class="tab" onclick="filterProducts('Beverages & Condiments')">Beverages</div>
+            <div class="tab" onclick="filterProducts('Household & Personal')">Household</div>
+            <div class="tab" onclick="filterProducts('Oils & Dairy')">Oils & Dairy</div>
+            <div class="tab" onclick="filterProducts('Produce')">Fresh Produce</div>
+            <div class="tab" onclick="filterProducts('Proteins')">Meat & Proteins</div>
+            <div class="tab" onclick="filterProducts('Snacks')">Snacks</div>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+            </div>
+    </div>
+
+    <div id="cart-modal">
+        <div class="cart-content">
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items">
+                <p>Your cart is empty.</p>
+            </div>
+            <h3 style="text-align: right; margin-top: 20px;">Total: $<span id="cart-total">0.00</span></h3>
+            
+            <div style="margin-top: 15px;">
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">Your Name:</label>
+                <input type="text" id="customer-name" placeholder="Enter your name" style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+
+            <button class="checkout-btn" onclick="checkout()">
+                Order on WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Hampshire Supermarket | Chipinge, Zimbabwe</p>
+    </footer>
+
+    <script>
         // --- CONFIGURATION ---
-        // REPLACE THIS WITH YOUR SUPERMARKET'S WHATSAPP NUMBER (International format, no +)
-        const SHOP_PHONE_NUMBER = "263771234567"; 
+        const SHOP_PHONE = "263788643858"; 
         // ---------------------
 
+        // Inventory Data
         const inventory = [
-            // ... (Keep the inventory list exactly as it was in the previous code) ...
-            // Beverages
-            { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00, stock: 1 }, 
+            // Beverages & Condiments
+            { cat: 'Beverages & Condiments', name: 'Bath Soap (Liquid/Bottle)', size: '500ml', price: 5.00, stock: 1 }, 
             { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00, stock: 5 }, 
             { cat: 'Beverages & Condiments', name: 'Coffee', size: '250g tin', price: 3.00, stock: 5 },
             { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2 Litres', price: 3.00, stock: 20 },
@@ -15,43 +318,49 @@
             { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00, stock: 1 },
             { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00, stock: 5 },
             { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00, stock: 10 },
-            // Household
+
+            // Household & Personal
             { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00, stock: 30 },
-            { cat: 'Household & Personal', name: 'Bath Soap', size: '225g Bar', price: 0.60, stock: 10 },
+            { cat: 'Household & Personal', name: 'Bath Soap (Bar)', size: '225g Bar', price: 0.60, stock: 10 },
             { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20, stock: 10 },
-            { cat: 'Household & Personal', name: 'Carie / Curry', size: 'Pack', price: 5.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Carie / Curry Powder', size: 'Pack', price: 5.00, stock: 10 },
             { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00, stock: 5 },
             { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60, stock: 10 },
             { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00, stock: 5 },
             { cat: 'Household & Personal', name: 'Matches', size: '10-box pack', price: 0.50, stock: 10 },
-            { cat: 'Household & Personal', name: 'Pags / Pegs', size: '1 pack', price: 2.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Royco', size: 'Pack', price: 4.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Pags / Clothes Pegs', size: '1 pack', price: 2.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Royco Usavi', size: 'Pack', price: 4.00, stock: 10 },
             { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00, stock: 10 },
             { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00, stock: 10 },
             { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll pack', price: 1.00, stock: 10 },
             { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00, stock: 10 },
-            // Oils
+
+            // Oils & Dairy
             { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '1 Litre', price: 2.00, stock: 10 },
             { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '2 Litres', price: 4.00, stock: 10 },
-            { cat: 'Oils & Dairy', name: 'Margarine/Butter', size: '500g', price: 1.20, stock: 0 },
+            { cat: 'Oils & Dairy', name: 'Margarine/Butter', size: '500g', price: 1.20, stock: 0 }, // Out of stock
             { cat: 'Oils & Dairy', name: 'Fresh Milk', size: '1 Litre', price: 1.20, stock: 10 },
+
             // Produce
-            { cat: 'Produce', name: 'Cabbage', size: 'Per head', price: 1.50, stock: 0 },
-            { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00, stock: 0 },
-            { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80, stock: 0 },
+            { cat: 'Produce', name: 'Cabbage', size: 'Per head', price: 1.50, stock: 0 }, // Out of stock
+            { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00, stock: 0 }, // Out of stock
+            { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80, stock: 0 }, // Out of stock
             { cat: 'Produce', name: 'Onions', size: 'Per kg', price: 1.20, stock: 5 },
             { cat: 'Produce', name: 'Potatoes', size: 'Per kg', price: 1.00, stock: 5 },
             { cat: 'Produce', name: 'Tomatoes', size: 'Per kg', price: 1.00, stock: 5 },
+
             // Proteins
             { cat: 'Proteins', name: 'Canned Beef', size: '300g can', price: 5.00, stock: 10 },
             { cat: 'Proteins', name: 'Dried Kapenta', size: 'Per kg', price: 5.00, stock: 5 },
             { cat: 'Proteins', name: 'Eggs', size: '30-egg tray', price: 3.80, stock: 5 },
-            { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00, stock: 0 },
+            { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00, stock: 0 }, // Out of stock
             { cat: 'Proteins', name: 'Peanut Butter', size: '375ml', price: 5.00, stock: 10 },
+
             // Snacks
             { cat: 'Snacks', name: 'Biscuits', size: '150g pack', price: 5.00, stock: 10 },
             { cat: 'Snacks', name: 'Sweets & Chocolates', size: '500g pack', price: 2.00, stock: 5 },
             { cat: 'Snacks', name: 'Sweets & Chocolates (Lrg)', size: 'Pack', price: 6.00, stock: 15 },
+
             // Staples
             { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50, stock: 20 },
             { cat: 'Staples & Grains', name: 'Self-Raising Flour', size: '1kg', price: 1.20, stock: 5 },
@@ -105,20 +414,12 @@
             });
         }
 
-        function filterProducts(cat) {
-            renderProducts(cat);
-        }
+        function filterProducts(cat) { renderProducts(cat); }
 
         function addToCart(index) {
             const item = inventory[index];
             cart.push(item);
             updateCart();
-            
-            // Optional: Small visual feedback without alert
-            const btn = document.activeElement;
-            const originalText = btn.innerText;
-            btn.innerText = "Added!";
-            setTimeout(() => btn.innerText = originalText, 1000);
         }
 
         function updateCart() {
@@ -136,8 +437,14 @@
                     total += item.price;
                     html += `
                         <div class="cart-item">
-                            <span>${item.name} (${item.size})</span>
-                            <span>$${item.price.toFixed(2)} <button onclick="removeFromCart(${i})" style="color:red;border:none;background:none;cursor:pointer;">x</button></span>
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <small>${item.size}</small>
+                            </div>
+                            <div>
+                                $${item.price.toFixed(2)} 
+                                <button class="remove-btn" onclick="removeFromCart(${i})">&times;</button>
+                            </div>
                         </div>
                     `;
                 });
@@ -158,35 +465,38 @@
             modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
         }
 
-        // --- NEW CHECKOUT FUNCTION (WHATSAPP INTEGRATION) ---
+        // --- CHECKOUT LOGIC ---
         function checkout() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
+            if (cart.length === 0) { alert("Your cart is empty!"); return; }
 
-            let message = "Hello Hampshire Supermarket, I would like to place an order:\n\n";
+            const name = document.getElementById('customer-name').value;
+            if(!name) { alert("Please enter your name."); return; }
+
+            let message = `*NEW ORDER - HAMPSHIRE SUPERMARKET*\n`;
+            message += `Customer: ${name}\n\n`;
             let total = 0;
 
-            // Combine duplicates (optional logic for cleaner list) or list as is
             cart.forEach(item => {
                 message += `• ${item.name} (${item.size}) - $${item.price.toFixed(2)}\n`;
                 total += item.price;
             });
 
             message += `\n*TOTAL: $${total.toFixed(2)}*`;
-            message += `\n\nPlease confirm availability. I will pay upon collection/delivery.`;
+            message += `\n\nI would like to collect this order. Please confirm stock.`;
 
-            // Create WhatsApp Link
-            const whatsappUrl = `https://wa.me/${SHOP_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
-            
-            // Open WhatsApp
+            const whatsappUrl = `https://wa.me/${SHOP_PHONE}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
 
-        // Attach checkout function to button
-        document.querySelector('.checkout-btn').onclick = checkout;
+        // --- LOYALTY LOGIC ---
+        function loyaltySignup() {
+            let message = `*LOYALTY SIGNUP*\nI would like to sign up for the Hampshire Supermarket Card.`;
+            const whatsappUrl = `https://wa.me/${SHOP_PHONE}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
 
         // Initial Load
         renderProducts('All');
     </script>
+</body>
+</html>
