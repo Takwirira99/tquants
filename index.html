@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet"> <!-- Font for card numbers -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <!-- Load html2canvas for capturing graphics -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- Load jsPDF for generating print-ready PDFs -->
@@ -305,7 +305,7 @@
 
         .loyalty-label { color: var(--gold); font-size: 0.9rem; display: block; margin-bottom: 5px; }
         
-        .loyalty-input {
+        .loyalty-input, .loyalty-select {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--gold);
@@ -317,6 +317,7 @@
             margin-bottom: 15px;
         }
         
+        .loyalty-select option { background: #000; color: white; }
         .loyalty-input::placeholder { color: rgba(255,255,255,0.5); }
 
         .btn-gold {
@@ -369,7 +370,8 @@
 
         /* --- FRONT SIDE --- */
         .card-front {
-            background: linear-gradient(135deg, #1A4D2E 0%, #082212 100%);
+            /* DEEPEST GREEN AS REQUESTED */
+            background: linear-gradient(135deg, #082613 0%, #020d06 100%);
             border: 1px solid #1f5c37;
         }
 
@@ -403,36 +405,26 @@
             align-items: center; 
             padding-left: 10px;
             font-style: italic; color: #999; font-size: 0.8rem;
-            /* repeating pattern for security look */
             background-image: repeating-linear-gradient(45deg, #fff 0, #fff 5px, #f9f9f9 5px, #f9f9f9 10px);
         }
 
         .cvv-box {
-            width: 50px;
-            height: 35px;
-            background: white;
-            border: 1px solid #aaa;
-            margin-left: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 1rem;
-            color: #333;
+            width: 50px; height: 35px; background: white; border: 1px solid #aaa; margin-left: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Courier New', monospace; font-weight: bold; font-size: 1rem; color: #333;
         }
         
-        .cvv-label {
-            position: absolute;
-            top: -15px;
-            right: 0;
-            font-size: 0.6rem;
-            color: #666;
-        }
+        .cvv-label { position: absolute; top: -15px; right: 0; font-size: 0.6rem; color: #666; }
 
         .back-info {
             padding: 20px; font-size: 0.7rem; color: #666; position: absolute; bottom: 0; width: 100%;
         }
+
+        /* Staff Contact Info on Back */
+        .staff-contact-display {
+            padding: 0 20px; margin-top: 15px; font-size: 0.85rem; color: #333;
+        }
+        .staff-contact-display strong { color: var(--primary); display: block; margin-bottom: 2px; }
 
         /* Gold Text Effect */
         .gold-text {
@@ -446,50 +438,32 @@
 
         /* Card Elements Front */
         .card-border {
-            position: absolute;
-            top: 15px; left: 15px; right: 15px; bottom: 15px;
-            border: 2px solid #a68b58;
-            border-radius: 10px;
-            opacity: 0.8;
-            box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.5);
-            z-index: 1;
+            position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 2px solid #a68b58; border-radius: 10px; opacity: 0.8;
+            box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.5); z-index: 1;
         }
 
         /* GOLD RIBBON CONTAINER - AT TOP */
         .logo-area {
-            position: absolute;
-            top: 30px; 
-            left: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 2;
+            position: absolute; top: 30px; left: 0; width: 100%; text-align: center; z-index: 2;
         }
 
         .gold-ribbon {
-            width: 100%;
-            padding: 12px 0;
-            background: linear-gradient(90deg, 
-                rgba(166,139,88,0) 0%, 
-                rgba(201,166,107,1) 15%, 
-                rgba(252,246,186,1) 50%, 
-                rgba(179,135,40,1) 85%, 
-                rgba(166,139,88,0) 100%);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%; padding: 12px 0;
+            background: linear-gradient(90deg, rgba(166,139,88,0) 0%, rgba(201,166,107,1) 15%, rgba(252,246,186,1) 50%, rgba(179,135,40,1) 85%, rgba(166,139,88,0) 100%);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center;
         }
 
         .main-logo { 
-            font-size: 1.6rem; 
-            letter-spacing: 1px; 
-            margin: 0; 
-            line-height: 1; 
-            text-transform: uppercase; 
-            white-space: nowrap; 
-            font-weight: 800;
-            color: #0d2b1a; /* Dark Green Text for contrast on Gold */
-            text-shadow: 0px 1px 1px rgba(255,255,255,0.4);
+            font-size: 1.6rem; letter-spacing: 1px; margin: 0; line-height: 1; text-transform: uppercase; white-space: nowrap; font-weight: 800;
+            color: #0d2b1a; text-shadow: 0px 1px 1px rgba(255,255,255,0.4);
+        }
+
+        /* GOLD STAR FOR STAFF */
+        .gold-star {
+            position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
+            font-size: 4rem; color: #ffd700; text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            z-index: 2; display: none; /* Hidden by default */
         }
 
         /* LAYOUT FOR ELEMENTS */
@@ -505,32 +479,16 @@
 
         /* CENTER CARD NUMBER */
         .card-number-container {
-            position: absolute;
-            top: 140px;
-            width: 100%;
-            text-align: center;
-            z-index: 2;
+            position: absolute; top: 140px; width: 100%; text-align: center; z-index: 2;
         }
         .member-number { 
-            font-family: 'Share Tech Mono', monospace; 
-            color: #fff; 
-            font-size: 1.5rem; 
-            letter-spacing: 3px; 
-            text-shadow: 0px 2px 3px rgba(0,0,0,0.8); 
+            font-family: 'Share Tech Mono', monospace; color: #fff; font-size: 1.5rem; letter-spacing: 3px; text-shadow: 0px 2px 3px rgba(0,0,0,0.8); 
         }
 
         /* EXPIRY DATE */
         .expiry-container {
-            position: absolute;
-            top: 175px;
-            left: 50%; /* Center horizontally */
-            transform: translateX(-20%); /* Slight adjust */
-            color: #ddd;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            z-index: 2;
+            position: absolute; top: 175px; left: 50%; transform: translateX(-20%);
+            color: #ddd; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; display: flex; align-items: center; z-index: 2;
         }
         .valid-label { font-size: 0.5rem; line-height: 1; margin-right: 5px; text-align: right; }
         .expiry-date { font-size: 1.1rem; color: #fff; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
@@ -543,27 +501,19 @@
         }
 
         .member-name-display { 
-            color: #e0d2b4; /* Pale Gold */
-            font-family: 'Courier New', monospace; 
-            font-size: 1.1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            color: #e0d2b4; font-family: 'Courier New', monospace; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
         
         .est { font-size: 0.65rem; color: #a68b58; letter-spacing: 1px; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
 
+        .member-role-display {
+            position: absolute; top: 85px; width: 100%; text-align: center;
+            color: #e0d2b4; font-family: 'Lato', sans-serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold;
+            display: none; /* Hidden for members */
+        }
+
         .btn-download {
-            background-color: var(--white);
-            color: var(--primary);
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-top: 10px;
-            width: 100%;
+            background-color: var(--white); color: var(--primary); border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px; width: 100%;
         }
         .btn-download:hover { background-color: #eee; }
 
@@ -580,130 +530,32 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .admin-instructions-box h4 {
-            color: var(--primary);
-            margin-top: 0;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 8px;
-            font-size: 1.1rem;
+            color: var(--primary); margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 8px; font-size: 1.1rem;
         }
         .step-list { padding-left: 20px; margin: 0; }
         .step-list li { margin-bottom: 8px; line-height: 1.4; }
 
         /* --- MODAL (RECEIPT STYLE) --- */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            animation: fadeIn 0.2s ease;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 2000; animation: fadeIn 0.2s ease;
         }
 
         .modal-body {
-            background: var(--white);
-            width: 90%;
-            max-width: 480px;
-            margin: 40px auto;
-            padding: 40px;
-            border-radius: 2px;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            max-height: 85vh;
-            overflow-y: auto;
-            border-top: 5px solid var(--primary);
+            background: var(--white); width: 90%; max-width: 480px; margin: 40px auto; padding: 40px; border-radius: 2px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto; border-top: 5px solid var(--primary);
         }
 
-        .close-modal {
-            position: absolute; top: 15px; right: 20px;
-            font-size: 2rem; cursor: pointer; color: #ccc;
-            line-height: 0.5;
-        }
-
-        .receipt-header {
-            text-align: center;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .receipt-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-            border-bottom: 1px solid #f9f9f9;
-            padding-bottom: 5px;
-        }
-
-        .receipt-qty {
-            background: var(--cream);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: var(--primary);
-            margin-right: 5px;
-        }
-
-        .receipt-total {
-            border-top: 2px solid var(--text-main);
-            padding-top: 15px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            font-family: 'Lato', sans-serif;
-        }
-
-        .btn-checkout {
-            background-color: var(--primary);
-            color: var(--white);
-            width: 100%;
-            padding: 15px;
-            border: none;
-            margin-top: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
-
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #ccc; line-height: 0.5; }
+        .receipt-header { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 20px; margin-bottom: 20px; }
+        .receipt-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.95rem; border-bottom: 1px solid #f9f9f9; padding-bottom: 5px; }
+        .receipt-qty { background: var(--cream); padding: 2px 8px; border-radius: 4px; font-weight: bold; color: var(--primary); margin-right: 5px; }
+        .receipt-total { border-top: 2px solid var(--text-main); padding-top: 15px; margin-top: 20px; display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+        .input-field { width: 100%; padding: 12px; margin-top: 20px; border: 1px solid #ccc; font-family: 'Lato', sans-serif; }
+        .btn-checkout { background-color: var(--primary); color: var(--white); width: 100%; padding: 15px; border: none; margin-top: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
         .btn-checkout:hover { background-color: #143d24; }
 
-        footer {
-            background-color: var(--primary);
-            color: var(--white);
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
-        }
-
-        footer .brand-small {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .staff-link {
-            color: rgba(255,255,255,0.3);
-            text-decoration: none;
-            font-size: 0.8rem;
-            margin-top: 20px;
-            display: inline-block;
-            cursor: pointer;
-        }
+        footer { background-color: var(--primary); color: var(--white); text-align: center; padding: 40px 20px; margin-top: 60px; }
+        footer .brand-small { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 10px; display: block; }
+        .staff-link { color: rgba(255,255,255,0.3); text-decoration: none; font-size: 0.8rem; margin-top: 20px; display: inline-block; cursor: pointer; }
         .staff-link:hover { color: rgba(255,255,255,0.8); }
 
         /* Admin Login Modal */
@@ -768,8 +620,36 @@
 
             <p>Join our exclusive membership program.</p>
             
+            <!-- ADMIN SWITCH -->
+            <div id="admin-controls-switch" style="display:none; margin-bottom:20px;">
+                <label class="loyalty-label">Card Type</label>
+                <select id="card-type-select" class="loyalty-select" onchange="window.toggleCardForm()">
+                    <option value="member">Standard Member Card</option>
+                    <option value="business">Business Card (Staff)</option>
+                </select>
+            </div>
+
             <!-- NAME ENTRY -->
             <div id="step-name" class="loyalty-form">
+                
+                <!-- STAFF FIELDS (Hidden by default) -->
+                <div id="staff-fields" style="display:none;">
+                    <label class="loyalty-label">Designation / Role</label>
+                    <select id="card-role-select" class="loyalty-select">
+                        <option value="SHOP KEEPER">SHOP KEEPER</option>
+                        <option value="CHIEF EXECUTIVE OFFICER">CHIEF EXECUTIVE OFFICER</option>
+                        <option value="DIRECTOR">DIRECTOR</option>
+                        <option value="TREASURER">TREASURER</option>
+                        <option value="SECRETARY">SECRETARY</option>
+                    </select>
+
+                    <label class="loyalty-label">Phone Number</label>
+                    <input type="text" id="staff-phone" class="loyalty-input" placeholder="+263 ...">
+
+                    <label class="loyalty-label">Email Address</label>
+                    <input type="email" id="staff-email" class="loyalty-input" placeholder="name@hampshire.co.zw">
+                </div>
+
                 <label class="loyalty-label">Full Name for Card</label>
                 <input type="text" id="card-name-input" class="loyalty-input" placeholder="e.g. Tinashe Moyo">
                 <button onclick="window.generateCard()" class="btn-gold" id="gen-btn">Preview Digital Card</button>
@@ -791,18 +671,23 @@
                             <div class="gold-ribbon">
                                 <h1 class="main-logo">HAMPSHIRE SUPERMARKET</h1>
                             </div>
+                            <!-- Role appears here for Staff -->
+                            <div class="member-role-display" id="display-role">ROLE HERE</div>
                         </div>
 
-                        <!-- Chip -->
-                        <div class="chip"></div>
+                        <!-- Chip (Member only) -->
+                        <div class="chip" id="card-chip"></div>
 
-                        <!-- Card Number -->
-                        <div class="card-number-container">
+                        <!-- Gold Star (Staff only) -->
+                        <div class="gold-star" id="card-star">★</div>
+
+                        <!-- Card Number (Member only) -->
+                        <div class="card-number-container" id="card-num-container">
                             <div class="member-number" id="display-id">8854 **** **** 0001</div>
                         </div>
 
-                        <!-- Expiry -->
-                        <div class="expiry-container">
+                        <!-- Expiry (Member only) -->
+                        <div class="expiry-container" id="card-exp-container">
                             <div class="valid-label">VALID<br>THRU</div>
                             <div class="expiry-date" id="display-expiry">12/28</div>
                         </div>
@@ -819,14 +704,22 @@
                     <!-- BACK -->
                     <div class="h-card-base card-back" id="card-side-back">
                         <div class="mag-stripe"></div>
+                        
                         <div class="signature-area">
                             <div class="signature-strip">Authorized Signature</div>
-                            <div style="position: relative;">
+                            <!-- CVV (Member only) -->
+                            <div style="position: relative;" id="cvv-container">
                                 <div class="cvv-box" id="display-cvv">123</div>
                                 <div style="position:absolute; top:-15px; right:0; font-size:0.6rem; color:#666;">CVV</div>
                             </div>
                         </div>
                         
+                        <!-- Staff Contact Info -->
+                        <div class="staff-contact-display" id="staff-contact-area" style="display:none;">
+                            <strong id="display-staff-phone">Phone: +263 ...</strong>
+                            <strong id="display-staff-email">Email: ...</strong>
+                        </div>
+
                         <div class="back-info">
                             <p><strong>HAMPSHIRE SUPERMARKET</strong><br>
                             This card remains property of Hampshire Supermarket.<br>
@@ -968,6 +861,7 @@
             const customerMsg = document.getElementById('customer-msg');
             const genBtn = document.getElementById('gen-btn');
             const adminIndicator = document.getElementById('admin-indicator');
+            const adminSwitch = document.getElementById('admin-controls-switch');
 
             if (user) {
                 // User is logged in
@@ -980,23 +874,24 @@
                     document.getElementById('verification-success').style.display = 'block';
                     document.getElementById('verification-warning').style.display = 'none';
                     // Enable Admin Features
-                    adminControls.style.display = 'block'; // Show instructions + button
+                    adminControls.style.display = 'block'; 
                     customerMsg.style.display = 'none';
                     genBtn.innerText = "Generate Official Card";
                     adminIndicator.style.display = 'inline-block';
+                    adminSwitch.style.display = 'block'; // Show Type Switcher
                     
-                    startInactivityTimer(); // Start tracking
+                    startInactivityTimer(); 
                 } else {
                     isAdminVerified = false;
                     document.getElementById('verification-success').style.display = 'none';
                     document.getElementById('verification-warning').style.display = 'block';
-                    // Disable Admin Features
                     adminControls.style.display = 'none';
                     customerMsg.style.display = 'block';
                     genBtn.innerText = "Preview Digital Card";
                     adminIndicator.style.display = 'none';
+                    adminSwitch.style.display = 'none';
                     
-                    clearTimeout(inactivityTimer); // Stop tracking
+                    clearTimeout(inactivityTimer); 
                 }
             } else {
                 // User logged out
@@ -1007,8 +902,9 @@
                 customerMsg.style.display = 'block';
                 genBtn.innerText = "Preview Digital Card";
                 adminIndicator.style.display = 'none';
+                adminSwitch.style.display = 'none';
                 
-                clearTimeout(inactivityTimer); // Stop tracking
+                clearTimeout(inactivityTimer); 
             }
         });
 
@@ -1058,10 +954,8 @@
             }
         };
 
-        // --- ORIGINAL APP LOGIC (Exposed to Window) ---
+        // --- ORIGINAL APP LOGIC ---
         const SHOP_PHONE = "263788643858"; 
-
-        // Inventory & Cart Logic (Same as before)
         const inventory = [
             { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00 }, { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00 }, { cat: 'Beverages & Condiments', name: 'Premium Coffee', size: '250g tin', price: 3.00 }, { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2L', price: 3.00 }, { cat: 'Beverages & Condiments', name: 'Salad Cream', size: '500ml', price: 2.50 }, { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00 }, { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00 }, { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00 },
             { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00 }, { cat: 'Household & Personal', name: 'Bath Soap', size: '225g', price: 0.60 }, { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20 }, { cat: 'Household & Personal', name: 'Curry Powder', size: 'Pack', price: 5.00 }, { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00 }, { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60 }, { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00 }, { cat: 'Household & Personal', name: 'Matches', size: '10-box', price: 0.50 }, { cat: 'Household & Personal', name: 'Clothes Pegs', size: 'Pack', price: 2.00 }, { cat: 'Household & Personal', name: 'Royco Usavi', size: 'Pack', price: 4.00 }, { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00 }, { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00 }, { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll', price: 1.00 }, { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00 },
@@ -1071,7 +965,6 @@
             { cat: 'Snacks', name: 'Biscuits', size: '150g', price: 5.00 }, { cat: 'Snacks', name: 'Sweets', size: '500g', price: 2.00 }, { cat: 'Snacks', name: 'Chocolates', size: 'Pack', price: 6.00 },
             { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50 }, { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '1kg', price: 1.20 }, { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '2kg', price: 2.50 }, { cat: 'Staples & Grains', name: 'Instant Porridge', size: 'Pack', price: 3.50 }, { cat: 'Staples & Grains', name: 'Roller Meal', size: '5kg', price: 4.30 }, { cat: 'Staples & Grains', name: 'Roller Meal', size: '10kg', price: 6.50 }, { cat: 'Staples & Grains', name: 'Roller Meal', size: '20kg', price: 11.00 }, { cat: 'Staples & Grains', name: 'Maputi', size: 'Pack', price: 2.00 }, { cat: 'Staples & Grains', name: 'Mhandire', size: 'Pack', price: 2.00 }, { cat: 'Staples & Grains', name: 'Popcorn Kernels', size: 'Per kg', price: 1.00 }, { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '1kg', price: 1.67 }, { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '2kg', price: 2.67 }, { cat: 'Staples & Grains', name: 'Rice (Value)', size: '1kg', price: 1.44 }, { cat: 'Staples & Grains', name: 'Rice (Value)', size: '2kg', price: 2.44 }
         ];
-
         let cart = [];
 
         window.filterProducts = (category, element) => {
@@ -1128,23 +1021,57 @@
             window.open(whatsappUrl, '_blank');
         };
 
+        // --- CARD LOGIC ---
+        window.toggleCardForm = () => {
+            const type = document.getElementById('card-type-select').value;
+            const staffFields = document.getElementById('staff-fields');
+            staffFields.style.display = type === 'business' ? 'block' : 'none';
+        };
+
         window.generateCard = () => {
             const nameInput = document.getElementById('card-name-input').value;
+            const type = document.getElementById('card-type-select').value;
+            
             if(nameInput.trim() === "") { alert("Please enter your name first!"); return; }
             document.getElementById('display-name').innerText = nameInput;
-            const randomPart = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
-            const formattedID = "8854 " + randomPart.substring(0,4) + " " + randomPart.substring(4,8) + " " + randomPart.substring(8,12);
-            document.getElementById('display-id').innerText = formattedID;
-            
-            // Set Expiry (Current Date + 3 Years)
-            const today = new Date();
-            const expYear = today.getFullYear() + 3;
-            const expMonth = String(today.getMonth() + 1).padStart(2, '0');
-            document.getElementById('display-expiry').innerText = `${expMonth}/${String(expYear).slice(-2)}`;
 
-            // Set CVV (Random 3 digits)
-            const cvv = Math.floor(Math.random() * 900) + 100;
-            document.getElementById('display-cvv').innerText = cvv;
+            if (isAdminVerified && type === 'business') {
+                // BUSINESS CARD MODE
+                const role = document.getElementById('card-role-select').value;
+                const phone = document.getElementById('staff-phone').value || "+263 ...";
+                const email = document.getElementById('staff-email').value || "...";
+
+                // Front Modifications
+                document.getElementById('display-role').innerText = role;
+                document.getElementById('display-role').style.display = 'block';
+                document.getElementById('card-chip').style.display = 'none';
+                document.getElementById('card-num-container').style.display = 'none';
+                document.getElementById('card-exp-container').style.display = 'none';
+                document.getElementById('card-star').style.display = 'block';
+
+                // Back Modifications
+                document.getElementById('cvv-container').style.display = 'none';
+                document.getElementById('display-staff-phone').innerText = "Phone: " + phone;
+                document.getElementById('display-staff-email').innerText = "Email: " + email;
+                document.getElementById('staff-contact-area').style.display = 'block';
+
+            } else {
+                // MEMBER CARD MODE
+                const randomPart = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
+                const formattedID = "8854 " + randomPart.substring(0,4) + " " + randomPart.substring(4,8) + " " + randomPart.substring(8,12);
+                document.getElementById('display-id').innerText = formattedID;
+                
+                // Front Modifications
+                document.getElementById('display-role').style.display = 'none';
+                document.getElementById('card-chip').style.display = 'block';
+                document.getElementById('card-num-container').style.display = 'block';
+                document.getElementById('card-exp-container').style.display = 'flex';
+                document.getElementById('card-star').style.display = 'none';
+
+                // Back Modifications
+                document.getElementById('cvv-container').style.display = 'block';
+                document.getElementById('staff-contact-area').style.display = 'none';
+            }
 
             document.getElementById('card-preview-area').style.display = 'block';
         };
@@ -1156,7 +1083,6 @@
             const frontElement = document.getElementById("card-side-front");
             const backElement = document.getElementById("card-side-back");
 
-            // Helper to prepare element for capture (remove 3D, fix text)
             const prepareElement = (el) => {
                 const clone = el.cloneNode(true);
                 clone.style.transform = "none";
@@ -1164,44 +1090,35 @@
                 clone.style.top = "-9999px";
                 clone.style.left = "0";
                 clone.style.zIndex = "9999";
-                clone.style.boxShadow = "none"; // Clean edges
+                clone.style.boxShadow = "none"; 
                 
-                // Fix gold text clipping for canvas if using gradient text (though we moved to ribbon now)
-                // We kept solid dark green text on the ribbon, so this is less critical but good safety
+                const goldTexts = clone.querySelectorAll('.gold-text');
+                goldTexts.forEach(t => {
+                    t.style.background = "none";
+                    t.style.webkitTextFillColor = "#C9A66B";
+                    t.style.color = "#C9A66B";
+                });
                 
                 document.body.appendChild(clone);
                 return clone;
             };
 
             try {
-                // 1. Capture Front
                 const frontClone = prepareElement(frontElement);
-                // Ensure scale captures high res
                 const frontCanvas = await html2canvas(frontClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(frontClone);
                 const frontImg = frontCanvas.toDataURL("image/png");
 
-                // 2. Capture Back
                 const backClone = prepareElement(backElement);
                 const backCanvas = await html2canvas(backClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(backClone);
                 const backImg = backCanvas.toDataURL("image/png");
 
-                // 3. Generate PDF (Standard CR80 Size: 85.6mm x 53.98mm)
-                const doc = new jsPDF({
-                    orientation: 'landscape',
-                    unit: 'mm',
-                    format: [85.6, 53.98]
-                });
-
-                // Add Front (Page 1)
+                const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 53.98] });
                 doc.addImage(frontImg, 'PNG', 0, 0, 85.6, 53.98);
-                
-                // Add Back (Page 2)
                 doc.addPage();
                 doc.addImage(backImg, 'PNG', 0, 0, 85.6, 53.98);
 
-                // Save
                 doc.save(`Hampshire_Card_${document.getElementById('display-name').innerText.replace(/\s+/g, '_')}.pdf`);
 
             } catch (err) {
