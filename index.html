@@ -267,15 +267,6 @@
             color: var(--primary);
         }
 
-        .btn-disabled {
-            background-color: #eee;
-            color: #999;
-            border: 1px solid #ddd;
-            cursor: not-allowed;
-            width: 100%;
-            padding: 10px;
-        }
-
         /* --- LOYALTY CARD --- */
         .loyalty-box {
             background: linear-gradient(135deg, var(--primary) 0%, #0d2b1a 100%);
@@ -501,69 +492,69 @@
         // CONFIGURATION
         const SHOP_PHONE = "263788643858"; 
 
-        // INVENTORY DATA
+        // INVENTORY DATA (All stocks removed)
         const inventory = [
             // Beverages
-            { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00, stock: 1 }, 
-            { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00, stock: 5 }, 
-            { cat: 'Beverages & Condiments', name: 'Premium Coffee', size: '250g tin', price: 3.00, stock: 5 },
-            { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2L', price: 3.00, stock: 20 },
-            { cat: 'Beverages & Condiments', name: 'Salad Cream', size: '500ml', price: 2.50, stock: 10 },
-            { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00, stock: 1 },
-            { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00, stock: 5 },
-            { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00, stock: 10 },
+            { cat: 'Beverages & Condiments', name: 'Bath Soap (Bottle)', size: '500ml', price: 5.00 }, 
+            { cat: 'Beverages & Condiments', name: 'Bottled Water', size: '500ml', price: 5.00 }, 
+            { cat: 'Beverages & Condiments', name: 'Premium Coffee', size: '250g tin', price: 3.00 },
+            { cat: 'Beverages & Condiments', name: 'Mazoe Orange Crush', size: '2L', price: 3.00 },
+            { cat: 'Beverages & Condiments', name: 'Salad Cream', size: '500ml', price: 2.50 },
+            { cat: 'Beverages & Condiments', name: 'Soft Drinks', size: '300ml', price: 8.00 },
+            { cat: 'Beverages & Condiments', name: 'Tea Leaves', size: '250g', price: 2.00 },
+            { cat: 'Beverages & Condiments', name: 'Tomato Sauce', size: '500ml', price: 1.00 },
             // Household
-            { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00, stock: 30 },
-            { cat: 'Household & Personal', name: 'Bath Soap', size: '225g', price: 0.60, stock: 10 },
-            { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20, stock: 10 },
-            { cat: 'Household & Personal', name: 'Curry Powder', size: 'Pack', price: 5.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00, stock: 5 },
-            { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60, stock: 10 },
-            { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00, stock: 5 },
-            { cat: 'Household & Personal', name: 'Matches', size: '10-box', price: 0.50, stock: 10 },
-            { cat: 'Household & Personal', name: 'Clothes Pegs', size: 'Pack', price: 2.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Royco Usavi', size: 'Pack', price: 4.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll', price: 1.00, stock: 10 },
-            { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00, stock: 10 },
+            { cat: 'Household & Personal', name: 'Bar Soap (Green)', size: '1kg', price: 1.00 },
+            { cat: 'Household & Personal', name: 'Bath Soap', size: '225g', price: 0.60 },
+            { cat: 'Household & Personal', name: 'Candles', size: '6-pack', price: 3.20 },
+            { cat: 'Household & Personal', name: 'Curry Powder', size: 'Pack', price: 5.00 },
+            { cat: 'Household & Personal', name: 'Diapers', size: '50-pack', price: 6.00 },
+            { cat: 'Household & Personal', name: 'Dishwashing Liquid', size: '750ml', price: 1.60 },
+            { cat: 'Household & Personal', name: 'Body Lotion', size: '300ml', price: 2.00 },
+            { cat: 'Household & Personal', name: 'Matches', size: '10-box', price: 0.50 },
+            { cat: 'Household & Personal', name: 'Clothes Pegs', size: 'Pack', price: 2.00 },
+            { cat: 'Household & Personal', name: 'Royco Usavi', size: 'Pack', price: 4.00 },
+            { cat: 'Household & Personal', name: 'Sanitary Pads', size: '10-pack', price: 1.00 },
+            { cat: 'Household & Personal', name: 'Toilet Cleaner', size: 'Set', price: 5.00 },
+            { cat: 'Household & Personal', name: 'Toilet Paper', size: '4-roll', price: 1.00 },
+            { cat: 'Household & Personal', name: 'Washing Powder', size: '1kg', price: 2.00 },
             // Oils
-            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '1 Litre', price: 2.00, stock: 10 },
-            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '2 Litres', price: 4.00, stock: 10 },
-            { cat: 'Oils & Dairy', name: 'Margarine', size: '500g', price: 1.20, stock: 0 },
-            { cat: 'Oils & Dairy', name: 'Fresh Milk', size: '1 Litre', price: 1.20, stock: 10 },
+            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '1 Litre', price: 2.00 },
+            { cat: 'Oils & Dairy', name: 'Cooking Oil', size: '2 Litres', price: 4.00 },
+            { cat: 'Oils & Dairy', name: 'Margarine', size: '500g', price: 1.20 },
+            { cat: 'Oils & Dairy', name: 'Fresh Milk', size: '1 Litre', price: 1.20 },
             // Produce
-            { cat: 'Produce', name: 'Cabbage', size: 'Head', price: 1.50, stock: 0 },
-            { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00, stock: 0 },
-            { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80, stock: 0 },
-            { cat: 'Produce', name: 'Red Onions', size: 'Per kg', price: 1.20, stock: 5 },
-            { cat: 'Produce', name: 'Potatoes', size: 'Per kg', price: 1.00, stock: 5 },
-            { cat: 'Produce', name: 'Tomatoes', size: 'Per kg', price: 1.00, stock: 5 },
+            { cat: 'Produce', name: 'Cabbage', size: 'Head', price: 1.50 },
+            { cat: 'Produce', name: 'Carrots', size: 'Per kg', price: 1.00 },
+            { cat: 'Produce', name: 'Green Vegetables', size: 'Bundle', price: 0.80 },
+            { cat: 'Produce', name: 'Red Onions', size: 'Per kg', price: 1.20 },
+            { cat: 'Produce', name: 'Potatoes', size: 'Per kg', price: 1.00 },
+            { cat: 'Produce', name: 'Tomatoes', size: 'Per kg', price: 1.00 },
             // Proteins
-            { cat: 'Proteins', name: 'Canned Beef', size: '300g', price: 5.00, stock: 10 },
-            { cat: 'Proteins', name: 'Dried Kapenta', size: 'Per kg', price: 5.00, stock: 5 },
-            { cat: 'Proteins', name: 'Farm Eggs', size: '30-tray', price: 3.80, stock: 5 },
-            { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00, stock: 0 },
-            { cat: 'Proteins', name: 'Peanut Butter', size: '375ml', price: 5.00, stock: 10 },
+            { cat: 'Proteins', name: 'Canned Beef', size: '300g', price: 5.00 },
+            { cat: 'Proteins', name: 'Dried Kapenta', size: 'Per kg', price: 5.00 },
+            { cat: 'Proteins', name: 'Farm Eggs', size: '30-tray', price: 3.80 },
+            { cat: 'Proteins', name: 'Frozen Fish', size: 'Box', price: 17.00 },
+            { cat: 'Proteins', name: 'Peanut Butter', size: '375ml', price: 5.00 },
             // Snacks
-            { cat: 'Snacks', name: 'Biscuits', size: '150g', price: 5.00, stock: 10 },
-            { cat: 'Snacks', name: 'Sweets', size: '500g', price: 2.00, stock: 5 },
-            { cat: 'Snacks', name: 'Chocolates', size: 'Pack', price: 6.00, stock: 15 },
+            { cat: 'Snacks', name: 'Biscuits', size: '150g', price: 5.00 },
+            { cat: 'Snacks', name: 'Sweets', size: '500g', price: 2.00 },
+            { cat: 'Snacks', name: 'Chocolates', size: 'Pack', price: 6.00 },
             // Staples
-            { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50, stock: 20 },
-            { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '1kg', price: 1.20, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '2kg', price: 2.50, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Instant Porridge', size: 'Pack', price: 3.50, stock: 20 },
-            { cat: 'Staples & Grains', name: 'Roller Meal', size: '5kg', price: 4.30, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Roller Meal', size: '10kg', price: 6.50, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Roller Meal', size: '20kg', price: 11.00, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Maputi', size: 'Pack', price: 2.00, stock: 10 },
-            { cat: 'Staples & Grains', name: 'Mhandire', size: 'Pack', price: 2.00, stock: 10 },
-            { cat: 'Staples & Grains', name: 'Popcorn Kernels', size: 'Per kg', price: 1.00, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '1kg', price: 1.67, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '2kg', price: 2.67, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Rice (Value)', size: '1kg', price: 1.44, stock: 5 },
-            { cat: 'Staples & Grains', name: 'Rice (Value)', size: '2kg', price: 2.44, stock: 5 }
+            { cat: 'Staples & Grains', name: 'Cerevita', size: 'Pack', price: 3.50 },
+            { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '1kg', price: 1.20 },
+            { cat: 'Staples & Grains', name: 'Flour (Self-R)', size: '2kg', price: 2.50 },
+            { cat: 'Staples & Grains', name: 'Instant Porridge', size: 'Pack', price: 3.50 },
+            { cat: 'Staples & Grains', name: 'Roller Meal', size: '5kg', price: 4.30 },
+            { cat: 'Staples & Grains', name: 'Roller Meal', size: '10kg', price: 6.50 },
+            { cat: 'Staples & Grains', name: 'Roller Meal', size: '20kg', price: 11.00 },
+            { cat: 'Staples & Grains', name: 'Maputi', size: 'Pack', price: 2.00 },
+            { cat: 'Staples & Grains', name: 'Mhandire', size: 'Pack', price: 2.00 },
+            { cat: 'Staples & Grains', name: 'Popcorn Kernels', size: 'Per kg', price: 1.00 },
+            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '1kg', price: 1.67 },
+            { cat: 'Staples & Grains', name: 'Rice (Parboiled)', size: '2kg', price: 2.67 },
+            { cat: 'Staples & Grains', name: 'Rice (Value)', size: '1kg', price: 1.44 },
+            { cat: 'Staples & Grains', name: 'Rice (Value)', size: '2kg', price: 2.44 }
         ];
 
         let cart = [];
@@ -582,13 +573,10 @@
                 if (category === 'All' || item.cat === category) {
                     const card = document.createElement('div');
                     card.className = 'card';
-                    const isOutOfStock = item.stock === 0;
                     
-                    // Create Control HTML
-                    const controls = isOutOfStock 
-                        ? `<button class="btn-disabled" disabled>Out of Stock</button>` 
-                        : `<div class="action-row">
-                             <input type="number" id="qty-${index}" class="qty-input" value="1" min="1" max="${item.stock}">
+                    // UNRESTRICTED CONTROLS
+                    const controls = `<div class="action-row">
+                             <input type="number" id="qty-${index}" class="qty-input" value="1" min="1">
                              <button class="btn-add" onclick="addToCart(${index})">Add</button>
                            </div>`;
 
@@ -601,7 +589,6 @@
                         <div class="card-footer">
                             <div class="price-row">
                                 <div class="price">$${item.price.toFixed(2)}</div>
-                                ${isOutOfStock ? '' : '<small style="color:green">In Stock</small>'}
                             </div>
                             ${controls}
                         </div>
@@ -619,12 +606,6 @@
 
             if(isNaN(qty) || qty < 1) {
                 alert("Please enter a valid quantity.");
-                return;
-            }
-
-            // Check if user tries to order more than stock
-            if(qty > item.stock) {
-                alert(`Sorry, we only have ${item.stock} in stock.`);
                 return;
             }
 
