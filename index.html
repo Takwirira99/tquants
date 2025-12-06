@@ -1065,7 +1065,16 @@
             cartItems.innerHTML = html; headerTotal.innerText = total.toFixed(2); cartTotal.innerText = total.toFixed(2);
         };
 
-        window.toggleCart = () => { const modal = document.getElementById('cart-modal'); modal.style.display = modal.style.display === 'none' ? 'block' : 'none'; };
+        // --- UPDATED TOGGLE CART FUNCTION ---
+        window.toggleCart = () => { 
+            const modal = document.getElementById('cart-modal'); 
+            // Fix: Check against 'block' because initial inline style is empty
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+            }
+        };
 
         window.checkout = () => {
             if (cart.length === 0) { alert("Your cart is empty."); return; }
