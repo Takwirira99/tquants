@@ -8,9 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <!-- Load html2canvas for capturing graphics -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- Load jsPDF for generating print-ready PDFs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
@@ -193,6 +191,30 @@
 
         .card:hover::before { transform: scaleX(1); }
 
+        /* NEW FLEX CONTAINER FOR IMAGE PLACEMENT */
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .card-text-wrapper {
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        .product-image {
+            width: 75px;
+            height: 75px;
+            object-fit: cover; /* Keeps aspect ratio clean */
+            border-radius: 8px;
+            border: 1px solid #eee;
+            background-color: #fafafa; /* Placeholder background */
+            margin-top: -10px; /* Moves it slightly up into the padding area */
+            flex-shrink: 0;
+        }
+
         .item-category {
             font-size: 0.7rem;
             color: var(--gold);
@@ -204,7 +226,7 @@
 
         .item-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem; /* Slightly smaller to accommodate image */
             color: var(--primary);
             margin: 0 0 5px 0;
             line-height: 1.2;
@@ -214,7 +236,7 @@
             font-size: 0.9rem;
             color: var(--text-light);
             font-style: italic;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
         }
 
         /* --- CARD FOOTER & QUANTITY SELECTOR --- */
@@ -640,18 +662,15 @@
         <div class="grid" id="product-grid">
             </div>
 
-        <!-- LOYALTY CARD SECTION -->
         <div class="loyalty-box">
             <h3>The Hampshire Card</h3>
             
-            <!-- ADMIN ONLY BADGE -->
             <div id="admin-indicator" style="display:none; color: var(--white); background: rgba(0,0,0,0.5); display:inline-block; padding: 5px 15px; border-radius: 20px; margin-bottom: 20px;">
                 <span style="color: var(--gold);">★ ADMIN MODE ACTIVE</span>
             </div>
 
             <p>Join our exclusive membership program.</p>
             
-            <!-- ADMIN SWITCH -->
             <div id="admin-controls-switch" style="display:none; margin-bottom:20px;">
                 <label class="loyalty-label">Card Type</label>
                 <select id="card-type-select" class="loyalty-select" onchange="window.toggleCardForm()">
@@ -660,10 +679,8 @@
                 </select>
             </div>
 
-            <!-- NAME ENTRY -->
             <div id="step-name" class="loyalty-form">
                 
-                <!-- STAFF FIELDS (Hidden by default) -->
                 <div id="staff-fields" style="display:none;">
                     <label class="loyalty-label">Designation / Role</label>
                     <select id="card-role-select" class="loyalty-select">
@@ -686,44 +703,34 @@
                 <button onclick="window.generateCard()" class="btn-gold" id="gen-btn">Preview Digital Card</button>
             </div>
 
-            <!-- PREVIEW AREA -->
             <div id="card-preview-area">
                 <p id="preview-title" style="color:white; margin-bottom:10px;">Card Preview:</p>
                 
-                <!-- CARD WRAPPER - SHOWS BOTH SIDES -->
                 <div class="card-wrapper" id="card-print-container">
                     
-                    <!-- FRONT -->
                     <div class="h-card-base card-front" id="card-side-front">
                         <div class="card-border"></div>
                         
-                        <!-- Top Logo -->
                         <div class="logo-area">
                             <div class="gold-ribbon">
                                 <h1 class="main-logo">HAMPSHIRE SUPERMARKET</h1>
                             </div>
-                            <!-- Role appears here for Staff -->
                             <div class="member-role-display" id="display-role">ROLE HERE</div>
                         </div>
 
-                        <!-- Chip (Member only) -->
                         <div class="chip" id="card-chip"></div>
 
-                        <!-- Gold Star (Staff only) -->
                         <div class="gold-star" id="card-star">★</div>
 
-                        <!-- Card Number (Member only) -->
                         <div class="card-number-container" id="card-num-container">
                             <div class="member-number" id="display-id">8854 **** **** 0001</div>
                         </div>
 
-                        <!-- Expiry (Member only) -->
                         <div class="expiry-container" id="card-exp-container">
                             <div class="valid-label">VALID<br>THRU</div>
                             <div class="expiry-date" id="display-expiry">12/28</div>
                         </div>
 
-                        <!-- Bottom Name & Location -->
                         <div class="bottom-details">
                             <div class="member-name-display" id="display-name">MEMBER NAME</div>
                             <div class="est">CHIPINGE &bull; ZW</div>
@@ -732,20 +739,17 @@
                         <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); pointer-events: none;"></div>
                     </div>
 
-                    <!-- BACK -->
                     <div class="h-card-base card-back" id="card-side-back">
                         <div class="mag-stripe"></div>
                         
                         <div class="signature-area">
                             <div class="signature-strip">Authorized Signature</div>
-                            <!-- CVV (Member only) -->
                             <div style="position: relative;" id="cvv-container">
                                 <div class="cvv-box" id="display-cvv">123</div>
                                 <div style="position:absolute; top:-15px; right:0; font-size:0.6rem; color:#666;">CVV</div>
                             </div>
                         </div>
                         
-                        <!-- Staff Contact Info -->
                         <div class="staff-contact-display" id="staff-contact-area" style="display:none;">
                             <strong id="display-staff-phone">Phone: +263 ...</strong>
                             <strong id="display-staff-email">Email: ...</strong>
@@ -759,12 +763,10 @@
 
                 </div>
                 
-                <!-- CUSTOMER MSG -->
                 <p id="customer-msg" style="font-size:0.9rem; color:#fff; margin-top:10px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px;">
                     Please visit the store to have your card printed and activated.
                 </p>
 
-                <!-- ADMIN SECTION -->
                 <div id="admin-controls-area" style="display:none;">
                     <button onclick="window.downloadCard()" class="btn-download">Download High-Res PDF</button>
                     
@@ -783,7 +785,6 @@
         </div>
     </div>
 
-    <!-- CART MODAL -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-body">
             <span class="close-modal" onclick="window.toggleCart()">&times;</span>
@@ -805,13 +806,11 @@
         </div>
     </div>
 
-    <!-- ADMIN LOGIN MODAL -->
     <div class="modal-overlay" id="admin-login-modal">
         <div class="modal-body auth-container">
             <span class="close-modal" onclick="window.toggleLoginModal()">&times;</span>
             <h3 style="color: var(--primary);">Admin Portal</h3>
             
-            <!-- Auth Form -->
             <div id="auth-form-container">
                 <input type="email" id="auth-email" class="auth-input" placeholder="Admin Email">
                 <input type="password" id="auth-password" class="auth-input" placeholder="Password">
@@ -820,7 +819,6 @@
                 <div class="auth-switch" onclick="window.switchAuthMode()">Switch to <span id="auth-switch-text">Signup</span></div>
             </div>
 
-            <!-- Logged In View -->
             <div id="auth-loggedin-view" style="display:none;">
                 <p>Welcome, <span id="admin-email-display" style="font-weight:bold;"></span></p>
                 <div id="verification-warning" style="background:#fff3cd; color:#856404; padding:10px; font-size:0.85rem; border-radius:4px; margin-bottom:10px; display:none;">
@@ -843,7 +841,6 @@
         <span class="staff-link" onclick="window.toggleLoginModal()">[Admin Login]</span>
     </footer>
 
-    <!-- MAIN APP SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -1003,9 +1000,40 @@
             if(element) { document.querySelectorAll('.cat-btn').forEach(el => el.classList.remove('active')); element.classList.add('active'); }
             inventory.forEach((item, index) => {
                 if (category === 'All' || item.cat === category) {
+                    
+                    // Generate a filename based on the product name
+                    // e.g. "Bath Soap (Bottle)" -> "bath-soap-bottle.jpg"
+                    const imgFileName = item.name.toLowerCase()
+                        .replace(/&/g, 'and')
+                        .replace(/[^a-z0-9]/g, '-') // replace non-alphanumeric chars with dash
+                        .replace(/-+/g, '-')        // remove double dashes
+                        .replace(/^-|-$/g, '')      // remove trim dashes
+                        + '.jpg';
+
+                    // Fallback to placeholder if image not found (using onerror)
+                    const fallbackImg = "https://placehold.co/100x100/f0f0f0/999?text=IMG";
+
                     const card = document.createElement('div');
                     card.className = 'card';
-                    card.innerHTML = `<div><div class="item-category">${item.cat.split('&')[0]}</div><h3 class="item-title">${item.name}</h3><div class="item-size">${item.size}</div></div><div class="card-footer"><div class="price-row"><div class="price">$${item.price.toFixed(2)}</div></div><div class="action-row"><input type="number" id="qty-${index}" class="qty-input" value="1" min="1"><button class="btn-add" onclick="window.addToCart(${index})">Add</button></div></div>`;
+                    card.innerHTML = `
+                        <div class="card-top">
+                            <div class="card-text-wrapper">
+                                <div class="item-category">${item.cat.split('&')[0]}</div>
+                                <h3 class="item-title">${item.name}</h3>
+                                <div class="item-size">${item.size}</div>
+                            </div>
+                            <img src="./images/${imgFileName}" class="product-image" alt="${item.name}" onerror="this.src='${fallbackImg}'">
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="price-row">
+                                <div class="price">$${item.price.toFixed(2)}</div>
+                            </div>
+                            <div class="action-row">
+                                <input type="number" id="qty-${index}" class="qty-input" value="1" min="1">
+                                <button class="btn-add" onclick="window.addToCart(${index})">Add</button>
+                            </div>
+                        </div>`;
                     grid.appendChild(card);
                 }
             });
