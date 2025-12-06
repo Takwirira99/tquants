@@ -759,6 +759,23 @@
         
         let isLoginMode = true;
         let isAdminVerified = false;
+        let inactivityTimer;
+
+        // Auto-Logout Function
+        const startInactivityTimer = () => {
+            clearTimeout(inactivityTimer);
+            if (isAdminVerified) {
+                inactivityTimer = setTimeout(() => {
+                    alert("Admin session timed out (2 minutes).");
+                    window.handleLogout();
+                }, 120000); // 120,000 ms = 2 minutes
+            }
+        };
+
+        // Activity Listeners
+        ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => {
+            document.addEventListener(event, startInactivityTimer);
+        });
 
         // --- AUTH STATE LISTENER ---
         onAuthStateChanged(auth, (user) => {
@@ -784,6 +801,8 @@
                     customerMsg.style.display = 'none';
                     genBtn.innerText = "Generate Official Card";
                     adminIndicator.style.display = 'inline-block';
+                    
+                    startInactivityTimer(); // Start tracking
                 } else {
                     isAdminVerified = false;
                     document.getElementById('verification-success').style.display = 'none';
@@ -793,6 +812,8 @@
                     customerMsg.style.display = 'block';
                     genBtn.innerText = "Preview Digital Card";
                     adminIndicator.style.display = 'none';
+                    
+                    clearTimeout(inactivityTimer); // Stop tracking
                 }
             } else {
                 // User logged out
@@ -803,6 +824,8 @@
                 customerMsg.style.display = 'block';
                 genBtn.innerText = "Preview Digital Card";
                 adminIndicator.style.display = 'none';
+                
+                clearTimeout(inactivityTimer); // Stop tracking
             }
         });
 
@@ -840,7 +863,10 @@
             }
         };
 
-        window.handleLogout = () => signOut(auth);
+        window.handleLogout = () => {
+            clearTimeout(inactivityTimer);
+            signOut(auth);
+        };
 
         window.resendVerification = async () => {
             if(auth.currentUser) {
