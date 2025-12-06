@@ -958,14 +958,40 @@
         window.downloadCard = () => {
             if(!isAdminVerified) return;
             const cardElement = document.getElementById("generated-card");
-            cardElement.style.transform = "none";
-            html2canvas(cardElement, { backgroundColor: null, scale: 4, useCORS: true, logging: false }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'Hampshire_Member_Card.png';
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-                cardElement.style.transform = ""; 
-            }).catch(err => { console.error("Download failed:", err); alert("Download failed. Please take a screenshot."); cardElement.style.transform = ""; });
+            
+            // CLONE NODE FOR PRINT-SAFE VERSION
+            const cardClone = cardElement.cloneNode(true);
+            cardClone.style.transform = "none";
+            cardClone.style.position = "fixed";
+            cardClone.style.top = "-9999px";
+            cardClone.style.left = "0";
+            cardClone.style.zIndex = "9999";
+
+            // FIX: Force solid gold color for text in screenshot (html2canvas limitation with clip)
+            const goldTexts = cardClone.querySelectorAll('.gold-text');
+            goldTexts.forEach(el => {
+                el.style.background = "none";
+                el.style.webkitTextFillColor = "#C9A66B";
+                el.style.color = "#C9A66B";
+                // Keep text-shadow for depth
+            });
+
+            document.body.appendChild(cardClone);
+
+            // Wait briefly for fonts/styles
+            setTimeout(() => {
+                html2canvas(cardClone, { backgroundColor: null, scale: 4, useCORS: true, logging: false }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Hampshire_Member_${document.getElementById('display-name').innerText.replace(/\s+/g, '_')}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                    document.body.removeChild(cardClone);
+                }).catch(err => { 
+                    console.error("Download failed:", err); 
+                    alert("Download failed. Please take a screenshot."); 
+                    if(document.body.contains(cardClone)) document.body.removeChild(cardClone);
+                });
+            }, 100);
         };
 
         // Init
