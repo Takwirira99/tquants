@@ -191,7 +191,6 @@
 
         .card:hover::before { transform: scaleX(1); }
 
-        /* NEW FLEX CONTAINER FOR IMAGE PLACEMENT */
         .card-top {
             display: flex;
             justify-content: space-between;
@@ -207,11 +206,11 @@
         .product-image {
             width: 75px;
             height: 75px;
-            object-fit: cover; /* Keeps aspect ratio clean */
+            object-fit: cover;
             border-radius: 8px;
             border: 1px solid #eee;
-            background-color: #fafafa; /* Placeholder background */
-            margin-top: -10px; /* Moves it slightly up into the padding area */
+            background-color: #fafafa;
+            margin-top: -10px;
             flex-shrink: 0;
         }
 
@@ -226,7 +225,7 @@
 
         .item-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem; /* Slightly smaller to accommodate image */
+            font-size: 1.3rem;
             color: var(--primary);
             margin: 0 0 5px 0;
             line-height: 1.2;
@@ -361,7 +360,7 @@
         /* --- GENERATED CARD STYLES --- */
         #card-preview-area {
             margin-top: 30px;
-            display: none; /* Hidden until generated */
+            display: none;
             animation: fadeIn 0.5s ease;
         }
 
@@ -371,12 +370,11 @@
             justify-content: center;
             gap: 20px;
             margin-bottom: 20px;
-            overflow-x: auto; /* Handle mobile overflow */
-            padding: 20px; /* Padding for shadow */
+            overflow-x: auto;
+            padding: 20px;
             flex-wrap: wrap;
         }
 
-        /* Common Card Shape */
         .h-card-base {
             width: 420px;
             height: 260px;
@@ -390,14 +388,11 @@
 
         .h-card-base:hover { transform: scale(1.02); }
 
-        /* --- FRONT SIDE --- */
         .card-front {
-            /* DEEPEST GREEN - REMAINS DARK IN PREVIEW */
             background: linear-gradient(135deg, #082613 0%, #020d06 100%);
             border: 1px solid #1f5c37;
         }
 
-        /* --- BACK SIDE --- */
         .card-back {
             background: #f0f0f0;
             border: 1px solid #ccc;
@@ -405,17 +400,12 @@
             color: #333;
         }
 
-        /* Back Elements */
-        /* COMPACT SPACING TO PREVENT OVERLAP */
-        .mag-stripe {
-            width: 100%; height: 50px; background: #222; margin-top: 20px; /* Reduced from 30px */
-        }
+        .mag-stripe { width: 100%; height: 50px; background: #222; margin-top: 20px; }
         
-        /* Signature + CVV Container */
         .signature-area {
             display: flex;
             align-items: center;
-            margin-top: 10px; /* Reduced from 15px */
+            margin-top: 10px;
             padding: 0 20px;
         }
 
@@ -437,20 +427,16 @@
             font-family: 'Courier New', monospace; font-weight: bold; font-size: 1rem; color: #333;
         }
         
-        .cvv-label { position: absolute; top: -15px; right: 0; font-size: 0.6rem; color: #666; }
-
         .back-info {
-            padding: 15px 20px; /* Adjusted padding */
+            padding: 15px 20px;
             font-size: 0.65rem; color: #666; 
             position: absolute; bottom: 0; width: 100%;
             text-align: left;
         }
 
-        /* FIXED STAFF CONTACT INFO ON BACK - PREVENTS OVERLAP */
-        /* Positioned strictly between signature area (ends approx 120px) and bottom info (starts approx 220px) */
         .staff-contact-display {
             position: absolute;
-            top: 135px; /* Moved up slightly into the clear zone */
+            top: 135px;
             left: 20px;
             right: 20px;
             padding: 8px;
@@ -461,14 +447,12 @@
             border-radius: 4px;
             z-index: 5;
             text-align: center;
-            /* CRITICAL for long emails */
             overflow-wrap: break-word; 
             word-break: break-all;
             line-height: 1.3;
         }
         .staff-contact-display strong { color: var(--primary); display: block; margin-bottom: 2px; }
 
-        /* Gold Text Effect */
         .gold-text {
             font-family: 'Playfair Display', serif;
             color: #C9A66B;
@@ -478,17 +462,13 @@
             text-shadow: 1px 1px 0px #3a2c0f, 2px 2px 0px #634f2c, 3px 3px 5px rgba(0,0,0,0.6);
         }
 
-        /* Card Elements Front */
         .card-border {
             position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px;
             border: 2px solid #a68b58; border-radius: 10px; opacity: 0.8;
             box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.5); z-index: 1;
         }
 
-        /* GOLD RIBBON CONTAINER - AT TOP */
-        .logo-area {
-            position: absolute; top: 30px; left: 0; width: 100%; text-align: center; z-index: 2;
-        }
+        .logo-area { position: absolute; top: 30px; left: 0; width: 100%; text-align: center; z-index: 2; }
 
         .gold-ribbon {
             width: 100%; padding: 12px 0;
@@ -501,20 +481,12 @@
             color: #0d2b1a; text-shadow: 0px 1px 1px rgba(255,255,255,0.4);
         }
 
-        /* GOLD STAR FOR STAFF */
         .gold-star {
-            position: absolute; 
-            top: 135px; /* Moved lower to avoid title overlap */
-            left: 50%; 
-            transform: translateX(-50%);
-            font-size: 3rem; 
-            color: #ffd700; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            z-index: 2; 
-            display: none; /* Hidden by default */
+            position: absolute; top: 135px; left: 50%; transform: translateX(-50%);
+            font-size: 3rem; color: #ffd700; text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            z-index: 2; display: none;
         }
 
-        /* LAYOUT FOR ELEMENTS */
         .chip {
             position: absolute; top: 90px; left: 40px; width: 50px; height: 38px;
             background: linear-gradient(135deg, #e0d2b4 0%, #a68b58 100%);
@@ -525,15 +497,9 @@
         .chip::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #634f2c; }
         .chip::after { content: ''; position: absolute; left: 33%; top: 0; width: 1px; height: 100%; background: #634f2c; }
 
-        /* CENTER CARD NUMBER */
-        .card-number-container {
-            position: absolute; top: 140px; width: 100%; text-align: center; z-index: 2;
-        }
-        .member-number { 
-            font-family: 'Share Tech Mono', monospace; color: #fff; font-size: 1.5rem; letter-spacing: 3px; text-shadow: 0px 2px 3px rgba(0,0,0,0.8); 
-        }
+        .card-number-container { position: absolute; top: 140px; width: 100%; text-align: center; z-index: 2; }
+        .member-number { font-family: 'Share Tech Mono', monospace; color: #fff; font-size: 1.5rem; letter-spacing: 3px; text-shadow: 0px 2px 3px rgba(0,0,0,0.8); }
 
-        /* EXPIRY DATE */
         .expiry-container {
             position: absolute; top: 175px; left: 50%; transform: translateX(-20%);
             color: #ddd; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; display: flex; align-items: center; z-index: 2;
@@ -541,7 +507,6 @@
         .valid-label { font-size: 0.5rem; line-height: 1; margin-right: 5px; text-align: right; }
         .expiry-date { font-size: 1.1rem; color: #fff; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
 
-        /* BOTTOM NAME AND EST */
         .bottom-details {
             position: absolute; bottom: 25px; width: 100%; padding: 0 40px;
             display: flex; justify-content: space-between; align-items: flex-end; box-sizing: border-box;
@@ -550,11 +515,7 @@
 
         .member-name-display { 
             color: #e0d2b4; font-family: 'Courier New', monospace; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-            /* Prevent overlap with EST if name is long */
-            max-width: 250px; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis;
+            max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         
         .est { font-size: 0.65rem; color: #a68b58; letter-spacing: 1px; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
@@ -562,7 +523,7 @@
         .member-role-display {
             position: absolute; top: 85px; width: 100%; text-align: center;
             color: #e0d2b4; font-family: 'Lato', sans-serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold;
-            display: none; /* Hidden for members */
+            display: none;
         }
 
         .btn-download {
@@ -570,7 +531,6 @@
         }
         .btn-download:hover { background-color: #eee; }
 
-        /* Admin Instructions Box */
         .admin-instructions-box {
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid var(--primary);
@@ -620,11 +580,121 @@
         .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 5px; }
         .verified-badge { background: var(--gold); color: var(--primary); padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; vertical-align: middle; margin-left: 5px; }
 
+        /* --- HAMPSHIRE AI CHAT WIDGET --- */
+        .chat-float-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: var(--gold);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 9999;
+            border: 2px solid var(--gold);
+            transition: transform 0.3s;
+        }
+        .chat-float-btn:hover { transform: scale(1.1); }
+
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 9999;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+            animation: slideUp 0.3s ease;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: var(--gold);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+        }
+        .chat-header h4 { margin: 0; font-family: 'Playfair Display', serif; }
+        .close-chat { cursor: pointer; font-size: 1.2rem; }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .bot-msg {
+            align-self: flex-start;
+            background: #e8f5e9;
+            color: var(--primary);
+            border-bottom-left-radius: 2px;
+            border: 1px solid #c8e6c9;
+        }
+        .user-msg {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-input-area {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 5px;
+            background: white;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+        }
+        .send-btn {
+            background: var(--primary);
+            color: var(--gold);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
         @media (max-width: 768px) {
             .category-scroll { justify-content: flex-start; }
             .cart-float { position: static; margin-top: 15px; transform: none; width: 100%; justify-content: center;}
             .cart-float:hover { transform: none; }
             .brand-name { font-size: 2rem; }
+            .chat-window { width: 90%; right: 5%; bottom: 90px; }
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -782,6 +852,24 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="chat-float-btn" onclick="window.toggleChat()">🤖</div>
+
+    <div class="chat-window" id="ai-chat-window">
+        <div class="chat-header">
+            <h4>Hampshire AI Assistant</h4>
+            <span class="close-chat" onclick="window.toggleChat()">×</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-msg">
+                Hello! I am the Hampshire AI. Ask me about our <b>prices</b>, <b>hours</b>, or our <b>organic policy</b>!
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" class="chat-input" placeholder="e.g. Price of Rice..." onkeypress="window.checkEnter(event)">
+            <button class="send-btn" onclick="window.sendMessage()">➤</button>
         </div>
     </div>
 
@@ -1001,16 +1089,13 @@
             inventory.forEach((item, index) => {
                 if (category === 'All' || item.cat === category) {
                     
-                    // Generate a filename based on the product name
-                    // e.g. "Bath Soap (Bottle)" -> "bath-soap-bottle.jpg"
                     const imgFileName = item.name.toLowerCase()
                         .replace(/&/g, 'and')
-                        .replace(/[^a-z0-9]/g, '-') // replace non-alphanumeric chars with dash
-                        .replace(/-+/g, '-')        // remove double dashes
-                        .replace(/^-|-$/g, '')      // remove trim dashes
+                        .replace(/[^a-z0-9]/g, '-') 
+                        .replace(/-+/g, '-')       
+                        .replace(/^-|-$/g, '')      
                         + '.jpg';
 
-                    // Fallback to placeholder if image not found (using onerror)
                     const fallbackImg = "https://placehold.co/100x100/f0f0f0/999?text=IMG";
 
                     const card = document.createElement('div');
@@ -1065,10 +1150,8 @@
             cartItems.innerHTML = html; headerTotal.innerText = total.toFixed(2); cartTotal.innerText = total.toFixed(2);
         };
 
-        // --- UPDATED TOGGLE CART FUNCTION ---
         window.toggleCart = () => { 
             const modal = document.getElementById('cart-modal'); 
-            // Fix: Check against 'block' because initial inline style is empty
             if (modal.style.display === 'block') {
                 modal.style.display = 'none';
             } else {
@@ -1173,12 +1256,6 @@
             try {
                 // 1. Capture Front
                 const frontClone = prepareElement(frontElement);
-
-                // --- CHANGE BACKGROUND FOR DOWNLOAD ONLY ---
-                // Keep original dark green for consistency
-                // frontClone.style.background = "linear-gradient(135deg, #e8f5e9 0%, #dcedc8 100%)";
-                // -------------------------------------------
-
                 const frontCanvas = await html2canvas(frontClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(frontClone);
                 const frontImg = frontCanvas.toDataURL("image/png");
@@ -1200,6 +1277,113 @@
                 console.error("PDF Generation Error:", err);
                 alert("Error generating PDF. Please try again.");
             }
+        };
+
+        // --- HAMPSHIRE AI LOGIC (INTEGRATED) ---
+
+        // 1. Define Knowledge Base
+        const STORE_HOURS = "We are open Monday to Saturday (8am - 6pm) and Sundays (8am - 1pm).";
+        const GMO_POLICY = "We have a strict policy: We do NOT sell GMO products. All our stock is 100% Organic and locally sourced where possible.";
+        const CONTACT_INFO = "You can find us in Chipinge. Call us at +263 78 864 3858.";
+
+        // 2. Window Functions for Chat UI
+        window.toggleChat = () => {
+            const chat = document.getElementById('ai-chat-window');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+            if(chat.style.display === 'flex') document.getElementById('user-input').focus();
+        };
+
+        window.checkEnter = (e) => {
+            if(e.key === 'Enter') window.sendMessage();
+        };
+
+        window.sendMessage = () => {
+            const inputField = document.getElementById('user-input');
+            const text = inputField.value.trim();
+            if(!text) return;
+
+            // Add User Message
+            addMessage(text, 'user-msg');
+            inputField.value = '';
+
+            // Process AI Response (Simulated Delay)
+            setTimeout(() => {
+                const response = processAIQuery(text);
+                addMessage(response, 'bot-msg');
+                
+                // Auto-scroll to bottom
+                const msgContainer = document.getElementById('chat-messages');
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+            }, 500);
+        };
+
+        const addMessage = (text, className) => {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            div.innerHTML = text; // Allow HTML for bolding
+            container.appendChild(div);
+        };
+
+        // 3. The "Brain" - Processing Logic
+        const processAIQuery = (input) => {
+            const lowerInput = input.toLowerCase();
+
+            // GREETINGS
+            if (lowerInput.match(/^(hi|hello|hey|greetings)/)) {
+                return "Hello! How can I help you with your grocery shopping today?";
+            }
+
+            // HOURS
+            if (lowerInput.includes('time') || lowerInput.includes('hour') || lowerInput.includes('open') || lowerInput.includes('close')) {
+                return STORE_HOURS;
+            }
+
+            // POLICY / GMO
+            if (lowerInput.includes('gmo') || lowerInput.includes('organic') || lowerInput.includes('chemicals')) {
+                return `<b>Important:</b> ${GMO_POLICY}`;
+            }
+
+            // CONTACT / LOCATION
+            if (lowerInput.includes('where') || lowerInput.includes('call') || lowerInput.includes('phone') || lowerInput.includes('location')) {
+                return CONTACT_INFO;
+            }
+
+            // PRICE CHECK (Dynamic Search of Inventory)
+            if (lowerInput.includes('price') || lowerInput.includes('cost') || lowerInput.includes('much') || lowerInput.includes('have')) {
+                
+                // Filter keywords from input to find product name
+                const searchTerms = lowerInput
+                    .replace('price', '')
+                    .replace('how much', '')
+                    .replace('cost', '')
+                    .replace('do you have', '')
+                    .replace(' is ', '')
+                    .replace(' for ', '')
+                    .trim();
+
+                if(searchTerms.length < 3) return "Could you please specify which product you are looking for?";
+
+                // Search the 'inventory' array defined earlier
+                const matches = inventory.filter(item => 
+                    item.name.toLowerCase().includes(searchTerms) || 
+                    item.cat.toLowerCase().includes(searchTerms)
+                );
+
+                if (matches.length > 0) {
+                    let reply = `Here is what I found for "<b>${searchTerms}</b>":<br>`;
+                    matches.slice(0, 5).forEach(m => {
+                        reply += `• ${m.name} (${m.size}): <b>$${m.price.toFixed(2)}</b><br>`;
+                    });
+                    if(matches.length > 5) reply += `...and ${matches.length - 5} more items.`;
+                    return reply;
+                } else {
+                    return `I'm sorry, I couldn't find "<b>${searchTerms}</b>" in our current organic stock list.`;
+                }
+            }
+
+            // DEFAULT FALLBACK
+            return "I can help with <b>prices</b>, <b>hours</b>, or our <b>organic policy</b>. What would you like to know?";
         };
 
         // Init
