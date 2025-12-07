@@ -593,7 +593,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             cursor: pointer;
             z-index: 9999;
@@ -601,6 +600,7 @@
             transition: transform 0.3s;
         }
         .chat-float-btn:hover { transform: scale(1.1); }
+        .chat-float-btn svg { width: 30px; height: 30px; fill: var(--gold); }
 
         .chat-window {
             display: none;
@@ -855,7 +855,11 @@
         </div>
     </div>
 
-    <div class="chat-float-btn" onclick="window.toggleChat()">🤖</div>
+    <div class="chat-float-btn" onclick="window.toggleChat()">
+        <svg viewBox="0 0 24 24">
+            <path d="M20,2H4C2.9,2,2,2.9,2,4v18l4-4h14c1.1,0,2-0.9,2-2V4C22,2.9,21.1,2,20,2z M17,11c-0.6,0-1.1-0.2-1.5-0.5 c0.3,1.4-0.4,2.9-1.7,3.3c-1.3,0.5-2.7-0.2-3.3-1.5c-0.1-0.3-0.2-0.6-0.2-0.9c-0.6,0.5-1.4,0.7-2.2,0.5c-1.2-0.3-2-1.5-1.7-2.7 s1.5-2,2.7-1.7c0.8,0.2,1.4,0.8,1.6,1.6c0.6-0.3,1.3-0.3,1.9,0c0.1-0.7,0.5-1.4,1.1-1.8c1.1-0.7,2.6-0.4,3.3,0.8 C17.4,8.8,17.6,10,17,11z"/>
+        </svg>
+    </div>
 
     <div class="chat-window" id="ai-chat-window">
         <div class="chat-header">
@@ -934,7 +938,7 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 1. Firebase Configuration (From provided details)
+        // 1. Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyD1at8Ed1XqtNYgw62Gln2drJ0tVcvVopQ",
             authDomain: "takwiriradental.firebaseapp.com",
@@ -959,11 +963,10 @@
                 inactivityTimer = setTimeout(() => {
                     alert("Admin session timed out (2 minutes).");
                     window.handleLogout();
-                }, 120000); // 120,000 ms = 2 minutes
+                }, 120000); 
             }
         };
 
-        // Activity Listeners
         ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => {
             document.addEventListener(event, startInactivityTimer);
         });
@@ -979,7 +982,6 @@
             const adminSwitch = document.getElementById('admin-controls-switch');
 
             if (user) {
-                // User is logged in
                 formContainer.style.display = 'none';
                 loggedInView.style.display = 'block';
                 document.getElementById('admin-email-display').innerText = user.email;
@@ -988,13 +990,11 @@
                     isAdminVerified = true;
                     document.getElementById('verification-success').style.display = 'block';
                     document.getElementById('verification-warning').style.display = 'none';
-                    // Enable Admin Features
                     adminControls.style.display = 'block'; 
                     customerMsg.style.display = 'none';
                     genBtn.innerText = "Generate Official Card";
                     adminIndicator.style.display = 'inline-block';
-                    adminSwitch.style.display = 'block'; // Show Type Switcher
-                    
+                    adminSwitch.style.display = 'block';
                     startInactivityTimer(); 
                 } else {
                     isAdminVerified = false;
@@ -1005,11 +1005,9 @@
                     genBtn.innerText = "Preview Digital Card";
                     adminIndicator.style.display = 'none';
                     adminSwitch.style.display = 'none';
-                    
                     clearTimeout(inactivityTimer); 
                 }
             } else {
-                // User logged out
                 formContainer.style.display = 'block';
                 loggedInView.style.display = 'none';
                 isAdminVerified = false;
@@ -1018,12 +1016,10 @@
                 genBtn.innerText = "Preview Digital Card";
                 adminIndicator.style.display = 'none';
                 adminSwitch.style.display = 'none';
-                
                 clearTimeout(inactivityTimer); 
             }
         });
 
-        // --- AUTH FUNCTIONS (Exposed to Window) ---
         window.toggleLoginModal = () => {
             const modal = document.getElementById('admin-login-modal');
             modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
@@ -1186,12 +1182,10 @@
             document.getElementById('display-name').innerText = nameInput;
 
             if (isAdminVerified && type === 'business') {
-                // BUSINESS CARD MODE
                 const role = document.getElementById('card-role-select').value;
                 const phone = document.getElementById('staff-phone').value || "+263 ...";
                 const email = document.getElementById('staff-email').value || "...";
 
-                // Front Modifications
                 document.getElementById('display-role').innerText = role;
                 document.getElementById('display-role').style.display = 'block';
                 document.getElementById('card-chip').style.display = 'none';
@@ -1199,26 +1193,22 @@
                 document.getElementById('card-exp-container').style.display = 'none';
                 document.getElementById('card-star').style.display = 'block';
 
-                // Back Modifications
                 document.getElementById('cvv-container').style.display = 'none';
                 document.getElementById('display-staff-phone').innerText = "Phone: " + phone;
                 document.getElementById('display-staff-email').innerText = "Email: " + email;
                 document.getElementById('staff-contact-area').style.display = 'block';
 
             } else {
-                // MEMBER CARD MODE
                 const randomPart = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
                 const formattedID = "8854 " + randomPart.substring(0,4) + " " + randomPart.substring(4,8) + " " + randomPart.substring(8,12);
                 document.getElementById('display-id').innerText = formattedID;
                 
-                // Front Modifications
                 document.getElementById('display-role').style.display = 'none';
                 document.getElementById('card-chip').style.display = 'block';
                 document.getElementById('card-num-container').style.display = 'block';
                 document.getElementById('card-exp-container').style.display = 'flex';
                 document.getElementById('card-star').style.display = 'none';
 
-                // Back Modifications
                 document.getElementById('cvv-container').style.display = 'block';
                 document.getElementById('staff-contact-area').style.display = 'none';
             }
@@ -1254,13 +1244,11 @@
             };
 
             try {
-                // 1. Capture Front
                 const frontClone = prepareElement(frontElement);
                 const frontCanvas = await html2canvas(frontClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(frontClone);
                 const frontImg = frontCanvas.toDataURL("image/png");
 
-                // 2. Capture Back
                 const backClone = prepareElement(backElement);
                 const backCanvas = await html2canvas(backClone, { scale: 4, backgroundColor: null, logging: false });
                 document.body.removeChild(backClone);
@@ -1279,14 +1267,33 @@
             }
         };
 
-        // --- HAMPSHIRE AI LOGIC (INTEGRATED) ---
+        // --- HAMPSHIRE AI LOGIC (IMPROVED: Fuzzy Search & New Icon) ---
 
-        // 1. Define Knowledge Base
         const STORE_HOURS = "We are open Monday to Saturday (8am - 6pm) and Sundays (8am - 1pm).";
         const GMO_POLICY = "We have a strict policy: We do NOT sell GMO products. All our stock is 100% Organic and locally sourced where possible.";
         const CONTACT_INFO = "You can find us in Chipinge. Call us at +263 78 864 3858.";
 
-        // 2. Window Functions for Chat UI
+        // Levenshtein Distance Algorithm (To catch spelling mistakes)
+        const getLevenshteinDistance = (a, b) => {
+            if(a.length == 0) return b.length;
+            if(b.length == 0) return a.length;
+            var matrix = [];
+            var i;
+            for(i = 0; i <= b.length; i++){ matrix[i] = [i]; }
+            var j;
+            for(j = 0; j <= a.length; j++){ matrix[0][j] = j; }
+            for(i = 1; i <= b.length; i++){
+                for(j = 1; j <= a.length; j++){
+                    if(b.charAt(i-1) == a.charAt(j-1)){
+                        matrix[i][j] = matrix[i-1][j-1];
+                    } else {
+                        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, Math.min(matrix[i][j-1] + 1, matrix[i-1][j] + 1));
+                    }
+                }
+            }
+            return matrix[b.length][a.length];
+        };
+
         window.toggleChat = () => {
             const chat = document.getElementById('ai-chat-window');
             chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
@@ -1302,16 +1309,12 @@
             const text = inputField.value.trim();
             if(!text) return;
 
-            // Add User Message
             addMessage(text, 'user-msg');
             inputField.value = '';
 
-            // Process AI Response (Simulated Delay)
             setTimeout(() => {
                 const response = processAIQuery(text);
                 addMessage(response, 'bot-msg');
-                
-                // Auto-scroll to bottom
                 const msgContainer = document.getElementById('chat-messages');
                 msgContainer.scrollTop = msgContainer.scrollHeight;
             }, 500);
@@ -1321,11 +1324,10 @@
             const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
             div.className = `message ${className}`;
-            div.innerHTML = text; // Allow HTML for bolding
+            div.innerHTML = text; 
             container.appendChild(div);
         };
 
-        // 3. The "Brain" - Processing Logic
         const processAIQuery = (input) => {
             const lowerInput = input.toLowerCase();
 
@@ -1349,10 +1351,10 @@
                 return CONTACT_INFO;
             }
 
-            // PRICE CHECK (Dynamic Search of Inventory)
+            // PRICE CHECK (Fuzzy Logic)
             if (lowerInput.includes('price') || lowerInput.includes('cost') || lowerInput.includes('much') || lowerInput.includes('have')) {
                 
-                // Filter keywords from input to find product name
+                // Clean input
                 const searchTerms = lowerInput
                     .replace('price', '')
                     .replace('how much', '')
@@ -1364,11 +1366,25 @@
 
                 if(searchTerms.length < 3) return "Could you please specify which product you are looking for?";
 
-                // Search the 'inventory' array defined earlier
-                const matches = inventory.filter(item => 
-                    item.name.toLowerCase().includes(searchTerms) || 
-                    item.cat.toLowerCase().includes(searchTerms)
-                );
+                // Fuzzy Match Loop
+                const matches = inventory.filter(item => {
+                    const itemName = item.name.toLowerCase();
+                    const itemCat = item.cat.toLowerCase();
+                    
+                    // 1. Direct match (High Priority)
+                    if (itemName.includes(searchTerms) || itemCat.includes(searchTerms)) return true;
+
+                    // 2. Fuzzy match (Lower Priority - checks spelling)
+                    // If word is short (<5 chars), allow 1 mistake. If long, allow 3 mistakes.
+                    const threshold = searchTerms.length < 5 ? 1 : 3;
+                    
+                    // Split item name into words and check distance for each word
+                    const nameWords = itemName.split(' ');
+                    for (let word of nameWords) {
+                         if (getLevenshteinDistance(searchTerms, word) <= threshold) return true;
+                    }
+                    return false;
+                });
 
                 if (matches.length > 0) {
                     let reply = `Here is what I found for "<b>${searchTerms}</b>":<br>`;
@@ -1378,15 +1394,13 @@
                     if(matches.length > 5) reply += `...and ${matches.length - 5} more items.`;
                     return reply;
                 } else {
-                    return `I'm sorry, I couldn't find "<b>${searchTerms}</b>" in our current organic stock list.`;
+                    return `I'm sorry, I couldn't find anything resembling "<b>${searchTerms}</b>" in our organic stock.`;
                 }
             }
 
-            // DEFAULT FALLBACK
             return "I can help with <b>prices</b>, <b>hours</b>, or our <b>organic policy</b>. What would you like to know?";
         };
 
-        // Init
         window.filterProducts('All', null);
     </script>
 </body>
